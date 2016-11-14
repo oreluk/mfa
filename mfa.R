@@ -55,6 +55,24 @@ mfa = function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   attr(data, "sets") = sets
   attr(data, "ncomps") = ncomps
   attr(data, "center") = center
+  attr(data, "scale") = scale
+  
+  
+  # Pre-process the data  -> center and scale
+  # create tables from data, for each of the "sets"
+  
+  # 1) Calculate svd:  for each table (k tables)
+  # X_k = U_k \Gamma_k V'_k
+      # obtain factor scores   G_k = U_k %*% \Gamma_k
+      # \alpha  = weights [ 1/ \Gamma_k[1]^2 ]   ??? a = [\alpha] # stack them all? what are the weights for the j-th table?
+  
+  # 2) Normalize each table by their first singular value
+  
+  # 3) Concatenate the K normalized tables
+  # 4)  Do svd again
+    # X = P \Delta Q
+    # F = P \Delta   (factor scores)
+  
   
   ev = eigenvalues(data)  # Returns Table
   fs = factorScores()
@@ -115,7 +133,14 @@ factorScores.mfa = function(x) {
   #' @title Factor Scores - factorScores.mfa
   #' @description Calculates factor scores
   #' 
-  return
+  
+  
+  # Use  Eq 18, 20, 64
+  
+  # F = P \Delta = XAQ
+  #     each row of F is a observation. each column is a component
+  # P is the 
+    return
 }
 
 
