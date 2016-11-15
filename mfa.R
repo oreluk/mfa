@@ -3,6 +3,7 @@
 #' @author Yulin Chen, Stephanie Wuerth, Eren Bilir, Jim Oreluk
 #' 
 
+
 check_inputs = function(data, sets, ncomps, center, scale) {
   #'
   #' @title check_inputs
@@ -15,8 +16,8 @@ check_inputs = function(data, sets, ncomps, center, scale) {
   }
   
   # sets
-  if (!is.list(sets)) {
-    stop("'sets' must be a list containing vectors indicating the sets of variables")
+  if (!is.list(sets) & !is.character(sets)) {
+    stop("'sets' must be a character vector or list containing vectors indicating the sets of variables")
   }
   
   # ncomps
@@ -45,75 +46,18 @@ check_inputs = function(data, sets, ncomps, center, scale) {
 
 
 
-# MFA Constructor
-mfa = function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
-  # Checks validity of inputs
-  check_inputs(data, sets, ncomps, center, scale)
-  
-  # Attributes
-  attr(data, "data") = data
-  attr(data, "sets") = sets
-  attr(data, "ncomps") = ncomps
-  attr(data, "center") = center
-  attr(data, "scale") = scale
-  
-  
-  # Pre-process the data  -> center and scale
-  # create tables from data, for each of the "sets"
-  
-  # 1) Calculate svd:  for each table (k tables)
-  # X_k = U_k \Gamma_k V'_k
-      # obtain factor scores   G_k = U_k %*% \Gamma_k
-      # \alpha  = weights [ 1/ \Gamma_k[1]^2 ]   ??? a = [\alpha] # stack them all? what are the weights for the j-th table?
-  
-  # 2) Normalize each table by their first singular value
-  
-  # 3) Concatenate the K normalized tables
-  # 4)  Do svd again
-    # X = P \Delta Q
-    # F = P \Delta   (factor scores)
-  
-  
-  ev = eigenvalues(data)  # Returns Table
-  fs = factorScores()
-  pfs = pFactorScores()
-  ml = matrixLoadings()
-  
-  # Derived Attributes
-  attr(data, "EigenvalueTable") <- ev
-  attr(data, "FactorScore") <- fs
-  attr(data, "PartialFactorScore") <- pfs
-  attr(data, "Loading") <- ml
-  class(data) <- "mfa"
-  data
-}
+## Methods 
 
+eigenvalueTable = function(x, ...) UseMethod("eigenvalueTable")
 
-print.mfa = function(x, ...) {
+eigenvalueTable.mfa = function(obj) {
   #'
-  #' @title print.mfa
-  #' @description Overloading print method for mfa, returns basic info 
-  #' 
-  cat('object "mfa"\n')
-  cat('Maximum Eigenvalue: ')
-  print(max(x$EigenvalueTable[2,]))
-  cat('Scores: ')
-  print(x$FactorScore)
-  cat('Partial Scores:  ')
-  print(x$PartialFactorScore)
-  cat('Loadings:  ')
-  print(x$Loading)
-}
-
-
-# Eigenvalues 
-eigenvalues.mfa = function(x) {
-  #'
-  #' @title Eigenvalue - eigenvalues.mfa
-  #' @description Takes mfa object, returns a table including: 
+  #' @title EigenvalueTable - eigenvalueTable.mfa
+  #' @description Takes a matrix x, returns a table including: 
   #' singular values, eigenvalues, cumulative, percentage of inertia,
   #' cumulative percentage of inertia, for all the extracted components.
   #' 
+  x = obj$X
   val = svd(x)
   singularValues = val$d
   eig = singularValues^2  # eigenvalues of X'X  
@@ -128,39 +72,111 @@ eigenvalues.mfa = function(x) {
 }
 
 
-factorScores.mfa = function(x) {
-  #'
-  #' @title Factor Scores - factorScores.mfa
-  #' @description Calculates factor scores
-  #' 
+
+
+
+# MFA Constructor
+mfa = function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
+  # Checks validity of inputs
+  check_inputs(data, sets, ncomps, center, scale)
+  
+  # Create list of tables
+  if (is.character(sets)){  # character vectors
+   # incomplete. two cases: unique names V1, V1.1 &   
+   # if check.names = FALSE on import, multiple entries of V1, how to handle cases.  
+  }
+  else if (is.list(sets)) { 
+    xTables = vector(mode = "list", length = length(sets))
+    for (i in 1:length(sets)) {
+        columns = sets[[i]]
+        tab = data[,columns]
+        xTables[[i]] = tab
+    }
+  }
+  
+  # Scale center each table in tableList
+  for (i in 1:length(xTables)){
+    xTables[[i]] = scale(xTables[[i]], center = center, scale = scale) # verify that this is normalizing each column for mean = 0, sum = 1...
+  }
+  
+  # Factor scores, weights and Normalized Tables
+  g = vector(mode = "list", length = length(xTables))
+  a = vector()  # need to pre-allocate memory properly...
+  alpha = vector(mode = "list", length = length(xTables))
+  zTables = vector(mode = "list", length = length(xTables)) # Normalized Tables (Z)
+  
+  for (k in 1:length(xTables)) {
+    val = svd(xTables[[k]])
+    g[[k]] =  val$u %*% val$d
+    a = c(a, (val$d)^-2 )
+    alpha[[k]] = (val$d[1]^-2)
+    zTables[[k]] = xTables[[k]] * val$d[1]^-1 
+  }
   
   
-  # Use  Eq 18, 20, 64
+  ## Concatenate normalized tables  
+  for (j in 1:length(zTables)){
+    if (j == 1) {
+      X = zTables[[j]]
+    } else {
+      X = cbind(X, zTables[[j]])
+    }
+  }
   
-  # F = P \Delta = XAQ
-  #     each row of F is a observation. each column is a component
-  # P is the 
-    return
+  #- Concatenate can be done more elegantly by preallocating space.
+  # Allocation X works. 
+  # 
+  # numCol = lapply(zTables, ncol)
+  # numCol = Reduce("+", numCol) 
+  # numRow = nrow(zTables[[1]])  
+  # X = matrix(nrow = numRow, ncol = numCol
+  #
+  # FOR-LOOP DOES NOT WORK
+  #
+  #  for (j in 1:length(zTables)){
+  #      nC = ncol(zTables[[j]])
+  #      X[??] = zTables[[j]]
+  #  }
+  
+  
+  
+  # Calculate output
+  decomp = svd(X)
+  eigenvalues = (decomp$d)^2
+  factorScores = decomp$u %*% decomp$d
+  pFactorScores = vector(mode = "list", length = length(xTables)) 
+  for (k in 1:length(xTables)){
+    a = svd(xTables[[k]])
+    pFactorScores[[k]] = length(sets) * alpha[[k]] * xTables[[k]] %*% t(a$v)
+  }
+  matrixLoadings = decomp$v
+  
+  obj = list(data=data, sets=sets, ncomps=ncomps, center=center, scale=scale, 
+             eigenvalues=eigenvalues, factorScores=factorScores, 
+             partialFactorScores=pFactorScores, 
+             matrixLoadings=matrixLoadings, 
+             X = X)
+
+  class(obj) <- "mfa"
+  return(obj)
 }
 
 
-pFactorScores.mfa = function(x) {
+print.mfa = function(x, ...) {
   #'
-  #' @title Partial Factor Scores - pFactorScores.mfa
-  #' @description Calculates partial factor scores
+  #' @title print.mfa
+  #' @description Overloading print method for mfa, returns basic info 
   #' 
-  return
+  cat('object "mfa"\n')
+  cat('Maximum Eigenvalue: ')
+  print(max(x$eigenvalues))
+  cat('Scores: ')
+  print(x$factorScores)
+  cat('Partial Scores:  ')
+  print(x$partialFactorScores)
+  cat('Loadings:  ')
+  print(x$maxtrixLoadings)
 }
-
-
-matrixLoadings.mfa = function(x) {
-  #'
-  #' @title matrixLoadings - matrixLoadings.mfa
-  #' @description Calculates loading matrices
-  #' 
-  return
-}
-
 
 
 
@@ -186,7 +202,6 @@ table_dim.mfa = function(x) {
   #' @description Calculates the contribution of a variable to a dimension
   #' 
 }
-
 
 
 
