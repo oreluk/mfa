@@ -1,6 +1,5 @@
 # testing
 
-
 ## read csv
 d = read.csv('C:/Users/Jim/Dropbox/classes/stat243a/ps/finalProject/wines.csv', header=TRUE, check.names=FALSE)
 class(data)
@@ -14,9 +13,15 @@ a
 eigenvalueTable(a)
 
 
+b = mfa(d,s, ncomps = 2)
+eigenvalueTable(b)
+
+c = mfa(d,s, ncomps = 2.5)
 
 
+#################################
 # Random Data - not working yet
+#################################
 A = runif(100)
 A = matrix(A, nrow = 10, byrow = TRUE)
 class(A)

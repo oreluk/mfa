@@ -21,8 +21,10 @@ check_inputs = function(data, sets, ncomps, center, scale) {
   }
   
   # ncomps
-  if (!is.integer(ncomps) & !is.null(ncomps) ) {
-    stop("'ncomps' must be a integer indicating the number of components")
+  if ( !is.null(ncomps) ) {
+    if ( (as.integer(ncomps) != ncomps) ){
+      stop("'ncomps' must be a integer indicating the number of components")
+    }
   }
   
   # Center
