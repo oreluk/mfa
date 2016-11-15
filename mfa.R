@@ -74,7 +74,6 @@ eigenvalueTable.mfa = function(obj) {
 
 
 
-
 # MFA Constructor
 mfa = function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   # Checks validity of inputs
@@ -82,39 +81,56 @@ mfa = function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   
   # Create list of tables
   if (is.character(sets)){  # character vectors
-   # incomplete. two cases: unique names V1, V1.1 &   
-   # if check.names = FALSE on import, multiple entries of V1, how to handle cases.  
+   # needs to be completed. 
+   # two cases: 1) unique names for all columns, V1, V1.1, V1.2, ...   
+   # 2) if check.names = FALSE on import, there will be multiple columns of V1. Unsure how to handle this case.  
   }
   else if (is.list(sets)) { 
-    xTables = vector(mode = "list", length = length(sets))
+    yTables = vector(mode = "list", length = length(sets))
     for (i in 1:length(sets)) {
         columns = sets[[i]]
         tab = data[,columns]
-        xTables[[i]] = tab
+        yTables[[i]] = tab
     }
   }
   
   # Scale center each table in tableList
+  xTables = vector(mode = "list", length = length(yTables))
   for (i in 1:length(xTables)){
-    xTables[[i]] = scale(xTables[[i]], center = center, scale = scale) # verify that this is normalizing each column for mean = 0, sum = 1...
+    xTables[[i]] = scale(yTables[[i]], center = center, scale = scale) 
+    # This does normalize each column for colMean = 0, but colSum^2 != 1. 
+    # Does not match paper example. 
+    # round(xTables[[1]]/3.325, 2) matches the paper. weird...
   }
   
   # Factor scores, weights and Normalized Tables
-  g = vector(mode = "list", length = length(xTables))
-  a = vector()  # need to pre-allocate memory properly...
+  G = vector(mode = "list", length = length(xTables))
+  a = vector()  # can proabably  pre-allocate memory properly
   alpha = vector(mode = "list", length = length(xTables))
-  zTables = vector(mode = "list", length = length(xTables)) # Normalized Tables (Z)
+  zTables = vector(mode = "list", length = length(xTables)) 
   
   for (k in 1:length(xTables)) {
+    # Only use first ncomps
+    totalComp = ncol(xTables[[k]])
+    if (is.null(ncomps)){
+      components = totalComp
+    } else {
+      components = ncomps
+    }
+    
     val = svd(xTables[[k]])
-    g[[k]] =  val$u %*% val$d
-    a = c(a, (val$d)^-2 )
+    G[[k]] =  val$u[,1:components] %*% diag(val$d[1:components])
     alpha[[k]] = (val$d[1]^-2)
-    zTables[[k]] = xTables[[k]] * val$d[1]^-1 
+    a = c(a, rep(alpha[[k]], ncol(val$u[,1:components])) ) 
+    zTables[[k]] = G[[k]] %*% t(val$v[,1:components]) * val$d[1]^-1 
   }
   
+  # Mass Matrix
+  nObs = nrow(xTables[[1]])
+  m = rep(1/nObs, nObs)
+  M = diag(m)
   
-  ## Concatenate normalized tables  
+  # Concatenate normalized tables  
   for (j in 1:length(zTables)){
     if (j == 1) {
       X = zTables[[j]]
@@ -124,14 +140,14 @@ mfa = function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   }
   
   #- Concatenate can be done more elegantly by preallocating space.
-  # Allocation X works. 
+  # Allocation works here: 
   # 
   # numCol = lapply(zTables, ncol)
   # numCol = Reduce("+", numCol) 
   # numRow = nrow(zTables[[1]])  
   # X = matrix(nrow = numRow, ncol = numCol
   #
-  # FOR-LOOP DOES NOT WORK
+  # FOR-LOOP DOES NOT WORK:
   #
   #  for (j in 1:length(zTables)){
   #      nC = ncol(zTables[[j]])
@@ -140,10 +156,10 @@ mfa = function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   
   
   
-  # Calculate output
+  # Calculate output from combined matrix
   decomp = svd(X)
   eigenvalues = (decomp$d)^2
-  factorScores = decomp$u %*% decomp$d
+  factorScores = decomp$u %*% diag(decomp$d)
   pFactorScores = vector(mode = "list", length = length(xTables)) 
   for (k in 1:length(xTables)){
     a = svd(xTables[[k]])
@@ -175,7 +191,7 @@ print.mfa = function(x, ...) {
   cat('Partial Scores:  ')
   print(x$partialFactorScores)
   cat('Loadings:  ')
-  print(x$maxtrixLoadings)
+  print(x$matrixLoadings)
 }
 
 
@@ -233,6 +249,9 @@ lg <- function(x){
   #' @description Calculates Lg coefficient between two tables. 
   #' @example lg(table1, table2) 
   #' 
+  
+  
+  
   return
 }
 
@@ -245,5 +264,6 @@ lg_table <- function(x){
   #' 
   return
 }
+
 
 
