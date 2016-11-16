@@ -82,27 +82,22 @@ mfa = function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   check_inputs(data, sets, ncomps, center, scale)
   
   # Create list of tables
-  if (is.character(sets)){  # character vectors
-   # needs to be completed. 
-   # two cases: 1) unique names for all columns, V1, V1.1, V1.2, ...   
-   # 2) if check.names = FALSE on import, there will be multiple columns of V1. Unsure how to handle this case.  
-  }
-  else if (is.list(sets)) { 
-    yTables = vector(mode = "list", length = length(sets))
-    for (i in 1:length(sets)) {
-        columns = sets[[i]]
-        tab = data[,columns]
-        yTables[[i]] = tab
+  if (is.character(sets)){  
+    if(!is.data.frame(data)){
+      stop('"data" is not data.frame object, unable to parse with a character vector.')
     }
   }
-  
+  yTables = vector(mode = "list", length = length(sets))
+  for (i in 1:length(sets)) {
+      columns = sets[[i]]
+      tab = data[,columns]
+      yTables[[i]] = tab
+  }
+
   # Scale center each table in tableList
   xTables = vector(mode = "list", length = length(yTables))
   for (i in 1:length(xTables)){
     xTables[[i]] = scale(yTables[[i]], center = center, scale = scale) 
-    # This does normalize each column for colMean = 0, but colSum^2 != 1. 
-    # Does not match paper example. 
-    # round(xTables[[1]]/3.325, 2) matches the paper. weird...
   }
   
   # Factor scores, weights and Normalized Tables
@@ -140,23 +135,6 @@ mfa = function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
       X = cbind(X, zTables[[j]])
     }
   }
-  
-  #- Concatenate can be done more elegantly by preallocating space.
-  # Allocation works here: 
-  # 
-  # numCol = lapply(zTables, ncol)
-  # numCol = Reduce("+", numCol) 
-  # numRow = nrow(zTables[[1]])  
-  # X = matrix(nrow = numRow, ncol = numCol
-  #
-  # FOR-LOOP DOES NOT WORK:
-  #
-  #  for (j in 1:length(zTables)){
-  #      nC = ncol(zTables[[j]])
-  #      X[??] = zTables[[j]]
-  #  }
-  
-  
   
   # Calculate output from combined matrix
   decomp = svd(X)
