@@ -16,8 +16,12 @@ check_inputs = function(data, sets, ncomps, center, scale) {
   }
   
   # sets
-  if (!is.list(sets) & !is.character(sets)) {
-    stop("'sets' must be a character vector or list containing vectors indicating the sets of variables")
+  if (!is.list(sets)) {
+    stop("'sets' must be a list containting a character vector or list containing vectors indicating the sets of variables")
+  } else if ( is.character(sets[[1]]) ) {  
+      if(!is.data.frame(data)) {
+        stop('"data" is not data.frame object, unable to parse with a character vector.')
+    }
   }
   
   # ncomps
@@ -51,11 +55,10 @@ check_inputs = function(data, sets, ncomps, center, scale) {
 ## Methods 
 
 eigenvalueTable = function(x, ...) UseMethod("eigenvalueTable")
-
 eigenvalueTable.mfa = function(obj) {
   #'
   #' @title EigenvalueTable - eigenvalueTable.mfa
-  #' @description Takes a matrix x, returns a table including: 
+  #' @description Takes an mfa object and returns a table including: 
   #' singular values, eigenvalues, cumulative, percentage of inertia,
   #' cumulative percentage of inertia, for all the extracted components.
   #' 
@@ -74,19 +77,12 @@ eigenvalueTable.mfa = function(obj) {
 }
 
 
-
-
 # MFA Constructor
 mfa = function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   # Checks validity of inputs
   check_inputs(data, sets, ncomps, center, scale)
   
   # Create list of tables
-  if (is.character(sets)){  
-    if(!is.data.frame(data)){
-      stop('"data" is not data.frame object, unable to parse with a character vector.')
-    }
-  }
   yTables = vector(mode = "list", length = length(sets))
   for (i in 1:length(sets)) {
       columns = sets[[i]]
@@ -107,19 +103,11 @@ mfa = function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   zTables = vector(mode = "list", length = length(xTables)) 
   
   for (k in 1:length(xTables)) {
-    # Only use first ncomps
-    totalComp = ncol(xTables[[k]])
-    if (is.null(ncomps)){
-      components = totalComp
-    } else {
-      components = ncomps
-    }
-    
     val = svd(xTables[[k]])
-    G[[k]] =  val$u[,1:components] %*% diag(val$d[1:components])
+    G[[k]] =  val$u %*% diag(val$d)
     alpha[[k]] = (val$d[1]^-2)
-    a = c(a, rep(alpha[[k]], ncol(val$u[,1:components])) ) 
-    zTables[[k]] = G[[k]] %*% t(val$v[,1:components]) * val$d[1]^-1 
+    a = c(a, rep(alpha[[k]], ncol(val$u)) ) 
+    zTables[[k]] = xTables[[k]] * val$d[1]^-1 
   }
   
   # Mass Matrix
@@ -139,16 +127,29 @@ mfa = function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   # Calculate output from combined matrix
   decomp = svd(X)
   eigenvalues = (decomp$d)^2
-  factorScores = decomp$u %*% diag(decomp$d)
+  
+  if (is.null(ncomps)){
+    components = length(eigenvalues)
+  } else {
+    components = ncomps
+  }
+  factorScores = decomp$u[,1:components] %*% diag(decomp$d[1:components])
+  
   pFactorScores = vector(mode = "list", length = length(xTables)) 
   for (k in 1:length(xTables)){
     a = svd(xTables[[k]])
-    pFactorScores[[k]] = length(sets) * alpha[[k]] * xTables[[k]] %*% t(a$v)
+    if (is.null(ncomps)) {
+      pFactorScores[[k]] = length(sets) * alpha[[k]] * xTables[[k]] %*% t(a$v)
+    } else {
+      pFactorScores[[k]] = length(sets) * alpha[[k]] * xTables[[k]][,1:components] %*% t(a$v[,1:components])
+    }
   }
-  matrixLoadings = decomp$v
+  
+  matrixLoadings = decomp$v[,1:components]
   
   obj = list(data=data, sets=sets, ncomps=ncomps, center=center, scale=scale, 
              eigenvalues=eigenvalues, factorScores=factorScores, 
+             alpha = alpha,
              partialFactorScores=pFactorScores, 
              matrixLoadings=matrixLoadings, 
              X = X)
@@ -181,8 +182,11 @@ print.mfa = function(x, ...) {
 obs_dim.mfa = function(x) {
   #'
   #' @title Contribution of observation to dimension - obs_dim.mfa
-  #' @description Calculates the contribution of a observation to a dimension
+  #' @description Calculates the contribution of a observation to a dimension 
   #' 
+  
+  # EQ25
+  
 }
 
 var_dim.mfa = function(x) {
@@ -190,6 +194,8 @@ var_dim.mfa = function(x) {
   #' @title Contribution of variable to dimension - var_dim.mfa
   #' @description Calculates the contribution of a variable to a dimension
   #' 
+  
+  # EQ27
 }
 
 table_dim.mfa = function(x) {
@@ -197,6 +203,8 @@ table_dim.mfa = function(x) {
   #' @title Contribution of table to dimension - var_dim.mfa
   #' @description Calculates the contribution of a variable to a dimension
   #' 
+  
+  # EQ 28
 }
 
 
@@ -244,6 +252,26 @@ lg_table <- function(x){
   #' 
   return
 }
+
+bootstrap_factorscore = function(x){
+  #'
+  #' @title Bootstrapping Factor Scores
+  #' @description Calculates the bootstrap confidence intervals by sampling 
+  #' from the set of tables. This approach also computes boostrap ratios for
+  #' each dimension. 
+  #' 
+  
+  # 1) Sample integers with replacement from 1 to K
+  K = length(sets)
+  idx = sample(1:K, K, replace = TRUE)
+  # 2) Create a new dataset with these sampled tables. {X_1, X_1, X_3, X_12, ..}
+  # 3) Build a matrix X^*_1
+  # 4) USE MFA. 
+  # 5) Calculate Factor Scores (boot strapped)
+  # 6) Repeat 1K times
+  # 7) L bootstrapped matrices of factor scores F^*_l
+  
+} 
 
 
 
