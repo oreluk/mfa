@@ -1,6 +1,10 @@
 # stephanie's testing that the package actually works --
 
-# first run each line in devtool_setup.R to install and load the package "MFA"
+# should just be able to use load_all() from devtools and the package will
+# be loaded into your workspace!
+devtools::load_all()
+
+#if that fails, try doing each step individually using devtool_setup.R
 
 #now you should get documentation for things:
 ?mfa #should give html
