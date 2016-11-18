@@ -1,0 +1,19 @@
+Package: MFA
+Type: Package
+Title: Multiple Factor Analysis (MFA)
+Version: 0.1.0
+Author: Yulin Chen, Stephanie Wuerth, Eren Bilir, Jim Oreluk
+Maintainer: Stephanie Wuerth <swuerth@berkeley.edu>
+Description: This package performs Multiple Factor Analysis (MFA)
+    on a dataset specified by the user.
+RoxygenNote: 5.0.1
+License: BSD 2.0
+Encoding: UTF-8
+LazyData: true
+Suggests: knitr,
+    rmarkdown
+Collate: mfa.R
+    print-mfa.R
+    plot-mfa.R
+    loadWineData.R
+VignetteBuilder: knitr
