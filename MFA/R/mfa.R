@@ -33,61 +33,61 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   xTables = vector(mode = "list", length = length(yTables))
   for (i in 1:length(xTables)){
     xTables[[i]] = scale(yTables[[i]], center = center, scale = scale)
+    xTables[[i]] = xTables[[i]] / sqrt(nrow(xTables[[i]])-1)  # this is used to match the paper results
   }
 
   # Factor scores, weights and Normalized Tables
   G = vector(mode = "list", length = length(xTables))
   a = vector()  # can proabably  pre-allocate memory properly
   alpha = vector(mode = "list", length = length(xTables))
-  zTables = vector(mode = "list", length = length(xTables))
 
   for (k in 1:length(xTables)) {
     val = svd(xTables[[k]])
     G[[k]] =  val$u %*% diag(val$d)
     alpha[[k]] = (val$d[1]^-2)
     a = c(a, rep(alpha[[k]], ncol(val$u)) )
-    zTables[[k]] = xTables[[k]] * val$d[1]^-1
   }
 
-  # Mass Matrix
+  # Calculating mass of observations
   nObs = nrow(xTables[[1]])
   m = rep(1/nObs, nObs)
-  M = diag(m)
 
   # Concatenate normalized tables
-  for (j in 1:length(zTables)){
+  for (j in 1:length(xTables)){
     if (j == 1) {
-      X = zTables[[j]]
+      X = xTables[[j]]
     } else {
-      X = cbind(X, zTables[[j]])
+      X = cbind(X, xTables[[j]])
     }
   }
 
-  # Calculate output from combined matrix
-  decomp = svd(X)
-  eigenvalues = (decomp$d)^2
+  # Calculate GSVD
+  # X = P \Delta Q^T
+  xTilde = diag(m^(1/2)) %*% X %*% diag(a^(1/2))  # \tilde{X} = M^{1/2} A W^{1/2}
+  xDecomp = svd(xTilde)  # \tilde{A} = P \Delta Q^T
+  eigenvalues = (xDecomp$d)^2
+
+  P = diag(m^(-1/2)) %*% xDecomp$u
+  Q = diag(a^(-1/2)) %*% xDecomp$v
 
   if (is.null(ncomps)){
     components = length(eigenvalues)
   } else {
     components = ncomps
   }
-  factorScores = decomp$u[,1:components] %*% diag(decomp$d[1:components])
+  factorScores = P[,1:components] %*% diag(xDecomp$d[1:components])
+
 
   pFactorScores = vector(mode = "list", length = length(xTables))
-  for (k in 1:length(xTables)){
-    a = svd(xTables[[k]])
-    if (is.null(ncomps)) {
-      pFactorScores[[k]] = length(sets) * alpha[[k]] * xTables[[k]] %*% t(a$v)
-    } else {
-      pFactorScores[[k]] = length(sets) * alpha[[k]] * xTables[[k]][,1:components] %*% t(a$v[,1:components])
-    }
+  for (k in 1:length(xTables)) {
+      pFactorScores[[k]] = length(sets) * alpha[[k]] * xTables[[k]] %*% Q[a == alpha[[k]],][,1:components]
   }
 
-  matrixLoadings = decomp$v[,1:components]
+  matrixLoadings = Q[,1:components]
 
   obj = list(data=data, sets=sets, ncomps=ncomps, center=center, scale=scale,
-             eigenvalues=eigenvalues, factorScores=factorScores,
+             eigenvalues=eigenvalues,
+             factorScores=factorScores,
              alpha = alpha,
              partialFactorScores=pFactorScores,
              matrixLoadings=matrixLoadings,
@@ -156,17 +156,16 @@ eigenvalueTable = function(x) UseMethod("eigenvalueTable")
 #' @description eigenvalue table from mfa obj
 #' @export
 eigenvalueTable.mfa = function(obj) {
-  x = obj$X
-  val = svd(x)
-  singularValues = val$d
-  eig = singularValues^2  # eigenvalues of X'X
+
+  singularValues = obj$eigenvalues^(1/2)
+  eig = obj$eigenvalues
 
   cumulative = cumsum(eig)
-  pInertia = cumulative/cumulative[length(cumulative)]
-  cumulativeInertia = cumsum(pInertia)
+  percentInertia = eig/cumulative[length(cumulative)] * 100
+  cumulativeInertia = cumsum(percentInertia)
 
   # Create Table
-  formatedTable = rbind(singularValues, eig, cumulative, pInertia, cumulativeInertia )
+  formatedTable = rbind(singularValues, eig, cumulative, percentInertia, cumulativeInertia)
   return(formatedTable)
 }
 
