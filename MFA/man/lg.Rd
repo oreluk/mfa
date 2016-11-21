@@ -4,7 +4,7 @@
 \alias{lg}
 \title{Lg Coefficient - lg}
 \usage{
-lg(x)
+lg(table1, table2)
 }
 \arguments{
 \item{x}{An object of class mfa

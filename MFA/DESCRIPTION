@@ -17,4 +17,5 @@ Collate: mfa.R
     print-mfa.R
     plot-mfa.R
     loadWineData.R
+    runExample.R
 VignetteBuilder: knitr

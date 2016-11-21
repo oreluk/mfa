@@ -24,7 +24,7 @@ plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=2) {
   Y = x$factorScores[,dim2]
 
   plot(X, Y,
-       type = "p", pch=19, cex=sz,xlim=c(-1,1),ylim=c(-1,1))
+       type = "p", pch=19, cex=sz,xlim=c(-1.5,1.5),ylim=c(-1.5,1.5))
   text(X,Y,labels=1:length(X),col='red',xlim=c(-1.5,1.5),ylim=c(-1.5,1.5))
   abline(v=0,h=0)
   title(paste0('Factor Scores for dimensions : ', dim1, ' , ', dim2 ))

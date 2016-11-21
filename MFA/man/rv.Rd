@@ -4,7 +4,7 @@
 \alias{rv}
 \title{Rv Coefficient - rv}
 \usage{
-rv(x)
+rv(table1, table2)
 }
 \arguments{
 \item{x}{An object of class mfa

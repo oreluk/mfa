@@ -4,7 +4,7 @@
 \alias{lg_table}
 \title{Lg Coefficient Table - lg_table}
 \usage{
-lg_table(x)
+lg_table(dataset, sets)
 }
 \arguments{
 \item{x}{An object of class mfa
