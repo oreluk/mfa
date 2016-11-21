@@ -85,24 +85,12 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
 
   matrixLoadings = Q[,1:components]
 
-  matrixLoadingsList = vector(mode = "list", length = length(xTables))
-  start_ind = 1
-  for (k in 1:length(xTables)) {
-    final_ind = start_ind+length(sets[[k]])-1
-    matrixLoadingsList[[k]] = matrixLoadings[start_ind:final_ind,]
-    start_ind = start_ind+length(sets[[k]])
-    #set row names on individual tables to the variable names
-    rownames(matrixLoadingsList[[k]]) <- colnames(data[,sets[[k]]])
-  }
-
-
   obj = list(data=data, sets=sets, ncomps=ncomps, center=center, scale=scale,
              eigenvalues=eigenvalues,
              factorScores=factorScores,
              alpha = alpha,
              partialFactorScores=pFactorScores,
-             #matrixLoadings=matrixLoadings,
-             matrixLoadings=matrixLoadingsList,
+             matrixLoadings=matrixLoadings,
              X = X)
 
   class(obj) <- "mfa"
@@ -182,29 +170,52 @@ eigenvalueTable.mfa = function(obj) {
 }
 
 
-
-
 ## Contributions
 
-obs_dim.mfa = function(x) {
-  # EQ25
+obs_dim.mfa = function(obj) {
+  # Initialize the matrix to store the observation contribution
+  ctr_obs=obj$factorScores
+  # m value
+  m=1/nrow(ctr_obs)
+  # Eq.25
+    for (l in 1: length(obj$eigenvalues)) {
+      ctr_obs[,l] = m*obj$factorScores[,l]^2/obj$eigenvalues[l]
+      }
+  return(ctr_obs)
 }
 
 
-var_dim.mfa = function(x) {
-  # EQ27
+var_dim.mfa = function(obj) {
+  # Initialize the matrix to store the variable contribution
+  ctr_var=obj$matrixLoadings
+  # Eq.27 (the row of matrixLoadings is dimension?)
+  for (j in 1:nrow(ctr_var)){
+    ctr_var[j,]= obj$alpha[j]*obj$matrixLoadings[j,]^2
+  }
+  return(ctr_var)
 }
 
 
-table_dim.mfa = function(x) {
-  # EQ 28
+table_dim.mfa = function(obj, ctr_var, numvar_table) {
+  # Initialize the matrix to store the table contribution
+  ctr_var=matrix(rep(1,numvar_table*ncol(ctr_col)),
+                 nrow = numvar_table, ncol = ncol(ctr_col))
+  # Counter
+  j=1
+  # Eq.28
+  for (l in ncol(ctr_var)){
+    for (k in 1:length(numvar_table)) {
+      ctr_table[k,l]=sum(ctr_var[j:(j+numvar_table[k]),l])
+      j=j+numvar_table[k]+1
+    }
+  }
+  return(ctr_table)
 }
-
 
 
 ## Supplementary Functions
 
-rv <- function(x){
+rv <- function(table1, table2){
   #' details
   #'
   #' @title Rv Coefficient - rv
@@ -212,10 +223,20 @@ rv <- function(x){
   #' @param x An object of class mfa
   #' example rv(table1,table2)
   #'
-  return
+  #'
+  # Eq.29
+  # Numerator:
+  num=sum(diag(tcrossprod(table1) %*% tcrossprod(table2)))
+  # Denominator:
+  den_part1=sum(diag(tcrossprod(table1) %*% tcrossprod(table1)))
+  den_part2=sum(diag(tcrossprod(table2) %*% tcrossprod(table2)))
+  den=sqrt(den_part1*den_part2)
+
+  rv=num/den
+
 }
 
-rv_table <- function(x){
+rv_table <- function(dataset, sets) {
   #' details
   #'
   #' @title Rv Coefficient Table - rv_table
@@ -224,11 +245,27 @@ rv_table <- function(x){
   #' example rv_table(dataset, sets = list(1:3, 4:5, 6:10))
   #'          returns a 3-by-3 symmetric matrix.
   #'
-  return
+  # Initialize rv table
+  rvtable=matrix(rep(1,length(sets)^2),nrow=length(sets))
+
+  # To calculate elements for rvtable: diagonal equals to 1, and
+  # the matrix is symetric.
+  for (i in 1:length(sets)) {
+    for (j in 1:length (sets)) {
+      if (i==j){
+        rvtable[i,j]=1
+      } else if (j<i){
+        rvtable[i,j]=rvtable[j,i]
+      } else {
+        rvtable[i,j]=rv(dataset[,sets[[i]]],dataset[,sets[[j]]])
+      }
+    }
+  }
+  return(rvtable)
 }
 
 
-lg <- function(x){
+lg <- function(table1, table2){
   #' details
   #'
   #' @title Lg Coefficient - lg
@@ -236,13 +273,19 @@ lg <- function(x){
   #' @param x An object of class mfa
   #' example lg(table1, table2)
   #'
+  # Eq. 30
+  # Numerator:
+  num=sum(diag(tcrossprod(table1) %*% tcrossprod(table2)))
+  # Denominator: (need to have a function to calculate alpha)
+  den= # new function for alpha is needed
 
+  lg=num/den
 
 
   return
 }
 
-lg_table <- function(x){
+lg_table <- function(dataset, sets){
   #' details
   #'
   #' @title Lg Coefficient Table - lg_table
@@ -251,7 +294,23 @@ lg_table <- function(x){
   #' example lg_table(dataset, sets = list(1:3, 4:5, 6:10))
   #'          returns a 3-by-3 symmetric matrix.
   #'
-  return
+  # Initialize lg table
+  lgtable=matrix(rep(1,length(sets)^2),nrow=length(sets))
+
+  # To calculate elements for rvtable: diagonal equals to 1, and
+  # the matrix is symetric.
+  for (i in 1:length(sets)) {
+    for (j in 1:length (sets)) {
+      if (i==j){
+        lgtable[i,j]=1
+      } else if (j<i){
+        lgtable[i,j]=lgtable[j,i]
+      } else {
+        lgtable[i,j]=lg(dataset[,sets[[i]]],dataset[,sets[[j]]])
+      }
+    }
+  }
+  return(lgtable)
 }
 
 bootstrap_factorscore = function(x){
