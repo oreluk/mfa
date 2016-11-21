@@ -9,23 +9,16 @@ shinyServer(function(input, output) {
                seq(46,50), seq(51,54) )
     a = mfa(d, s)
 
-    #should plot the first 2 factor scores
-    X = a$factorScores[,1]
-    Y = a$factorScores[,2]
-    x = a$partialFactorScores[[1]][,1] #fac score first table, 1st comp
-    y = a$partialFactorScores[[1]][,2] #fac score first table, 2nd comp
-    plot(X, Y,
-         type = "p", pch=19, cex=2,xlim=c(-1,1),ylim=c(-1,1))
-    text(X,Y,labels=1:length(X),col='red',xlim=c(-1,1),ylim=c(-1,1))
-    abline(v=0,h=0)
-    title('Factor Scores for first 2 components')
+    if (input$radio==1){
+      plot_compromise(a,dim1=input$d1,dim2=input$d2)
+    }
 
-    if (input$partial_facs) {
-      plot(x, y,
-           type = "p", pch=19, cex=2,xlim=c(-1,1),ylim=c(-1,1))
-      text(x,y,labels=1:length(X),col='red',xlim=c(-1,1),ylim=c(-1,1))
-      abline(v=0,h=0)
-      title('Partial Factor Scores for Table 1: first 2 components')
+    if (input$radio==2){
+      plot_partial_fac(a,dim1=input$d1,dim2=input$d2,table=input$t)
+    }
+
+    if (input$radio==3){
+      plot_loading(a,dim1=input$d1,dim2=input$d2,table=input$t)
     }
 
   })
