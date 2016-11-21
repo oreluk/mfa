@@ -85,12 +85,22 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
 
   matrixLoadings = Q[,1:components]
 
+  matrixLoadingsList = vector(mode = "list", length = length(xTables))
+  start_ind = 1
+  for (k in 1:length(xTables)) {
+    final_ind = start_ind+length(sets[[k]])-1
+    matrixLoadingsList[[k]] = matrixLoadings[start_ind:final_ind,]
+    start_ind = start_ind+length(sets[[k]])
+    #set row names on individual tables to the variable names
+    rownames(matrixLoadingsList[[k]]) <- colnames(data[,sets[[k]]])
+  }
+
   obj = list(data=data, sets=sets, ncomps=ncomps, center=center, scale=scale,
              eigenvalues=eigenvalues,
              factorScores=factorScores,
              alpha = alpha,
              partialFactorScores=pFactorScores,
-             matrixLoadings=matrixLoadings,
+             matrixLoadings=matrixLoadingsList,
              X = X)
 
   class(obj) <- "mfa"
