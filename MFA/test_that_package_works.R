@@ -3,8 +3,6 @@
 # should just be able to use load_all() from devtools and the package will
 # be loaded into your workspace!
 devtools::load_all()
-# run app:
-MFA::runExample()
 
 #if that fails, try doing each step individually using devtool_setup.R
 
@@ -16,6 +14,7 @@ MFA::runExample()
 ?lg
 ?lg_table
 ?loadWineData
+#?plot_compromise #doesn't work ...
 
 #load the data
 d <- loadWineData()
@@ -25,17 +24,23 @@ s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
            seq(46,50), seq(51,54) )
 
 a = mfa(d, s)
+
+#test print method
 print(a)
 
-plot(a)
-
+#test eigenvalue
 eigenvalueTable(a)
 
-X = a$partialFactorScores[[1]][,1]
-Y = a$partialFactorScores[[1]][,2]
+# test plotting methods
+plot_compromise(a)
+plot_compromise(a,dim1=3,dim2=1)
+plot_partial_fac(a,table=1)
+plot_partial_fac(a,table=1,dim1=3,dim2=4)
+plot_loading(a,table=1)
+plot_loading(a,table=1,dim1=3,dim2=4)
 
-plot(X, Y,
-     type = "p", pch=19, cex=sz,xlim=c(-1,1),ylim=c(-1,1))
-text(X,Y,labels=1:length(X),col='red',xlim=c(-1,1),ylim=c(-1,1))
-abline(v=0,h=0)
-title('Partial Factor Scores for Table 1: first 2 components')
+
+
+
+# test run app:
+MFA::runExample()

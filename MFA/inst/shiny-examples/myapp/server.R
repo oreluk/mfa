@@ -23,7 +23,7 @@ shinyServer(function(input, output) {
     if (input$partial_facs) {
       plot(x, y,
            type = "p", pch=19, cex=2,xlim=c(-1,1),ylim=c(-1,1))
-      text(X,Y,labels=1:length(X),col='red',xlim=c(-1,1),ylim=c(-1,1))
+      text(x,y,labels=1:length(X),col='red',xlim=c(-1,1),ylim=c(-1,1))
       abline(v=0,h=0)
       title('Partial Factor Scores for Table 1: first 2 components')
     }
