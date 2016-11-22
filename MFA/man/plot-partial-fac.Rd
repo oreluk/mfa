@@ -3,12 +3,9 @@
 \name{plot partial fac}
 \alias{plot partial fac}
 \alias{plot_partial_fac}
-\alias{plot_partial_fac.mfa}
 \title{Plot Partial Fac}
 \usage{
 plot_partial_fac(x, table = 1, dim1 = 1, dim2 = 2, sz = 2)
-
-\method{plot_partial_fac}{mfa}(x, table = 1, dim1 = 1, dim2 = 2, sz = 2)
 }
 \arguments{
 \item{x}{An object of class mfa}
@@ -20,20 +17,8 @@ plot_partial_fac(x, table = 1, dim1 = 1, dim2 = 2, sz = 2)
 \item{dim2}{dimension for y axis, default 2nd component}
 
 \item{sz}{size of point on scatter plot}
-
-\item{x}{An object of class mfa}
-
-\item{dim1}{dimension for x axis, default 1st component}
-
-\item{dim2}{dimension for y axis, default 2nd component}
-
-\item{table}{which table to plot (integer 1:K)}
-
-\item{sz}{size of point on scatter plot}
 }
 \description{
-plots partial factor scores
-
 plots partial factor scores
 }
 

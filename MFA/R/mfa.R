@@ -1,11 +1,11 @@
 #' @title Multiple Factor Analysis (MFA)
 #' @author Yulin Chen, Stephanie Wuerth, Eren Bilir, Jim Oreluk
 #' @description Creates an object of class \code{"mfa"}
-#' @param data A data frame you'd like to analyze
-#' @param sets A list of indices
+#' @param data A data frame or matrix which you'd like to analyze
+#' @param sets A list of indices to group sets of variables
 #' @param ncomps Number of principle components to retain
-#' @param center TRUE or FALSE to center data
-#' @param scale TRUE or FALSE to scale data
+#' @param center either a logical value or a numeric vector of length equal to the number of active variables in the analysis
+#' @param scale either a logical value or a numeric vector of length equal to the number of active variables in the analysis
 #' @export
 #' @examples
 #' filename = system.file("extdata", "wines.csv", package = "MFA")
@@ -23,16 +23,42 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
 
   # Create list of tables
   yTables = vector(mode = "list", length = length(sets))
+  minVar = Inf
   for (i in 1:length(sets)) {
       columns = sets[[i]]
+      if ( i == 1 | (min(columns) < minVar) ) {
+        minVar = min(columns)
+      }
       tab = data[,columns]
       yTables[[i]] = tab
   }
+  if (is.character(minVar)){
+    minVar = which(pmatch(names(data), minVar) == 1)
+  }
+
 
   # Scale center each table in tableList
   xTables = vector(mode = "list", length = length(yTables))
   for (i in 1:length(xTables)){
-    xTables[[i]] = scale(yTables[[i]], center = center, scale = scale)
+    if (!is.logical(center)){
+      idx = sets[[i]]
+      if (is.character(idx)) {
+        idx = which( !is.na(pmatch(names(data),  idx)), arr.ind=TRUE)
+      }
+      tableCenter = center[idx - (minVar - 1)]
+    } else {
+      tableCenter = center
+    }
+    if ( !is.logical(scale)) {
+      idx = sets[[i]]
+      if (is.character(idx)) {
+        idx = which( !is.na(pmatch(names(data),  idx)), arr.ind=TRUE)
+      }
+      tableScale = scale[idx - (minVar - 1)]
+    } else {
+      tableScale = scale
+    }
+    xTables[[i]] = scale(yTables[[i]], center = tableCenter, scale = tableScale)
     xTables[[i]] = xTables[[i]] / sqrt(nrow(xTables[[i]])-1)  # this is used to match the paper results
   }
 
@@ -122,6 +148,7 @@ check_inputs = function(data, sets, ncomps, center, scale) {
       stop('"data" is not data.frame object, unable to parse with a character vector.')
     }
   }
+  nVars = sum(lengths(sets))
 
   # ncomps
   if ( !is.null(ncomps) ) {
@@ -132,8 +159,8 @@ check_inputs = function(data, sets, ncomps, center, scale) {
 
   # Center
   if (!is.logical(center)) {
-    if (!is.vector(center) &
-        (is.vector(center) & length(center) != ncomps) ) {
+    if (!is.vector(center) |
+        (is.vector(center) & length(center) != nVars) ) {
       stop("'center' must be a logical or numeric
            vector equal to the number of active variables")
     }
@@ -141,14 +168,13 @@ check_inputs = function(data, sets, ncomps, center, scale) {
 
   # Scale
   if (!is.logical(scale)) {
-    if (!is.vector(scale) &
-        (is.vector(scale) & length(scale) != ncomps )) {
+    if (!is.vector(scale) |
+        (is.vector(scale) & length(scale) != nVars )) {
       stop("'scale' must be a logical or numeric
            vector equal to the number of active variables")
     }
-    }
   }
-
+}
 
 
 ## Methods
@@ -225,16 +251,16 @@ table_dim.mfa = function(obj, ctr_var, numvar_table) {
 
 ## Supplementary Functions
 
+#' @title Rv Coefficient - rv
+#' @description Calculates Rv coefficient between two tables
+#' @param table1 is the first input table
+#' @param table2 is the second input table
+#' @examples
+#' table1 ...
+#' table2 ...
+#' rv(table1,table2) returns the rv coefficient between table1 and table2
+#'
 rv <- function(table1, table2){
-  #' details
-  #'
-  #' @title Rv Coefficient - rv
-  #' @description Calculates Rv coefficient between two tables.
-  #' @param x An object of class mfa
-  #' example rv(table1,table2)
-  #'
-  #'
-  # Eq.29
   # Numerator:
   num=sum(diag(tcrossprod(table1) %*% tcrossprod(table2)))
   # Denominator:
@@ -243,18 +269,19 @@ rv <- function(table1, table2){
   den=sqrt(den_part1*den_part2)
 
   rv=num/den
-
 }
 
+
+#' @title Rv Coefficient Table - rv_table
+#' @description Calculates Rv coefficient table multiple sets from a dataset
+#' @param dataset is input data in as a data.frame object.
+#' @param sets is the list of indices to be parsed from dataset
+#' @examples
+#' dataset = ...
+#' rv_table(dataset, sets = list(1:3, 4:5, 6:10))
+#' returns a 3-by-3 symmetric matrix
+#'
 rv_table <- function(dataset, sets) {
-  #' details
-  #'
-  #' @title Rv Coefficient Table - rv_table
-  #' @description Calculates Rv coefficient table between multiple sets
-  #' @param x An object of class mfa
-  #' example rv_table(dataset, sets = list(1:3, 4:5, 6:10))
-  #'          returns a 3-by-3 symmetric matrix.
-  #'
   # Initialize rv table
   rvtable=matrix(rep(1,length(sets)^2),nrow=length(sets))
 
@@ -275,15 +302,16 @@ rv_table <- function(dataset, sets) {
 }
 
 
+#' @title Lg Coefficient - lg
+#' @description Calculates Lg coefficient between two tables
+#' @param table1 is the first input table
+#' @param table2 is the second input table
+#' @examples
+#' table1 ...
+#' table2 ...
+#' lg(table1,table2) returns the rv coefficient between table1 and table2
+#'
 lg <- function(table1, table2){
-  #' details
-  #'
-  #' @title Lg Coefficient - lg
-  #' @description Calculates Lg coefficient between two tables.
-  #' @param x An object of class mfa
-  #' example lg(table1, table2)
-  #'
-  # Eq. 30
   # Numerator:
   num=sum(diag(tcrossprod(table1) %*% tcrossprod(table2)))
   # Denominator: (need to have a function to calculate alpha)
@@ -291,26 +319,27 @@ lg <- function(table1, table2){
 
   lg=num/den
 
-
-  return
 }
 
+
+#' @title Lg Coefficient Table - lg_table
+#' @description Calculates Lg coefficient table between multiple sets from a dataset
+#' @param dataset is input data in as a data.frame object.
+#' @param sets is the list of indices to be parsed from dataset
+#' @examples
+#' filename = system.file("extdata", "wines.csv", package = "MFA")
+#' dataset = read.csv(filename, header=TRUE, check.names=FALSE)
+#' lg_table(dataset, sets = list(1:3, 4:5, 6:10))
+#' returns a 3-by-3 symmetric matrix.
+#'
 lg_table <- function(dataset, sets){
-  #' details
-  #'
-  #' @title Lg Coefficient Table - lg_table
-  #' @description Calculates Lg coefficient table between multiple sets
-  #' @param x An object of class mfa
-  #' example lg_table(dataset, sets = list(1:3, 4:5, 6:10))
-  #'          returns a 3-by-3 symmetric matrix.
-  #'
   # Initialize lg table
   lgtable=matrix(rep(1,length(sets)^2),nrow=length(sets))
 
-  # To calculate elements for rvtable: diagonal equals to 1, and
+  # To calculate elements for lgtable: diagonal equals to 1, and
   # the matrix is symetric.
   for (i in 1:length(sets)) {
-    for (j in 1:length (sets)) {
+    for (j in 1:length(sets)) {
       if (i==j){
         lgtable[i,j]=1
       } else if (j<i){
@@ -323,17 +352,16 @@ lg_table <- function(dataset, sets){
   return(lgtable)
 }
 
-bootstrap_factorscore = function(x){
-  #' details
-  #'
-  #' @title Bootstrapping Factor Scores
-  #' @description Calculates the bootstrap confidence intervals by sampling
-  #' @param x An object of class mfa
-  #' @return b bootstrap factorscore
-  #' from the set of tables. This approach also computes boostrap ratios for
-  #' each dimension.
-  #'
 
+
+#' @title Bootstrapping Factor Scores
+#' @description Calculates the bootstrap confidence intervals by sampling
+#' @param x An object of class mfa
+#' @return b bootstrap factorscore
+#' from the set of tables. This approach also computes boostrap ratios for
+#' each dimension.
+#'
+bootstrap_factorscore = function(x){
   # 1) Sample integers with replacement from 1 to K
   K = length(sets)
   idx = sample(1:K, K, replace = TRUE)

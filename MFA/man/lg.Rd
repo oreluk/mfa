@@ -7,13 +7,17 @@
 lg(table1, table2)
 }
 \arguments{
-\item{x}{An object of class mfa
-example lg(table1, table2)}
+\item{table1}{is the first input table}
+
+\item{table2}{is the second input table}
 }
 \description{
-Calculates Lg coefficient between two tables.
+Calculates Lg coefficient between two tables
 }
-\details{
-details
+\examples{
+table1 ...
+table2 ...
+lg(table1,table2) returns the rv coefficient between table1 and table2
+
 }
 

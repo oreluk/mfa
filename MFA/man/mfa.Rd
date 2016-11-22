@@ -7,15 +7,15 @@
 mfa(data, sets, ncomps = NULL, center = TRUE, scale = TRUE)
 }
 \arguments{
-\item{data}{A data frame you'd like to analyze}
+\item{data}{A data frame or matrix which you'd like to analyze}
 
-\item{sets}{A list of indices}
+\item{sets}{A list of indices to group sets of variables}
 
 \item{ncomps}{Number of principle components to retain}
 
-\item{center}{TRUE or FALSE to center data}
+\item{center}{either a logical value or a numeric vector of length equal to the number of active variables in the analysis}
 
-\item{scale}{TRUE or FALSE to scale data}
+\item{scale}{either a logical value or a numeric vector of length equal to the number of active variables in the analysis}
 }
 \description{
 Creates an object of class \code{"mfa"}

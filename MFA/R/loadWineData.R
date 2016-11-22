@@ -7,6 +7,6 @@ loadWineData <- function() {
   ## read csv
   # get the raw data from the package itself:
   filename = system.file("extdata", "wines.csv", package = "MFA")
-  d = read.csv(filename, header=TRUE, check.names=FALSE)
+  d = read.csv(filename, header=TRUE, check.names=TRUE)
   d
 }

@@ -1,12 +1,10 @@
-# testing
+# Testing
 
-## read csv
 # get the raw data from the package itself:
 filename = system.file("extdata", "wines.csv", package = "MFA")
-#d = read.csv(filename, header=TRUE, check.names=FALSE)
-#d = read.csv("/Users/stephanie/classes/STAT243/MFA/data/wines.csv",header=TRUE, check.names=FALSE)
 d <- loadWineData()
-s1 = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
+
+s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
             seq(25,30), seq(31,35), seq(36,39), seq(40,45),
             seq(46,50), seq(51,54) )
 
@@ -17,31 +15,45 @@ s2 = list(c('V1','V2','V3','V4','V5','V6'), c('V1.1','V2.1','V3.1','V4.1','V7','
           c('V1.8','V2.8','V3.8','V4.8','V15'), c('V1.9','V2.9','V3.9','V4.9'))
 
 
-test_that("inputs of mfa are valid ", {
+test_that("invalid inputs of mfa throw errors", {
   expect_error(mfa())
   expect_error(mfa(d))
   expect_error(mfa(s))
   expect_error(mfa(list(d), s))
   expect_error(mfa(d,s, ncomps =2.5))
   expect_error(mfa(d,s, ncomps = 100))
-  #expect_error(mfa(d,s, ncomps = 0))
+  expect_error(mfa(d,s, ncomps = 0))
   expect_error(mfa(d,s, scale = 0))
   expect_error(mfa(d,s, scale = 'FALSE'))
   expect_error(mfa(d,s, center = 0))
   expect_error(mfa(d,s, center = 12))
+  expect_error(mfa(d,s, center = seq(1:52)))
+})
+
+test_that("valid inputs do not return warnings or errors", {
+  expect_warning(mfa(d,s, center = seq(1:53)), NA)
+  expect_error(mfa(d,s, center = seq(1:53)), NA)
+  expect_warning(mfa(d,s, scale = seq(1:53)), NA)
+  expect_error(mfa(d,s, scale = seq(1:53)), NA)
+  expect_warning(mfa(d,s, center = seq(1:53), scale = rep(1,53) ), NA)
+  expect_error(mfa(d,s, center = seq(1:53), scale = rep(1,53)), NA)
+  expect_warning(mfa(d,s, center = seq(1:53), scale = rep(1,53), ncomps = 3), NA)
+  expect_error(mfa(d,s, center = seq(1:53), scale = rep(1,53), ncomps = 3), NA)
+  expect_warning(mfa(d,s2, center = seq(1:53), scale = rep(1,53), ncomps = 3), NA)
+  expect_error(mfa(d,s2, center = seq(1:53), scale = rep(1,53), ncomps = 3), NA)
 })
 
 # using mfa objects for following tests
-a = mfa(d,s1)
-b = mfa(d,s1, ncomps=2)
+a = mfa(d,s)
+b = mfa(d,s, ncomps=2)
 a2 = mfa(d,s2)
 
 test_that("the correct number of elements from eigenvalues and partial factor scores", {
   expect_equal(class(a), 'mfa')
   expect_equal(length(a$eigenvalues), 12)
-  expect_equal(length(a$partialFactorScores), length(s1))
+  expect_equal(length(a$partialFactorScores), length(s))
   expect_equal(ncol(b$factorScores), 2)
-  expect_equal(ncol(b$matrixLoadings), 2)
+  expect_equal(ncol(b$matrixLoadings[[1]]), 2)
 })
 
 test_that("results from list of characters or list of vectors is same", {

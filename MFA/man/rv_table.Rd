@@ -7,14 +7,17 @@
 rv_table(dataset, sets)
 }
 \arguments{
-\item{x}{An object of class mfa
-example rv_table(dataset, sets = list(1:3, 4:5, 6:10))
-         returns a 3-by-3 symmetric matrix.}
+\item{dataset}{is input data in as a data.frame object.}
+
+\item{sets}{is the list of indices to be parsed from dataset}
 }
 \description{
-Calculates Rv coefficient table between multiple sets
+Calculates Rv coefficient table multiple sets from a dataset
 }
-\details{
-details
+\examples{
+dataset = ...
+rv_table(dataset, sets = list(1:3, 4:5, 6:10))
+returns a 3-by-3 symmetric matrix
+
 }
 

@@ -17,7 +17,4 @@ each dimension.
 \description{
 Calculates the bootstrap confidence intervals by sampling
 }
-\details{
-details
-}
 
