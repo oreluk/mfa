@@ -1,0 +1,138 @@
+---
+title: "Multiple Factor Analysis"
+author: Yulin Chen, Stephanie Wuerth, Eren Bilir, and Jim Oreluk
+date:  December 2016
+output: ioslides_presentation
+widescreen: true
+---
+
+# What is Multiple Factor Analysis (MFA)? 
+
+## What is MFA?
+
+- Popular factorial method to study sets of variables that are collected on the same set of observations
+- Generalization of principal component analysis
+- Provides factor loadings to indicate the impact of variables on components
+- Factor scores (component scores in PCA) are returned to explain the effect of each observation on the factors
+- Analysis provides a means of quantifying a level of agreement or disagreement between sets of variables
+
+# Method 
+## Input Data
+* Sets (or tables) of variables:  
+$$ Y = [Y_1, \ldots, Y_k] $$
+* $k$ represents the number of sets to be included in the analysis  
+
+* Each set contains _any_ number of variables
+
+
+$$\{Y_1, \ldots, Y_k\} \in \mathbb{R}^{n \times m_i}\; \text{for}\; i = 1, \ldots k$$
+
+
+* Sets can share or have their own unique variables 
+    - the number of observations(rows) for each set needs to remain be the same
+
+## Pre-processing
+
+- Pre-processing of the $k$ tables is completed by mean-centering and/or scaling each of the columns. We will represent the scaled tables of $Y$ as: 
+
+$$ X = [X_1, \ldots, X_k] $$
+
+- $X_k$ is the centered and scaled representation of $Y_k$. 
+
+- The concatenation of all centered and/or scaled tables is defined as the matrix $X$.
+
+## Singular Value Decomposition
+
+- We can decompose each set by using singular value decomposition (SVD): 
+$$X_{[k]} = U_{[k]} \Gamma_{[k]} V_{[k]}^T$$
+where,
+$$
+\begin{aligned}
+X_{[k]} &\in \mathbb{R}^{n \times m} \;\; &U_{[k]} &\in \mathbb{R}^{n \times m} \\
+\Gamma_{[k]} &\in \mathbb{R}^{m \times m} \; \; &V_{[k]} &\in \mathbb{R}^{m \times m} \\
+U_{[k]}^T U_{[k]} &= I_{m \times m} \;\; & V_{[k]}^TV_{[k]} &= I_{m \times m}
+\end{aligned}
+$$
+- Using the left singular vector $U_{[k]}$, we can calculate a __factor score__ for each table: 
+$$ G_{[k]} = U_{[k]} \Gamma_{[k]} $$
+
+
+## Calculate $\alpha$
+
+- Using the first singular value from each table $\gamma_{1,k}$: 
+$$ \alpha_k = \frac{1}{\gamma_{1,k}^2} = \frac{1}{\lambda_{1,k}}$$ 
+
+- $\lambda_{1,k}$ is the first eigenvalue for set $k$. 
+
+- Each set has a weight, $\alpha_k$ which can be collected into a single vector $a$: 
+$$ a = [\alpha_1 1_{[1]}, \ldots,  \alpha_k 1_{[k]}]$$ 
+$a$ is a nVar-by-1 vector, where nVar is the number of variables in the analysis.  $\mathbb{1}_{[k]}$ is a vector of ones with a length equal to the number of variables for the $k$th table.
+
+## Generalized Singular Value Decomposition
+
+- We can decompose the concatenated matrix $X$ by using generalized singular value decomposition (GSVD) as follows: 
+$$ X = P \Delta Q^T $$
+where, 
+$$ X \in \mathbb{R}^{n \times m},\;\; P,\Delta \in \mathbb{R}^{n \times n},\;\; Q^T \in \mathbb{R}^{n \times m}$$
+
+## Generalized Singular Value Decomposition
+
+- GSVD adds additional constraints in the form of:
+$$ P M P^T = I, \;\; Q^T A Q = I$$
+
+- $M = \text{diag}(m)$,  $M \in \mathbb{R}^{n \times n}$
+    + $M$ is a mass matrix with $m_i$ assigned to each of the $i$ observations
+    + For equal weighting across the observations, $m_i =\frac{1}{I}$ where $I = \text{nObs}$ (number of observations)
+  
+- $A = \text{diag}(a)$,  $A \in \mathbb{R}^{m \times m}$
+    + weight matrix of $\alpha$ values (derived previously) 
+
+## Generalized Singular Value Decomposition 
+
+To calculate $P$ and $Q$ we will need to define $\tilde{X}$:
+$$ \tilde{X} = M^{1/2} X A^{1/2} \Longleftrightarrow X = M^{-1/2} \tilde{X} A^{-1/2}$$
+
+Decomposing $\tilde{X}$ with SVD:
+$$ \tilde{X} = U D V^T $$
+
+The generalized eigenvector matrices for GSVD can be obtained by: 
+$$ P = M^{-1/2} U  \;\;\;\; Q = A^{-1/2} V^T \;\;\;\; \Delta = D $$
+
+## Whatever else
+
+- Loadings? 
+- pfactor..
+
+
+## Installation
+
+1) Install [devtools](https://github.com/hadley/devtools) if not already installed.
+```
+install.packages("devtools")
+```
+
+2) Load the devtools package: 
+```
+library(devtools)
+```
+
+3) Install from the github repository: 
+```
+install_github("oreluk/MFA")
+```
+
+## Usage
+- usage of package?
+- demo the package
+- what can it do
+- example
+- where things are returned
+- build in functions
+- shiny app
+
+## References
+Blah
+
+----
+
+  ![picture of spaghetti](images/spaghetti.jpg)
