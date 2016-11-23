@@ -20,6 +20,8 @@ plot_compromise = function(x, dim1=1, dim2=2, sz=2) UseMethod("plot_compromise")
 #' @name plot compromise
 #' @description plots compromise
 plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=2) {
+  #par(pty="s")
+  #par(mar = c(5.1, 4.1, 0, 1))
   #should plot the first 2 factor scores
   X = x$factorScores[,dim1]
   Y = x$factorScores[,dim2]
@@ -30,7 +32,7 @@ plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=2) {
        ylab = paste0('Dimension ', dim2),
        xlim=c(min(X)-0.4,max(X)+0.4),
        ylim=c(min(Y)-0.4,max(Y)+0.4))
-  text(X,Y,labels=1:length(X),col='red',xlim=c(-1.5,1.5),ylim=c(-1.5,1.5))
+  text(X,Y,labels=1:length(X),col='red')
   abline(v=0,h=0)
   title('Factor Scores')
 }
@@ -56,6 +58,8 @@ plot_partial_fac = function(x, table=1, dim1=1, dim2=2, sz=2) UseMethod("plot_pa
 #' @name plot partial fac
 #' @description plots partial factor scores
 plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2) {
+  #par(pty="s")
+  #par(mar = c(5.1, 4.1, 0, 1))
   #should plot the partial factor scores for dim1 and dim2
   X = x$partialFactorScores[[table]][,dim1] #fac score first table, 1st comp
   Y = x$partialFactorScores[[table]][,dim2] #fac score first table, 2nd comp
@@ -63,10 +67,10 @@ plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2) {
   plot(X, Y,
        type = "p", pch=19, cex=2,
        xlab = paste0('Dimension ', dim1),
-       ylab = paste0('Dimension ', dim2),
+       ylab = paste0('Dimension ', dim2), # ,
        xlim=c(min(X)-0.4,max(X)+0.4),
        ylim=c(min(Y)-0.4,max(Y)+0.4))
-  text(X,Y,labels=1:length(X),col='red',xlim=c(-1.5,1.5),ylim=c(-1.5,1.5))
+  text(X,Y,labels=1:length(X),col='red')
   abline(v=0,h=0)
   title(paste0('Partial Factor Scores for Table ', table ))
 }
@@ -96,6 +100,8 @@ plot_loading = function(x, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) UseMeth
 #' @name plot partial fac
 #' @description plots partial factor scores
 plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) {
+  #par(pty="s")
+  #par(mar = c(5.1, 4.1, 0, 1))
   #should plot the first 2 factor scores
   #keep all rows to include all variables for the table of interest,
   X = x$matrixLoadings[[table]][,dim1]
@@ -112,6 +118,10 @@ plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) {
     varlabels <- names(X)
   }
 
+  #sometimes (e.g. random data martix), the names(X) will be null
+  # in this case, set varlabels to 1:length(X)
+  if (is.null(names(X))){ varlabels <- 1:length(X)}
+
   # note this will be much more useful if we have the variable names not just indices!
   plot(X, Y,
        type = "p", pch=19, col='white',cex=sz, #,xlim=c(-1.5,1.5),ylim=c(-1.5,1.5))
@@ -119,7 +129,7 @@ plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) {
        ylab = paste0('Dimension ', dim2),
        xlim=c(min(X)-0.4,max(X)+0.4),
        ylim=c(min(Y)-0.4,max(Y)+0.4))
-  text(X,Y,labels=varlabels,col='black') #,xlim=c(-1.5,1.5),ylim=c(-1.5,1.5))
+  text(X,Y,labels=varlabels,col='black')
   abline(v=0,h=0)
   title(paste0('Variable Loadings for Table ', table ))
 }
