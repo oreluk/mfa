@@ -16,9 +16,9 @@ widescreen: true
 - Factor scores (component scores in PCA) are returned to explain the effect of each observation on the factors
 - Analysis provides a means of quantifying a level of agreement or disagreement between sets of variables
 
-# Method 
+# Methodology
 ## Input Data
-* Sets (or tables) of variables:  
+* Sets (or tables) of the same observations across different variables can be represented as:  
 $$ Y = [Y_1, \ldots, Y_k] $$
 * $k$ represents the number of sets to be included in the analysis  
 
@@ -33,13 +33,13 @@ $$\{Y_1, \ldots, Y_k\} \in \mathbb{R}^{n \times m_i}\; \text{for}\; i = 1, \ldot
 
 ## Pre-processing
 
-- Pre-processing of the $k$ tables is completed by mean-centering and/or scaling each of the columns. We will represent the scaled tables of $Y$ as: 
+- Pre-processing of the $k$ tables can be completed by mean-centering and/or scaling each of the columns. We will represent the processed tables of $Y$ as: 
 
 $$ X = [X_1, \ldots, X_k] $$
 
-- $X_k$ is the centered and scaled representation of $Y_k$. 
+- $X_k$ is the centered and/or scaled representation of $Y_k$. 
 
-- The concatenation of all centered and/or scaled tables is defined as the matrix $X$.
+- The concatenation of all centered and/or scaled tables is defined as $X$.
 
 ## Singular Value Decomposition
 
@@ -53,20 +53,20 @@ X_{[k]} &\in \mathbb{R}^{n \times m} \;\; &U_{[k]} &\in \mathbb{R}^{n \times m} 
 U_{[k]}^T U_{[k]} &= I_{m \times m} \;\; & V_{[k]}^TV_{[k]} &= I_{m \times m}
 \end{aligned}
 $$
-- Using the left singular vector $U_{[k]}$, we can calculate a __factor score__ for each table: 
+- Using the left singular vectors $U_{[k]}$, we can calculate a __factor score__ for each table: 
 $$ G_{[k]} = U_{[k]} \Gamma_{[k]} $$
 
 
 ## Calculate $\alpha$
 
-- Using the first singular value from each table $\gamma_{1,k}$: 
+- Using the first singular value from each table $\gamma_{1,k}$ we can define $\alpha$ as: 
 $$ \alpha_k = \frac{1}{\gamma_{1,k}^2} = \frac{1}{\lambda_{1,k}}$$ 
 
-- $\lambda_{1,k}$ is the first eigenvalue for set $k$. 
+- $\lambda_{1,k}$ is the eigenvalue for the first singular value $\gamma_{1,k}$ 
 
 - Each set has a weight, $\alpha_k$ which can be collected into a single vector $a$: 
 $$ a = [\alpha_1 1_{[1]}, \ldots,  \alpha_k 1_{[k]}]$$ 
-$a$ is a nVar-by-1 vector, where nVar is the number of variables in the analysis.  $\mathbb{1}_{[k]}$ is a vector of ones with a length equal to the number of variables for the $k$th table.
+$a$ is a numVar-by-1 vector, where numVar is the number of variables in the analysis.  $\mathbb{1}_{[k]}$ is a vector of ones with a length equal to the number of variables of the $k$th table.
 
 ## Generalized Singular Value Decomposition
 
@@ -82,10 +82,10 @@ $$ P M P^T = I, \;\; Q^T A Q = I$$
 
 - $M = \text{diag}(m)$,  $M \in \mathbb{R}^{n \times n}$
     + $M$ is a mass matrix with $m_i$ assigned to each of the $i$ observations
-    + For equal weighting across the observations, $m_i =\frac{1}{I}$ where $I = \text{nObs}$ (number of observations)
+    + For equal weighting across the observations, $m_i =\frac{1}{I}$ where $I = \text{numObs}$ (number of observations)
   
 - $A = \text{diag}(a)$,  $A \in \mathbb{R}^{m \times m}$
-    + weight matrix of $\alpha$ values (derived previously) 
+    + weight matrix of $\alpha$ values (derived earlier) 
 
 ## Generalized Singular Value Decomposition 
 
@@ -98,12 +98,18 @@ $$ \tilde{X} = U D V^T $$
 The generalized eigenvector matrices for GSVD can be obtained by: 
 $$ P = M^{-1/2} U  \;\;\;\; Q = A^{-1/2} V^T \;\;\;\; \Delta = D $$
 
-## Whatever else
+## Factor Scores
 
-- Loadings? 
-- pfactor..
+- Utilizing the matrix decomposed by GSVD we can calculate the __factor scores__ by:
+$$ F = P \Delta $$ 
+where $P$ and $\Delta$ are from the GSVD decomposition. Each row of the factor score matrix represents an observation and each column is a component. 
 
+- Projection of the $k$th table onto the compromise, is also known as the __partial factor scores__. Partial factor scores can be computed as:
 
+$$ F_{[k]} = K \alpha_k X_{[k]} Q_{[k]}$$
+where $K$ is the number total number of tables in the analysis, $\alpha_k = \gamma_{1,k}^{-2}$, $X_{[k]}$ is the $k$th table and $Q_{[k]}$ is the $k$th portion of the right eigenvector matrix. 
+
+# R Package
 ## Installation
 
 1) Install [devtools](https://github.com/hadley/devtools) if not already installed.
@@ -121,18 +127,46 @@ library(devtools)
 install_github("oreluk/MFA")
 ```
 
-## Usage
-- usage of package?
-- demo the package
-- what can it do
-- example
-- where things are returned
-- build in functions
-- shiny app
+## Each of these should be a slide on its own...
+
+## What can you do?
+- Enables a simple way to complete a multiple factor analysis
+- Provides various ways to visualize the factor analysis through bi-plots
+- auxilary functions (Rv/lg) 
+    + slide on each function
+  
+
+# Wine Tasting Example
+## Set-up
+- Explaination of the dataset
+- observations are: ... 
+- variables are: ...
+
+## Load data from the package
+
+- code goes here
+
+## Analysis 
+
+- code goes here
+- return all properties of the function
+
+# Shiny App
+
+
+## screenshots
+![picture of spaghetti](images/spaghetti.jpg)
+
+## more screenshots...
+![picture of spaghetti](images/spaghetti.jpg)
 
 ## References
-Blah
+[1] Abdi, H., Williams, L. J., & Valentin, D. (2013). Multiple factor analysis: principal component analysis for multitable and multiblock data sets. Wiley Interdisciplinary reviews: computational statistics, 5(2), 149-179.
 
-----
+[2] Pages, Jérôme. "Multiple factor analysis: Main features and application to sensory data." Revista Colombiana de Estadística 27.1 (2004): 1-26.
 
-  ![picture of spaghetti](images/spaghetti.jpg)
+[3] Abdi, Hervé. "Singular value decomposition (SVD) and generalized singular value decomposition." Encyclopedia of measurement and statistics (2007): 907-912.
+
+
+
+

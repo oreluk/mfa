@@ -63,8 +63,27 @@ test_that("results from list of characters or list of vectors is same", {
   expect_equal(a2$alpha, a$alpha)
 })
 
-test_that("results from list of characters or list of vectors is same", {
+keys = loadWineInfo()
+test_that("plot functions are working", {
+  # Invalid Inputs
   expect_error(plot_loading(a,table=13))
+  expect_error(plot_compromise(a,dim1=3,dim2=100))
+  expect_error(plot_partial_fac(a,table=100))
+  # Valid Inputs
+  expect_warning(plot_compromise(a), NA)
+  expect_error(plot_compromise(a), NA)
+  expect_warning(plot_compromise(a,dim1=3,dim2=1), NA)
+  expect_error(plot_compromise(a,dim1=3,dim2=1), NA)
+  expect_warning(plot_partial_fac(a,table=1), NA)
+  expect_error(plot_partial_fac(a,table=1), NA)
+  expect_warning(plot_partial_fac(a,table=1,dim1=3,dim2=4), NA)
+  expect_error(plot_partial_fac(a,table=1,dim1=3,dim2=4), NA)
+  expect_warning(plot_loading(a,table=1), NA)
+  expect_error(plot_loading(a,table=1), NA)
+  expect_warning(plot_loading(a,table=1,varnames=keys), NA)
+  expect_error(plot_loading(a,table=1,varnames=keys), NA)
+  expect_warning(plot_loading(a,table=1,dim1=3,dim2=4,varnames=keys), NA)
+  expect_error(plot_loading(a,table=1,dim1=3,dim2=4,varnames=keys), NA)
 })
 
 

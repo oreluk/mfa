@@ -104,12 +104,12 @@
 <li>Analysis provides a means of quantifying a level of agreement or disagreement between sets of variables</li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Method</h2></hgroup><article  id="method">
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Methodology</h2></hgroup><article  id="methodology">
 
 </article></slide><slide class=''><hgroup><h2>Input Data</h2></hgroup><article  id="input-data">
 
 <ul>
-<li>Sets (or tables) of variables:<br/>\[ Y = [Y_1, \ldots, Y_k] \]</li>
+<li>Sets (or tables) of the same observations across different variables can be represented as:<br/>\[ Y = [Y_1, \ldots, Y_k] \]</li>
 <li><p>\(k\) represents the number of sets to be included in the analysis</p></li>
 <li><p>Each set contains <em>any</em> number of variables</p></li>
 </ul>
@@ -127,14 +127,14 @@
 </article></slide><slide class=''><hgroup><h2>Pre-processing</h2></hgroup><article  id="pre-processing">
 
 <ul>
-<li>Pre-processing of the \(k\) tables is completed by mean-centering and/or scaling each of the columns. We will represent the scaled tables of \(Y\) as:</li>
+<li>Pre-processing of the \(k\) tables can be completed by mean-centering and/or scaling each of the columns. We will represent the processed tables of \(Y\) as:</li>
 </ul>
 
 <p>\[ X = [X_1, \ldots, X_k] \]</p>
 
 <ul>
-<li><p>\(X_k\) is the centered and scaled representation of \(Y_k\).</p></li>
-<li><p>The concatenation of all centered and/or scaled tables is defined as the matrix \(X\).</p></li>
+<li><p>\(X_k\) is the centered and/or scaled representation of \(Y_k\).</p></li>
+<li><p>The concatenation of all centered and/or scaled tables is defined as \(X\).</p></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Singular Value Decomposition</h2></hgroup><article  id="singular-value-decomposition">
@@ -147,15 +147,15 @@ X_{[k]} &amp;\in \mathbb{R}^{n \times m} \;\; &amp;U_{[k]} &amp;\in \mathbb{R}^{
 U_{[k]}^T U_{[k]} &amp;= I_{m \times m} \;\; &amp; V_{[k]}^TV_{[k]} &amp;= I_{m \times m}
 \end{aligned}
 \]</li>
-<li>Using the left singular vector \(U_{[k]}\), we can calculate a <strong>factor score</strong> for each table: \[ G_{[k]} = U_{[k]} \Gamma_{[k]} \]</li>
+<li>Using the left singular vectors \(U_{[k]}\), we can calculate a <strong>factor score</strong> for each table: \[ G_{[k]} = U_{[k]} \Gamma_{[k]} \]</li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Calculate \(\alpha\)</h2></hgroup><article  id="calculate-alpha">
 
 <ul>
-<li><p>Using the first singular value from each table \(\gamma_{1,k}\): \[ \alpha_k = \frac{1}{\gamma_{1,k}^2} = \frac{1}{\lambda_{1,k}}\]</p></li>
-<li><p>\(\lambda_{1,k}\) is the first eigenvalue for set \(k\).</p></li>
-<li><p>Each set has a weight, \(\alpha_k\) which can be collected into a single vector \(a\): \[ a = [\alpha_1 1_{[1]}, \ldots,  \alpha_k 1_{[k]}]\] \(a\) is a nVar-by-1 vector, where nVar is the number of variables in the analysis. \(\mathbb{1}_{[k]}\) is a vector of ones with a length equal to the number of variables for the \(k\)th table.</p></li>
+<li><p>Using the first singular value from each table \(\gamma_{1,k}\) we can define \(\alpha\) as: \[ \alpha_k = \frac{1}{\gamma_{1,k}^2} = \frac{1}{\lambda_{1,k}}\]</p></li>
+<li><p>\(\lambda_{1,k}\) is the eigenvalue for the first singular value \(\gamma_{1,k}\)</p></li>
+<li><p>Each set has a weight, \(\alpha_k\) which can be collected into a single vector \(a\): \[ a = [\alpha_1 1_{[1]}, \ldots,  \alpha_k 1_{[k]}]\] \(a\) is a numVar-by-1 vector, where numVar is the number of variables in the analysis. \(\mathbb{1}_{[k]}\) is a vector of ones with a length equal to the number of variables of the \(k\)th table.</p></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Generalized Singular Value Decomposition</h2></hgroup><article  id="generalized-singular-value-decomposition">
@@ -172,12 +172,12 @@ U_{[k]}^T U_{[k]} &amp;= I_{m \times m} \;\; &amp; V_{[k]}^TV_{[k]} &amp;= I_{m 
 
 <ul>
 <li>\(M\) is a mass matrix with \(m_i\) assigned to each of the \(i\) observations</li>
-<li>For equal weighting across the observations, \(m_i =\frac{1}{I}\) where \(I = \text{nObs}\) (number of observations)</li>
+<li>For equal weighting across the observations, \(m_i =\frac{1}{I}\) where \(I = \text{numObs}\) (number of observations)</li>
 </ul></li>
 <li>\(A = \text{diag}(a)\), \(A \in \mathbb{R}^{m \times m}\)
 
 <ul>
-<li>weight matrix of \(\alpha\) values (derived previously)</li>
+<li>weight matrix of \(\alpha\) values (derived earlier)</li>
 </ul></li>
 </ul>
 
@@ -189,12 +189,16 @@ U_{[k]}^T U_{[k]} &amp;= I_{m \times m} \;\; &amp; V_{[k]}^TV_{[k]} &amp;= I_{m 
 
 <p>The generalized eigenvector matrices for GSVD can be obtained by: \[ P = M^{-1/2} U  \;\;\;\; Q = A^{-1/2} V^T \;\;\;\; \Delta = D \]</p>
 
-</article></slide><slide class=''><hgroup><h2>Whatever else</h2></hgroup><article  id="whatever-else">
+</article></slide><slide class=''><hgroup><h2>Factor Scores</h2></hgroup><article  id="factor-scores">
 
 <ul>
-<li>Loadings?</li>
-<li>pfactor..</li>
+<li><p>Utilizing the matrix decomposed by GSVD we can calculate the <strong>factor scores</strong> by: \[ F = P \Delta \] where \(P\) and \(\Delta\) are from the GSVD decomposition. Each row of the factor score matrix represents an observation and each column is a component.</p></li>
+<li><p>Projection of the \(k\)th table onto the compromise, is also known as the <strong>partial factor scores</strong>. Partial factor scores can be computed as:</p></li>
 </ul>
+
+<p>\[ F_{[k]} = K \alpha_k X_{[k]} Q_{[k]}\] where \(K\) is the number total number of tables in the analysis, \(\alpha_k = \gamma_{1,k}^{-2}\), \(X_{[k]}\) is the \(k\)th table and \(Q_{[k]}\) is the \(k\)th portion of the right eigenvector matrix.</p>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>R Package</h2></hgroup><article  id="r-package">
 
 </article></slide><slide class=''><hgroup><h2>Installation</h2></hgroup><article  id="installation">
 
@@ -210,25 +214,58 @@ U_{[k]}^T U_{[k]} &amp;= I_{m \times m} \;\; &amp; V_{[k]}^TV_{[k]} &amp;= I_{m 
 <pre >install_github(&quot;oreluk/MFA&quot;)</pre></li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>Usage</h2></hgroup><article  id="usage">
+</article></slide><slide class=''><hgroup><h2>WHAT DOES THE PACKAGE OFFER?</h2></hgroup><article  id="what-does-the-package-offer">
 
 <ul>
-<li>usage of package?</li>
-<li>demo the package</li>
-<li>what can it do</li>
-<li>example</li>
-<li>where things are returned</li>
-<li>build in functions</li>
-<li>shiny app</li>
+<li>complete MFA</li>
+<li>bi plots</li>
+<li>auxilary functions (Rv/lg)
+
+<ul>
+<li>slide on each function</li>
+</ul></li>
 </ul>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Wine Tasting Example</h2></hgroup><article  id="wine-tasting-example">
+
+</article></slide><slide class=''><hgroup><h2>Set-up</h2></hgroup><article  id="set-up">
+
+<ul>
+<li>Explaination of the dataset</li>
+<li>observations are: &#8230;</li>
+<li>variables are: &#8230;</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Load data from the package</h2></hgroup><article  id="load-data-from-the-package">
+
+<ul>
+<li>code goes here</li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Analysis</h2></hgroup><article  id="analysis">
+
+<ul>
+<li>code goes here</li>
+<li>return all properties of the function</li>
+</ul>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Shiny App</h2></hgroup><article  id="shiny-app">
+
+</article></slide><slide class=''><hgroup><h2>screenshots</h2></hgroup><article  id="screenshots">
+
+<img src='images/spaghetti.jpg' title='fig:'/><p class='caption'>picture of spaghetti</p>
+
+</article></slide><slide class=''><hgroup><h2>more screenshots&#8230;</h2></hgroup><article  id="more-screenshots...">
+
+<img src='images/spaghetti.jpg' title='fig:'/><p class='caption'>picture of spaghetti</p>
 
 </article></slide><slide class=''><hgroup><h2>References</h2></hgroup><article  id="references">
 
-<p>Blah</p>
+<p>[1] Abdi, H., Williams, L. J., &amp; Valentin, D. (2013). Multiple factor analysis: principal component analysis for multitable and multiblock data sets. Wiley Interdisciplinary reviews: computational statistics, 5(2), 149-179.</p>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article >
+<p>[2] Pages, Jérôme. &quot;Multiple factor analysis: Main features and application to sensory data.&quot; Revista Colombiana de Estadística 27.1 (2004): 1-26.</p>
 
-<img src='images/spaghetti.jpg' title='fig:'/><p class='caption'>picture of spaghetti</p></article></slide>
+<p>[3] Abdi, Hervé. &quot;Singular value decomposition (SVD) and generalized singular value decomposition.&quot; Encyclopedia of measurement and statistics (2007): 907-912.</p></article></slide>
 
 
   <slide class="backdrop"></slide>
