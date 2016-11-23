@@ -5,7 +5,10 @@
 \alias{loadWineData}
 \title{Load Wine Data}
 \usage{
-loadWineData()
+loadWineData(checknames = FALSE)
+}
+\arguments{
+\item{checknames}{FALSE means repeated V1 is kept, TRUE means second is called V1.2}
 }
 \value{
 data frame with wine data

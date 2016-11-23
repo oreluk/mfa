@@ -2,7 +2,7 @@
 
 # get the raw data from the package itself:
 filename = system.file("extdata", "wines.csv", package = "MFA")
-d <- loadWineData()
+d <- loadWineData(checknames=TRUE)
 
 s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
             seq(25,30), seq(31,35), seq(36,39), seq(40,45),
@@ -62,5 +62,10 @@ test_that("results from list of characters or list of vectors is same", {
   expect_equal(a2$matrixLoadings, a$matrixLoadings)
   expect_equal(a2$alpha, a$alpha)
 })
+
+test_that("results from list of characters or list of vectors is same", {
+  expect_error(plot_loading(a,table=13))
+})
+
 
 
