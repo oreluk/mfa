@@ -25,12 +25,12 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   yTables = vector(mode = "list", length = length(sets))
   minVar = Inf
   for (i in 1:length(sets)) {
-      columns = sets[[i]]
-      if ( i == 1 | (min(columns) < minVar) ) {
-        minVar = min(columns)
-      }
-      tab = data[,columns]
-      yTables[[i]] = tab
+    columns = sets[[i]]
+    if ( i == 1 | (min(columns) < minVar) ) {
+      minVar = min(columns)
+    }
+    tab = data[,columns]
+    yTables[[i]] = tab
   }
   if (is.character(minVar)){
     minVar = which(pmatch(names(data), minVar) == 1)
@@ -106,7 +106,7 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
 
   pFactorScores = vector(mode = "list", length = length(xTables))
   for (k in 1:length(xTables)) {
-      pFactorScores[[k]] = length(sets) * alpha[[k]] * xTables[[k]] %*% Q[a == alpha[[k]],][,1:components]
+    pFactorScores[[k]] = length(sets) * alpha[[k]] * xTables[[k]] %*% Q[a == alpha[[k]],][,1:components]
   }
 
   matrixLoadings = Q[,1:components]
@@ -164,7 +164,7 @@ check_inputs = function(data, sets, ncomps, center, scale) {
       stop("'center' must be a logical or numeric
            vector equal to the number of active variables")
     }
-    }
+  }
 
   # Scale
   if (!is.logical(scale)) {
@@ -204,175 +204,5 @@ eigenvalueTable.mfa = function(obj) {
   formatedTable = rbind(singularValues, eig, cumulative, percentInertia, cumulativeInertia)
   return(formatedTable)
 }
-
-
-## Contributions
-
-obs_dim.mfa = function(obj) {
-  # Initialize the matrix to store the observation contribution
-  ctr_obs=obj$factorScores
-  # m value
-  m=1/nrow(ctr_obs)
-  # Eq.25
-    for (l in 1: length(obj$eigenvalues)) {
-      ctr_obs[,l] = m*obj$factorScores[,l]^2/obj$eigenvalues[l]
-      }
-  return(ctr_obs)
-}
-
-
-var_dim.mfa = function(obj) {
-  # Initialize the matrix to store the variable contribution
-  ctr_var=obj$matrixLoadings
-  # Eq.27 (the row of matrixLoadings is dimension?)
-  for (j in 1:nrow(ctr_var)){
-    ctr_var[j,]= obj$alpha[j]*obj$matrixLoadings[j,]^2
-  }
-  return(ctr_var)
-}
-
-
-table_dim.mfa = function(obj, ctr_var, numvar_table) {
-  # Initialize the matrix to store the table contribution
-  ctr_var=matrix(rep(1,numvar_table*ncol(ctr_col)),
-                 nrow = numvar_table, ncol = ncol(ctr_col))
-  # Counter
-  j=1
-  # Eq.28
-  for (l in ncol(ctr_var)){
-    for (k in 1:length(numvar_table)) {
-      ctr_table[k,l]=sum(ctr_var[j:(j+numvar_table[k]),l])
-      j=j+numvar_table[k]+1
-    }
-  }
-  return(ctr_table)
-}
-
-
-## Supplementary Functions
-
-#' @title Rv Coefficient - rv
-#' @description Calculates Rv coefficient between two tables
-#' @param table1 is the first input table
-#' @param table2 is the second input table
-#' @examples
-#' table1 ...
-#' table2 ...
-#' rv(table1,table2) returns the rv coefficient between table1 and table2
-#'
-rv <- function(table1, table2){
-  # Numerator:
-  num=sum(diag(tcrossprod(table1) %*% tcrossprod(table2)))
-  # Denominator:
-  den_part1=sum(diag(tcrossprod(table1) %*% tcrossprod(table1)))
-  den_part2=sum(diag(tcrossprod(table2) %*% tcrossprod(table2)))
-  den=sqrt(den_part1*den_part2)
-
-  rv=num/den
-}
-
-
-#' @title Rv Coefficient Table - rv_table
-#' @description Calculates Rv coefficient table multiple sets from a dataset
-#' @param dataset is input data in as a data.frame object.
-#' @param sets is the list of indices to be parsed from dataset
-#' @examples
-#' dataset = ...
-#' rv_table(dataset, sets = list(1:3, 4:5, 6:10))
-#' returns a 3-by-3 symmetric matrix
-#'
-rv_table <- function(dataset, sets) {
-  # Initialize rv table
-  rvtable=matrix(rep(1,length(sets)^2),nrow=length(sets))
-
-  # To calculate elements for rvtable: diagonal equals to 1, and
-  # the matrix is symetric.
-  for (i in 1:length(sets)) {
-    for (j in 1:length (sets)) {
-      if (i==j){
-        rvtable[i,j]=1
-      } else if (j<i){
-        rvtable[i,j]=rvtable[j,i]
-      } else {
-        rvtable[i,j]=rv(dataset[,sets[[i]]],dataset[,sets[[j]]])
-      }
-    }
-  }
-  return(rvtable)
-}
-
-
-#' @title Lg Coefficient - lg
-#' @description Calculates Lg coefficient between two tables
-#' @param table1 is the first input table
-#' @param table2 is the second input table
-#' @examples
-#' table1 ...
-#' table2 ...
-#' lg(table1,table2) returns the rv coefficient between table1 and table2
-#'
-lg <- function(table1, table2){
-  # Numerator:
-  num=sum(diag(tcrossprod(table1) %*% tcrossprod(table2)))
-  # Denominator: (need to have a function to calculate alpha)
-  den= # new function for alpha is needed
-
-  lg=num/den
-
-}
-
-
-#' @title Lg Coefficient Table - lg_table
-#' @description Calculates Lg coefficient table between multiple sets from a dataset
-#' @param dataset is input data in as a data.frame object.
-#' @param sets is the list of indices to be parsed from dataset
-#' @examples
-#' filename = system.file("extdata", "wines.csv", package = "MFA")
-#' dataset = read.csv(filename, header=TRUE, check.names=FALSE)
-#' lg_table(dataset, sets = list(1:3, 4:5, 6:10))
-#' returns a 3-by-3 symmetric matrix.
-#'
-lg_table <- function(dataset, sets){
-  # Initialize lg table
-  lgtable=matrix(rep(1,length(sets)^2),nrow=length(sets))
-
-  # To calculate elements for lgtable: diagonal equals to 1, and
-  # the matrix is symetric.
-  for (i in 1:length(sets)) {
-    for (j in 1:length(sets)) {
-      if (i==j){
-        lgtable[i,j]=1
-      } else if (j<i){
-        lgtable[i,j]=lgtable[j,i]
-      } else {
-        lgtable[i,j]=lg(dataset[,sets[[i]]],dataset[,sets[[j]]])
-      }
-    }
-  }
-  return(lgtable)
-}
-
-
-
-#' @title Bootstrapping Factor Scores
-#' @description Calculates the bootstrap confidence intervals by sampling
-#' @param x An object of class mfa
-#' @return b bootstrap factorscore
-#' from the set of tables. This approach also computes boostrap ratios for
-#' each dimension.
-#'
-bootstrap_factorscore = function(x){
-  # 1) Sample integers with replacement from 1 to K
-  K = length(sets)
-  idx = sample(1:K, K, replace = TRUE)
-  # 2) Create a new dataset with these sampled tables. {X_1, X_1, X_3, X_12, ..}
-  # 3) Build a matrix X^*_1
-  # 4) USE MFA.
-  # 5) Calculate Factor Scores (boot strapped)
-  # 6) Repeat 1K times
-  # 7) L bootstrapped matrices of factor scores F^*_l
-
-}
-
 
 

@@ -98,7 +98,7 @@
 
 <ul>
 <li>Popular factorial method to study sets of variables that are collected on the same set of observations</li>
-<li>Generalization of principal component analysis</li>
+<li>Generalization of principal component analysis (PCA)</li>
 <li>Provides factor loadings to indicate the impact of variables on components</li>
 <li>Factor scores (component scores in PCA) are returned to explain the effect of each observation on the factors</li>
 <li>Analysis provides a means of quantifying a level of agreement or disagreement between sets of variables</li>
@@ -120,7 +120,7 @@
 <li>Sets can share or have their own unique variables
 
 <ul>
-<li>the number of observations(rows) for each set needs to remain be the same</li>
+<li>the number of observations (rows) for each set needs to remain be the same</li>
 </ul></li>
 </ul>
 
@@ -155,7 +155,7 @@ U_{[k]}^T U_{[k]} &amp;= I_{m \times m} \;\; &amp; V_{[k]}^TV_{[k]} &amp;= I_{m 
 <ul>
 <li><p>Using the first singular value from each table \(\gamma_{1,k}\) we can define \(\alpha\) as: \[ \alpha_k = \frac{1}{\gamma_{1,k}^2} = \frac{1}{\lambda_{1,k}}\]</p></li>
 <li><p>\(\lambda_{1,k}\) is the eigenvalue for the first singular value \(\gamma_{1,k}\)</p></li>
-<li><p>Each set has a weight, \(\alpha_k\) which can be collected into a single vector \(a\): \[ a = [\alpha_1 1_{[1]}, \ldots,  \alpha_k 1_{[k]}]\] \(a\) is a numVar-by-1 vector, where numVar is the number of variables in the analysis. \(\mathbb{1}_{[k]}\) is a vector of ones with a length equal to the number of variables of the \(k\)th table.</p></li>
+<li><p>Each set has a weight, \(\alpha_k\) which can be collected into a single vector \(a\): \[ a = [\alpha_1 1_{[1]}, \ldots,  \alpha_k 1_{[k]}]\] \(a\) is a numVar-by-1` vector, where numVar is the number of variables in the analysis. \(\mathbb{1}_{[k]}\) is a vector of ones with a length equal to the number of variables of the \(k\)th table.</p></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>Generalized Singular Value Decomposition</h2></hgroup><article  id="generalized-singular-value-decomposition">
@@ -172,7 +172,7 @@ U_{[k]}^T U_{[k]} &amp;= I_{m \times m} \;\; &amp; V_{[k]}^TV_{[k]} &amp;= I_{m 
 
 <ul>
 <li>\(M\) is a mass matrix with \(m_i\) assigned to each of the \(i\) observations</li>
-<li>For equal weighting across the observations, \(m_i =\frac{1}{I}\) where \(I = \text{numObs}\) (number of observations)</li>
+<li>For equal weighting across the observations, \(m_i =\frac{1}{I}\) where \(I\) is the number of observations</li>
 </ul></li>
 <li>\(A = \text{diag}(a)\), \(A \in \mathbb{R}^{m \times m}\)
 
@@ -214,39 +214,81 @@ U_{[k]}^T U_{[k]} &amp;= I_{m \times m} \;\; &amp; V_{[k]}^TV_{[k]} &amp;= I_{m 
 <pre >install_github(&quot;oreluk/MFA&quot;)</pre></li>
 </ol>
 
-</article></slide><slide class=''><hgroup><h2>WHAT DOES THE PACKAGE OFFER?</h2></hgroup><article  id="what-does-the-package-offer">
+</article></slide><slide class=''><hgroup><h2>Features</h2></hgroup><article  id="features">
 
 <ul>
-<li>complete MFA</li>
-<li>bi plots</li>
-<li>auxilary functions (Rv/lg)
+<li><p>Enables a simple way to complete a multiple factor analysis</p></li>
+<li><p>Eigenvalues, factor tables, loadings, R\(_v\), and L\(_g\) provide insight of the observations and variables</p></li>
+<li><p>Provides visualization of the factor analysis by using biplots</p></li>
+<li><p>something else.. contributions?</p></li>
+</ul>
+
+</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Demo</h2></hgroup><article  id="demo">
+
+</article></slide><slide class=''><hgroup><h2>Wine Tasting Dataset</h2></hgroup><article  id="wine-tasting-dataset">
 
 <ul>
-<li>slide on each function</li>
+<li><p>A set of wines were evaluated by a group of assessors</p></li>
+<li>Each assessors was asked to evaluate the wine on a 9-point scale using four variables (cat-pee, passion fruit, green pepper, and mineral)
+
+<ul>
+<li>An assessor could also include additional variables if they felt the need</li>
+</ul></li>
+<li><p>Rows in this data set will indicate the the different types of wines that were evaluated, the observations</p></li>
+<li><p>Columns will represent the different variables of taste</p></li>
+<li><p>Each set (table) will be one assessors evaluation of the wines with their respective tasting variables</p></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Loading the data</h2></hgroup><article  id="loading-the-data">
+
+<ul>
+<li><p>The function <code>loadWineData()</code> is used to load csv file into a data.frame.</p>
+
+<pre >data &lt;- loadWineData()</pre></li>
+<li><p>A data.frame or table can be used as input to the MFA package</p></li>
+<li><p>Sets is used to partition the input data into sets (tables) by assessor. In this example we have 10 assessors indexed by their column number.</p>
+
+<pre >sets &lt;- list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
+       seq(25,30), seq(31,35), seq(36,39), seq(40,45),
+       seq(46,50), seq(51,54) )</pre></li>
+<li><p>Sets can either be a list of variable names or the column index.</p></li>
+</ul>
+
+</article></slide><slide class=''><hgroup><h2>Creating an MFA Object</h2></hgroup><article  id="creating-an-mfa-object">
+
+<ul>
+<li><p>To perform multiple factor analysis on the sets of data:</p>
+
+<pre >dsWine &lt;- mfa(data, sets)</pre></li>
+<li><p><code>dsWine</code> is a mfa object with a completed mulitple factor analysis</p></li>
+<li><p>The command above is actually executing:</p>
+
+<pre >dsWine &lt;- mfa(data, sets, ncomps = NULL, center = TRUE, scale = TRUE)</pre></li>
+<li>where the following optional inputs are:
+
+<ul>
+<li>ncomps: the number of components returned in the analysis</li>
+<li>center: centering of each of the sets utilizing the R base function <code>scale()</code></li>
+<li>scale: scales each of the sets by utilizing the R base function <code>scale()</code></li>
 </ul></li>
 </ul>
 
-</article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Wine Tasting Example</h2></hgroup><article  id="wine-tasting-example">
+</article></slide><slide class=''><hgroup><h2>View results</h2></hgroup><article  id="view-results">
 
-</article></slide><slide class=''><hgroup><h2>Set-up</h2></hgroup><article  id="set-up">
+<p>Looking at the singular values and eigenvalue table:</p>
 
-<ul>
-<li>Explaination of the dataset</li>
-<li>observations are: &#8230;</li>
-<li>variables are: &#8230;</li>
-</ul>
+<pre >eigenvalueTable(a)</pre>
 
-</article></slide><slide class=''><hgroup><h2>Load data from the package</h2></hgroup><article  id="load-data-from-the-package">
-
-<ul>
-<li>code goes here</li>
-</ul>
-
-</article></slide><slide class=''><hgroup><h2>Analysis</h2></hgroup><article  id="analysis">
+<pre >                      [,1]       [,2]        [,3]        [,4]        [,5]        [,6]       
+singularValues     0.8776418  0.3506073  0.30118188  0.27570882  0.24413253  0.19799790  
+eig                0.7702551  0.1229254  0.09071052  0.07601535  0.05960069  0.03920317  
+cumulative         0.7702551  0.8931806  0.98389110  1.05990645  1.11950714  1.15871031  
+percentInertia    61.2296749  9.7716778  7.21082608  6.04266702  4.73782113  3.11636657  
+cumulativeInertia 61.2296749 71.0013527 78.21217882 84.25484584 88.99266698 92.10903355 </pre>
 
 <ul>
-<li>code goes here</li>
-<li>return all properties of the function</li>
+<li>show some functions or properties of the object: loading, factor scores&#8230;rv/lg, plotting</li>
+<li>&#8230;</li>
 </ul>
 
 </article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Shiny App</h2></hgroup><article  id="shiny-app">

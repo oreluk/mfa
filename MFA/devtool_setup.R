@@ -17,4 +17,4 @@ devtools::build()
 # checking install
 devtools::install()
 
-library("MFA")
+library(MFA)

@@ -11,7 +11,7 @@ widescreen: true
 ## What is MFA?
 
 - Popular factorial method to study sets of variables that are collected on the same set of observations
-- Generalization of principal component analysis
+- Generalization of principal component analysis (PCA)
 - Provides factor loadings to indicate the impact of variables on components
 - Factor scores (component scores in PCA) are returned to explain the effect of each observation on the factors
 - Analysis provides a means of quantifying a level of agreement or disagreement between sets of variables
@@ -29,7 +29,7 @@ $$\{Y_1, \ldots, Y_k\} \in \mathbb{R}^{n \times m_i}\; \text{for}\; i = 1, \ldot
 
 
 * Sets can share or have their own unique variables 
-    - the number of observations(rows) for each set needs to remain be the same
+    - the number of observations (rows) for each set needs to remain be the same
 
 ## Pre-processing
 
@@ -66,7 +66,7 @@ $$ \alpha_k = \frac{1}{\gamma_{1,k}^2} = \frac{1}{\lambda_{1,k}}$$
 
 - Each set has a weight, $\alpha_k$ which can be collected into a single vector $a$: 
 $$ a = [\alpha_1 1_{[1]}, \ldots,  \alpha_k 1_{[k]}]$$ 
-$a$ is a numVar-by-1 vector, where numVar is the number of variables in the analysis.  $\mathbb{1}_{[k]}$ is a vector of ones with a length equal to the number of variables of the $k$th table.
+$a$ is a numVar-by-1` vector, where numVar is the number of variables in the analysis.  $\mathbb{1}_{[k]}$ is a vector of ones with a length equal to the number of variables of the $k$th table.
 
 ## Generalized Singular Value Decomposition
 
@@ -82,8 +82,8 @@ $$ P M P^T = I, \;\; Q^T A Q = I$$
 
 - $M = \text{diag}(m)$,  $M \in \mathbb{R}^{n \times n}$
     + $M$ is a mass matrix with $m_i$ assigned to each of the $i$ observations
-    + For equal weighting across the observations, $m_i =\frac{1}{I}$ where $I = \text{numObs}$ (number of observations)
-  
+    + For equal weighting across the observations, $m_i =\frac{1}{I}$ where $I$ is the number of observations
+    
 - $A = \text{diag}(a)$,  $A \in \mathbb{R}^{m \times m}$
     + weight matrix of $\alpha$ values (derived earlier) 
 
@@ -127,29 +127,82 @@ library(devtools)
 install_github("oreluk/MFA")
 ```
 
-## Each of these should be a slide on its own...
+## Features
+- Enables a simple way to complete a multiple factor analysis 
 
-## What can you do?
-- Enables a simple way to complete a multiple factor analysis
-- Provides various ways to visualize the factor analysis through bi-plots
-- auxilary functions (Rv/lg) 
-    + slide on each function
-  
+- Eigenvalues, factor tables, loadings, R$_v$, and L$_g$ provide insight of the observations and variables 
 
-# Wine Tasting Example
-## Set-up
-- Explaination of the dataset
-- observations are: ... 
-- variables are: ...
+- Provides visualization of the factor analysis by using biplots
 
-## Load data from the package
+- something else.. contributions?
 
-- code goes here
+# Demo
+## Wine Tasting Dataset
+- A set of wines were evaluated by a group of assessors
 
-## Analysis 
+- Each assessors was asked to evaluate the wine on a 9-point scale using four variables (cat-pee, passion fruit, green pepper, and mineral)
+    + An assessor could also include additional variables if they felt the need 
 
-- code goes here
-- return all properties of the function
+- Rows in this data set will indicate the the different types of wines that were evaluated, the observations
+
+- Columns will represent the different variables of taste
+
+- Each set (table) will be one assessors evaluation of the wines with their respective tasting variables
+
+## Loading the data
+
+- The function `loadWineData()` is used to load csv file into a data.frame. 
+```
+data <- loadWineData()
+```
+- A data.frame or table can be used as input to the MFA package
+
+- Sets is used to partition the input data into sets (tables) by assessor. In this example we have 10 assessors indexed by their column number. 
+```
+sets <- list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
+           seq(25,30), seq(31,35), seq(36,39), seq(40,45),
+           seq(46,50), seq(51,54) )
+```
+- Sets can either be a list of variable names or the column index. 
+
+## Creating an MFA Object 
+
+- To perform multiple factor analysis on the sets of data:
+```
+dsWine <- mfa(data, sets)
+```
+- `dsWine` is a mfa object with a completed mulitple factor analysis
+
+- The command above is actually executing:
+```
+dsWine <- mfa(data, sets, ncomps = NULL, center = TRUE, scale = TRUE)
+```
+
+- where the following optional inputs are: 
+    + ncomps: the number of components returned in the analysis
+    + center: centering of each of the sets utilizing the R base function `scale()` 
+    + scale: scales each of the sets by utilizing the R base function `scale()`
+
+
+## View results 
+
+Looking at the singular values and eigenvalue table:
+
+```
+eigenvalueTable(a)
+```
+
+```
+                      [,1]       [,2]        [,3]        [,4]        [,5]        [,6]       
+singularValues     0.8776418  0.3506073  0.30118188  0.27570882  0.24413253  0.19799790  
+eig                0.7702551  0.1229254  0.09071052  0.07601535  0.05960069  0.03920317  
+cumulative         0.7702551  0.8931806  0.98389110  1.05990645  1.11950714  1.15871031  
+percentInertia    61.2296749  9.7716778  7.21082608  6.04266702  4.73782113  3.11636657  
+cumulativeInertia 61.2296749 71.0013527 78.21217882 84.25484584 88.99266698 92.10903355 
+```
+
+- show some functions or properties of the object: loading, factor scores...rv/lg, plotting
+- ...
 
 # Shiny App
 

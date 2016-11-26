@@ -6,16 +6,11 @@ Author: Yulin Chen, Stephanie Wuerth, Eren Bilir, Jim Oreluk
 Maintainer: Stephanie Wuerth <swuerth@berkeley.edu>
 Description: This package performs Multiple Factor Analysis (MFA)
     on a dataset specified by the user.
-RoxygenNote: 5.0.1
+RoxygenNote: 5.0.1.9000
 License: BSD 2.0
 Encoding: UTF-8
 LazyData: true
 Suggests: knitr,
     rmarkdown,
     shiny
-Collate: mfa.R
-    print-mfa.R
-    plot-mfa.R
-    loadWineData.R
-    runExample.R
 VignetteBuilder: knitr
