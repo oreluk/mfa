@@ -2,7 +2,7 @@
 
 # should just be able to use load_all() from devtools and the package will
 # be loaded into your workspace (neglects unit tests, etc.)
-devtools::load_all()
+# devtools::load_all()
 
 # WINE DATA
 #load the wine data and information on var names

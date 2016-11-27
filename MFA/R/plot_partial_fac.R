@@ -1,4 +1,9 @@
-plot_partial_fac = function(x, table=1, dim1=1, dim2=2, sz=2) UseMethod("plot_partial_fac")
+#' @param  obj An object of class mfa
+#' @export
+#' @title Plot Partial Fac
+#' @name plot partial fac
+#' @description plots partial factor scores
+plot_partial_fac = function(obj, table=1, dim1=1, dim2=2, sz=2) UseMethod("plot_partial_fac", obj)
 plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2) {
   #' @param  x An object of class mfa
   #' @param  dim1 dimension for x axis, default 1st component

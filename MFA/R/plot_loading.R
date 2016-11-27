@@ -1,4 +1,9 @@
-plot_loading = function(x, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) UseMethod("plot_loading")
+#' @param  obj An object of class mfa
+#' @export
+#' @title Plot Loadings
+#' @name plot matrix loadings
+#' @description plots matrix loadings
+plot_loading = function(obj, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) UseMethod("plot_loading", obj)
 plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) {
   #' @param  x An object of class mfa
   #' @param  dim1 dimension for x axis, default 1st component

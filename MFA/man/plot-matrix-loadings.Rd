@@ -2,14 +2,18 @@
 % Please edit documentation in R/plot_loading.R
 \name{plot matrix loadings}
 \alias{plot matrix loadings}
+\alias{plot_loading}
 \alias{plot_loading.mfa}
 \title{Plot Loadings}
 \usage{
+plot_loading(obj, table = 1, dim1 = 1, dim2 = 2, sz = 2,
+  varnames = NULL)
+
 \method{plot_loading}{mfa}(x, table = 1, dim1 = 1, dim2 = 2, sz = 2,
   varnames = NULL)
 }
 \arguments{
-\item{x}{An object of class mfa}
+\item{obj}{An object of class mfa}
 
 \item{table}{which table to plot (integer 1:K)}
 
@@ -20,8 +24,12 @@
 \item{sz}{size of point on scatter plot}
 
 \item{varnames}{variable labels}
+
+\item{x}{An object of class mfa}
 }
 \description{
+plots matrix loadings
+
 plots matrix loadings
 }
 

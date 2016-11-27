@@ -1,4 +1,9 @@
-plot_compromise = function(x, dim1=1, dim2=2, sz=2) UseMethod("plot_compromise")
+#' @param  obj An object of class mfa
+#' @export
+#' @title Plot Compromise
+#' @name plot compromise
+#' @description plots compromise
+plot_compromise = function(obj, dim1=1, dim2=2, sz=2) UseMethod("plot_compromise", obj)
 plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=2) {
   #' @param  x An object of class mfa
   #' @param  dim1 dimension for x axis, default 1st component
@@ -8,7 +13,6 @@ plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=2) {
   #' @title Plot Compromise
   #' @name plot compromise
   #' @description plots compromise
-
   X = x$factorScores[,dim1]
   Y = x$factorScores[,dim2]
 

@@ -2,21 +2,28 @@
 % Please edit documentation in R/plot_compromise.R
 \name{plot compromise}
 \alias{plot compromise}
+\alias{plot_compromise}
 \alias{plot_compromise.mfa}
 \title{Plot Compromise}
 \usage{
+plot_compromise(obj, dim1 = 1, dim2 = 2, sz = 2)
+
 \method{plot_compromise}{mfa}(x, dim1 = 1, dim2 = 2, sz = 2)
 }
 \arguments{
-\item{x}{An object of class mfa}
+\item{obj}{An object of class mfa}
 
 \item{dim1}{dimension for x axis, default 1st component}
 
 \item{dim2}{dimension for y axis, default 2nd component}
 
 \item{sz}{size of point on scatter plot}
+
+\item{x}{An object of class mfa}
 }
 \description{
+plots compromise
+
 plots compromise
 }
 
