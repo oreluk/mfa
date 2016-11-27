@@ -19,7 +19,11 @@ shinyServer(function(input, output) {
       else{
         plot_loading(mfa_obj,dim1=input$d1,dim2=input$d2,
                      table=input$t)}
-      }
+    }
+
+    if (input$radio==4){
+        plot_ev(mfa_obj)}
+
     }
 
   )

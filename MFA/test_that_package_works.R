@@ -12,6 +12,11 @@ s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
            seq(25,30), seq(31,35), seq(36,39), seq(40,45),
            seq(46,50), seq(51,54) )
 a = mfa(d, s)
+# TEST APP (wine data)
+mfa_obj <- a #name needed for app
+active_var_names <- loadWineInfo()
+MFA::runExample()
+
 
 # RANDOM DATA
 # create a data set of random integers ranging from 50 to 100

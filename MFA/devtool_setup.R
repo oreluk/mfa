@@ -5,6 +5,7 @@ library(devtools)
 # creating documentation (i.e. the Rd files in man/)
 devtools::document()
 
+
 # checking documentation
 devtools::check_man()
 

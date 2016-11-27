@@ -10,7 +10,8 @@ shinyUI(fluidPage(
     sidebarPanel(
       radioButtons("radio", label = h3("Select a plot to display:"),
                    choices = list("Factor Scores" = 1, "Partial Factor Scores" = 2,
-                                  "Variable Loadings" = 3),selected = 1),
+                                  "Variable Loadings" = 3, "Eigenvalue Bar" = 4),
+                   selected = 1),
       numericInput("d1",
                    label = h3("X-axis Dimension:"),
                    value = 1),
