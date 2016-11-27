@@ -51,6 +51,8 @@ plot_partial_fac(a,table=1,dim1=3,dim2=4)
 plot_loading(a,table=1)
 plot_loading(a,table=1,varnames=keys)
 plot_loading(a,table=1,dim1=3,dim2=4,varnames=keys)
+#bar graph
+plot_ev(a)
 
 #shouldnt work:
 plot_compromise(a,dim1=3,dim2=100)
