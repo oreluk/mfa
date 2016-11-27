@@ -14,7 +14,8 @@ plot_ev.mfa <- function(x) {
   # first get the ev table..
   evs <- eigenvalueTable(x)['eig',]
   # Simple Bar Plot
-  counts <- table(mtcars$gear)
-  barplot(evs, main="Eigenvalues",
-          names.arg = 1:length(evs))
+  barplot(evs, main="Eigenvalue Barplot",
+          names.arg = 1:length(evs),
+          xlab = 'Eigenvalue',
+          ylab = 'Magnitude')
 }
