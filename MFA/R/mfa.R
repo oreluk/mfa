@@ -105,8 +105,18 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
 
 
   pFactorScores = vector(mode = "list", length = length(xTables))
+  iterate = 0
   for (k in 1:length(xTables)) {
-    pFactorScores[[k]] = length(sets) * alpha[[k]] * xTables[[k]] %*% Q[a == alpha[[k]],][,1:components]
+    len = length(sets[[k]])
+    if (k != 1) {
+      iterate = 0
+      for (i in 1:k) {
+        if (i != k) {
+          iterate = iterate + length(sets[[i]])
+        }
+      }
+    }
+    pFactorScores[[k]] = length(sets) * alpha[[k]] * xTables[[k]] %*% Q[(iterate+1):(iterate+length(sets[[k]])),][,1:components]
   }
 
   matrixLoadings = Q[,1:components]

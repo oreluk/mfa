@@ -1,22 +1,43 @@
+bootstrap_factorscores = function(x) UseMethod("bootstrap_factorscores")
 bootstrap_factorscores = function(x){
   #' @title Bootstrapping Factor Scores
-  #' @description Calculates the bootstrap confidence intervals by sampling
-  #' @param x An object of class mfa
+  #' @description Calculates the bootstrap confidence intervals by sampling with replace of factor scores
+  #' @param x is an mfa object
+  #' @return returns a 3-by-1 list containing the mean bootstrapped factor scores, the variance of the bootstrapped factor scores and the associated T star statistic.
   #' @export
   #'
   #' @examples b bootstrap factorscore
   #' from the set of tables. This approach also computes boostrap ratios for
-  #' each dimensionnnnnnnnnnn.
+  #' each dimension
   #'
 
-  # 1) Sample integers with replacement from 1 to K
-  K = length(sets)
-  idx = sample(1:K, K, replace = TRUE)
-  # 2) Create a new dataset with these sampled tables. {X_1, X_1, X_3, X_12, ..}
-  # 3) Build a matrix X^*_1
-  # 4) USE MFA.
-  # 5) Calculate Factor Scores (boot strapped)
-  # 6) Repeat 1K times
-  # 7) L bootstrapped matrices of factor scores F^*_l
+  nSamples = 1000
+  K = length(x$sets)
+  F = vector(mode = "list", length = nSamples)
+  for (i in 1:nSamples) {
+    idx = sample(1:K, K, replace = TRUE)
+    newDS = mfa(x$data, x$sets[idx])
+    if (i == 1) {
+      Fsum = newDS$factorScores
+    } else {
+      Fsum = newDS$factorScores + Fsum
+    }
+    F[[i]] = newDS$factorScores
+  }
 
+  Fmean = Fsum/nSamples
+
+  for (i in 1:nSamples) {
+    if (i == 1) {
+      Sig = (F[[i]] - Fmean)^2
+    } else {
+      Sig = Sig + (F[[i]] - Fmean)^2
+    }
+  }
+
+  Sig = Sig/nSamples
+  Tstar = Fmean/Sig
+
+  bootResults = list(Fmean, Sig, Tstar)
+  return(bootResults)
 }

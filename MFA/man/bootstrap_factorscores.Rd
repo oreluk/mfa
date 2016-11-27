@@ -7,15 +7,18 @@
 bootstrap_factorscores(x)
 }
 \arguments{
-\item{x}{An object of class mfa}
+\item{x}{is an mfa object}
+}
+\value{
+returns a 3-by-1 list containing the mean bootstrapped factor scores, the variance of the bootstrapped factor scores and the associated T star statistic.
 }
 \description{
-Calculates the bootstrap confidence intervals by sampling
+Calculates the bootstrap confidence intervals by sampling with replace of factor scores
 }
 \examples{
 b bootstrap factorscore
 from the set of tables. This approach also computes boostrap ratios for
-each dimensionnnnnnnnnnn.
+each dimension
 
 }
 
