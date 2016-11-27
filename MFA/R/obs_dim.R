@@ -1,8 +1,12 @@
-obs_dim = function(x) UseMethod("obs_dim")
+#' @title Contribution: observation to dimension
+#' @description Calculates the constribution of an observation to a dimension.
+#' @param obj is an mfa object
+#' @export
+obs_dim = function(obj) UseMethod("obs_dim",obj)
 obs_dim.mfa = function(x) {
   #' @title Contribution: observation to dimension
   #' @description Calculates the constribution of an observation to a dimension.
-  #' @param obj is an mfa object
+  #' @param x is an mfa object
   #' @export
   #' @return a matrix n-by-m where n is the observations and m is the dimension.
   #'
