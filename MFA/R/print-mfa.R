@@ -1,6 +1,6 @@
 #' @export
 print.mfa = function(x) {
-print(paste0("Summary of multifactor analysis object: This object contains information on the data inputs",
+cat("Summary of multifactor analysis object: This object contains information on the data inputs",
         " as well as on the analysis outputs. The input-related information includes the raw data ",
         "('data'), the number of active variables across all the tables ('sets'), the number of factors",
         " computed in the analysis ('ncomps'), and information about whether centering and scaling was ",
@@ -9,8 +9,8 @@ print(paste0("Summary of multifactor analysis object: This object contains infor
         " partial factor scores ('partialFactorScores'), variable loadings ('matrixLoadings'), and the",
         " processed concatenated data table ('X'). You can access the full contents of any of these ",
         "components using name_mfaObject$component_name. For example, if you are interested in viewing",
-        " the eigenvalues for an mfa object called 'x', you would type 'x$eigenvalues'. Below are the ",
-        "component names of your mfa object:"))
+        " the eigenvalues for an mfa object called 'x', you would type 'x$eigenvalues'. \n ",
+        "Below are the component names of your mfa object: \n", fill=100)
   print(names(x))
   cat('Number of tables considered in this multi-factor analysis:')
   print(length(x$partialFactorScores))
