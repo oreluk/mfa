@@ -19,3 +19,4 @@ devtools::build()
 devtools::install()
 
 library(MFA)
+
