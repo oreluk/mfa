@@ -1,6 +1,8 @@
 #' @export
 print.mfa = function(x) {
   print(paste0("Summary information for your mfa object:"))
+  cat('Number of tables in this mfa:')
+  print(length(x$partialFactorScores))
   cat('Maximum Eigenvalue: ')
   print(max(x$eigenvalues))
   cat('Number of active variables: ')
@@ -15,7 +17,7 @@ print.mfa = function(x) {
 
   if (par_fac_tables=="ALL"){
     cat('Partial factor scores for the first two components in all tables:  ')
-    for (i in 1:length(x$matrixLoadings)){
+    for (i in 1:length(x$partialFactorScores)){
       print(paste0("Table ",i,":"))
       print(x$partialFactorScores[[i]][,1:2])}
   }
