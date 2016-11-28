@@ -87,4 +87,31 @@ test_that("plot functions are working", {
 })
 
 
+# Test Wine Demo for correct computations
+test_that("mfa solves wine demo correctly", {
+  expect_equal(round(a$alpha[[1]], 3), 0.241)
+  expect_equal(round(a$alpha[[2]], 3), 0.239)
+  expect_equal(round(a$alpha[[3]], 3), 0.275)
+  expect_equal(round(a$alpha[[4]], 3), 0.273)
+  expect_equal(round(a$alpha[[5]], 3), 0.307)
+  expect_equal(round(a$alpha[[6]], 3), 0.302)
+  expect_equal(round(a$alpha[[7]], 3), 0.417)
+  expect_equal(round(a$alpha[[8]], 3), 0.272)
+  expect_equal(round(a$alpha[[9]], 3), 0.264)
+  expect_equal(round(a$alpha[[10]], 3), 0.309)
+
+  paperResultEigenvalues = c( 0.770, 0.123, 0.091, 0.076, 0.060, 0.039, 0.031, 0.025, 0.019, 0.013, 0.011)
+  expect_true(all(round(a$eigenvalues[1:11],3) == paperResultEigenvalues))
+
+  evalute_FS = round(a$factorScores[,1:2], 3)
+  paperResultsFS = cbind(   c(-0.980, -0.809, -0.761, -1.115, 1.373, 1.264, 0.808, 0.925, -0.669, 0.073, -0.476, 0.367 ) ,
+                            c(0.163, 0.033, -0.454, -0.166, -0.128, -0.108, 0.205, 0.408, 0.369, -0.757, 0.513, -0.076 ))
+  expect_true(all(evalute_FS == paperResultsFS))
+
+  evaluate_PFS = round(a$partialFactorScores[[1]][,1:2],3)
+  paperResultsPFS = cbind(   c(-1.037, -1.179, -0.213, -0.946, 1.546, 1.176, 0.698, 1.006, -0.922, 0.189, -0.643, 0.323),
+                          c(0.155, 0.596, -0.104, 0.446, -0.676, -0.747, 0.166, -0.063, 0.486, -0.936, 0.640, 0.036) )
+  expect_true(all(evaluate_PFS == paperResultsPFS))
+
+})
 

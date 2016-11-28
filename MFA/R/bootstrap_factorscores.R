@@ -29,14 +29,14 @@ bootstrap_factorscores = function(x){
 
   for (i in 1:nSamples) {
     if (i == 1) {
-      Sig = (F[[i]] - Fmean)^2
+      Bootvar = (F[[i]] - Fmean)^2
     } else {
-      Sig = Sig + (F[[i]] - Fmean)^2
+      Bootvar = Bootvar + (F[[i]] - Fmean)^2
     }
   }
 
-  Sig = Sig/nSamples
-  Tstar = Fmean/Sig
+  Bootvar = Bootvar/nSamples
+  Tstar = Fmean/Bootvar
 
   bootResults = list(Fmean, Sig, Tstar)
   return(bootResults)
