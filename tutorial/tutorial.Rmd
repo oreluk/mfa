@@ -171,7 +171,7 @@ sets <- list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
 ```
 dsWine <- mfa(data, sets)
 ```
-- `dsWine` is a mfa object with a completed mulitple factor analysis
+- `dsWine` is a __mfa__ object which has completed the mulitple factor analysis
 
 - The command above is actually executing:
 ```
@@ -179,14 +179,14 @@ dsWine <- mfa(data, sets, ncomps = NULL, center = TRUE, scale = TRUE)
 ```
 
 - where the following optional inputs are: 
-    + ncomps: the number of components returned in the analysis
-    + center: centering of each of the sets utilizing the R base function `scale()` 
-    + scale: scales each of the sets by utilizing the R base function `scale()`
+    + __ncomps__: the number of components returned in the analysis
+    + __center__: centering of each of the sets utilizing the R base function `scale()` 
+    + __scale__: scales each of the sets by utilizing the R base function `scale()`
 
 
 ## View results 
 
-Looking at the singular values and eigenvalue table:
+Looking at the singular values, eigenvalues and their interia:
 
 ```
 eigenvalueTable(a)
@@ -201,17 +201,62 @@ percentInertia    61.2296749  9.7716778  7.21082608  6.04266702  4.73782113  3.1
 cumulativeInertia 61.2296749 71.0013527 78.21217882 84.25484584 88.99266698 92.10903355 
 ```
 
-- show some functions or properties of the object: loading, factor scores...rv/lg, plotting
-- ...
+
+## Factor Scores 
+- Factor scores can provide insight 
+- Factor scores are a property of the  __mfa__ object. Looking at the first two components:
+
+```
+dsWine$factorScores[,1:2]
+
+        [,1]   [,2]
+ [1,] -0.980  0.163
+ [2,] -0.809  0.033
+ [3,] -0.761 -0.454
+ [4,] -1.115 -0.166
+ [5,]  1.373 -0.128
+ [6,]  1.264 -0.108
+ [7,]  0.808  0.205
+ [8,]  0.925  0.408
+ [9,] -0.669  0.369
+[10,]  0.073 -0.757
+[11,] -0.476  0.513
+[12,]  0.367 -0.076
+```
+## Factor Scores
+
+## Partial factor scores and loadings 
+
+
+## Calculating R$_v$ and L$_g$ coeffient 
+
+- The function ``rv(table1, table2)`` will calculate the R$_v$ coefficient: 
+$$ R_{v_{k,\prime{k}}} = \frac{\text{trace} \left\{ \left(X_{[k]}X_{[k]}^T  \right) \times \left(  X_{[k^\prime]}X_{[k^\prime]}^T \right) \right\} } { \sqrt{\text{trace} \left\{ \left(X_{[k]}X_{[k]}^T  \right) \times  \left(X_{[k]}X_{[k]}^T  \right)  \right\}  \\ \times \text{trace} \left\{ \left(  X_{[k^\prime]}X_{[k^\prime]}^T \right) \times \left(  X_{[k^\prime]}X_{[k^\prime]}^T \right)   \right\} }  }  $$ 
+
+- Similarly ``lg(table1, table2)`` is used to calculate the L$_g$ coefficient: 
+
+$$L_{g(k,k^\prime)} = \frac{ \text{trace} \left\{ \left( X_{[k]} X_{[k]}^T \right)  \times \left( X_{[k^\prime]} X_{[k^\prime]}^T \right)   \right\}   }{ \gamma_{1,k}^2 \times \gamma_{1,k^\prime}^2}$$
+
+## Bootstrap Factor Scores
+
+- By sampling with replacement (bootstrap) we are able to get estimates of the variance of our factor scores. This function is available by using `bootstrap_factorscores(obj)` on a __mfa__ object. This function returns the bootstrap estimate of the factor score
+
+$$ \overline{F}^* = \frac{1}{L} \sum_\ell^L F_{\ell}^* $$ 
+
+estimate of the variance: 
+
+$$ \hat{\sigma_{F^*}}^2 = \frac{1}{L} \left( \sigma_\ell^L \left( F_\ell^* - \overline{F}^* \right) \circ \left( F_\ell^* - \overline{F}^* \right)  \right)$$
+
+and lastly the bootstrap ratios (Student's t statistic), $T^* = \overline{F}^* / \hat{\sigma_{F^*}}$
 
 # Shiny App
-
-
 ## screenshots
 ![picture of spaghetti](images/spaghetti.jpg)
 
 ## more screenshots...
 ![picture of spaghetti](images/spaghetti.jpg)
+
+- plots can be generated through the console by using the following methods:  `plot_compromise`, `plot_loading`, `plot_partial_fac`, and `plot_ev` 
 
 ## References
 [1] Abdi, H., Williams, L. J., & Valentin, D. (2013). Multiple factor analysis: principal component analysis for multitable and multiblock data sets. Wiley Interdisciplinary reviews: computational statistics, 5(2), 149-179.

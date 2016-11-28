@@ -260,22 +260,22 @@ U_{[k]}^T U_{[k]} &amp;= I_{m \times m} \;\; &amp; V_{[k]}^TV_{[k]} &amp;= I_{m 
 <li><p>To perform multiple factor analysis on the sets of data:</p>
 
 <pre >dsWine &lt;- mfa(data, sets)</pre></li>
-<li><p><code>dsWine</code> is a mfa object with a completed mulitple factor analysis</p></li>
+<li><p><code>dsWine</code> is a <strong>mfa</strong> object which has completed the mulitple factor analysis</p></li>
 <li><p>The command above is actually executing:</p>
 
 <pre >dsWine &lt;- mfa(data, sets, ncomps = NULL, center = TRUE, scale = TRUE)</pre></li>
 <li>where the following optional inputs are:
 
 <ul>
-<li>ncomps: the number of components returned in the analysis</li>
-<li>center: centering of each of the sets utilizing the R base function <code>scale()</code></li>
-<li>scale: scales each of the sets by utilizing the R base function <code>scale()</code></li>
+<li><strong>ncomps</strong>: the number of components returned in the analysis</li>
+<li><strong>center</strong>: centering of each of the sets utilizing the R base function <code>scale()</code></li>
+<li><strong>scale</strong>: scales each of the sets by utilizing the R base function <code>scale()</code></li>
 </ul></li>
 </ul>
 
 </article></slide><slide class=''><hgroup><h2>View results</h2></hgroup><article  id="view-results">
 
-<p>Looking at the singular values and eigenvalue table:</p>
+<p>Looking at the singular values, eigenvalues and their interia:</p>
 
 <pre >eigenvalueTable(a)</pre>
 
@@ -286,10 +286,55 @@ cumulative         0.7702551  0.8931806  0.98389110  1.05990645  1.11950714  1.1
 percentInertia    61.2296749  9.7716778  7.21082608  6.04266702  4.73782113  3.11636657  
 cumulativeInertia 61.2296749 71.0013527 78.21217882 84.25484584 88.99266698 92.10903355 </pre>
 
+</article></slide><slide class=''><hgroup><h2>Factor Scores</h2></hgroup><article  id="factor-scores-1">
+
 <ul>
-<li>show some functions or properties of the object: loading, factor scores&#8230;rv/lg, plotting</li>
-<li>&#8230;</li>
+<li>Factor scores can provide insight</li>
+<li>Factor scores are a property of the <strong>mfa</strong> object. Looking at the first two components:</li>
 </ul>
+
+<pre >dsWine$factorScores[,1:2]
+
+        [,1]   [,2]
+ [1,] -0.980  0.163
+ [2,] -0.809  0.033
+ [3,] -0.761 -0.454
+ [4,] -1.115 -0.166
+ [5,]  1.373 -0.128
+ [6,]  1.264 -0.108
+ [7,]  0.808  0.205
+ [8,]  0.925  0.408
+ [9,] -0.669  0.369
+[10,]  0.073 -0.757
+[11,] -0.476  0.513
+[12,]  0.367 -0.076</pre>
+
+</article></slide><slide class=''><hgroup><h2>Factor Scores</h2></hgroup><article  id="factor-scores-2">
+
+</article></slide><slide class=''><hgroup><h2>Partial factor scores and loadings</h2></hgroup><article  id="partial-factor-scores-and-loadings">
+
+</article></slide><slide class=''><hgroup><h2>Calculating R\(_v\) and L\(_g\) coeffient</h2></hgroup><article  id="calculating-r_v-and-l_g-coeffient">
+
+<ul>
+<li><p>The function <code>rv(table1, table2)</code> will calculate the R\(_v\) coefficient: \[ R_{v_{k,\prime{k}}} = \frac{\text{trace} \left\{ \left(X_{[k]}X_{[k]}^T  \right) \times \left(  X_{[k^\prime]}X_{[k^\prime]}^T \right) \right\} } { \sqrt{\text{trace} \left\{ \left(X_{[k]}X_{[k]}^T  \right) \times  \left(X_{[k]}X_{[k]}^T  \right)  \right\}  \\ \times \text{trace} \left\{ \left(  X_{[k^\prime]}X_{[k^\prime]}^T \right) \times \left(  X_{[k^\prime]}X_{[k^\prime]}^T \right)   \right\} }  }  \]</p></li>
+<li><p>Similarly <code>lg(table1, table2)</code> is used to calculate the L\(_g\) coefficient:</p></li>
+</ul>
+
+<p>\[L_{g(k,k^\prime)} = \frac{ \text{trace} \left\{ \left( X_{[k]} X_{[k]}^T \right)  \times \left( X_{[k^\prime]} X_{[k^\prime]}^T \right)   \right\}   }{ \gamma_{1,k}^2 \times \gamma_{1,k^\prime}^2}\]</p>
+
+</article></slide><slide class=''><hgroup><h2>Bootstrap Factor Scores</h2></hgroup><article  id="bootstrap-factor-scores">
+
+<ul>
+<li>By sampling with replacement (bootstrap) we are able to get estimates of the variance of our factor scores. This function is available by using <code>bootstrap_factorscores(obj)</code> on a <strong>mfa</strong> object. This function returns the bootstrap estimate of the factor score</li>
+</ul>
+
+<p>\[ \overline{F}^* = \frac{1}{L} \sum_\ell^L F_{\ell}^* \]</p>
+
+<p>estimate of the variance:</p>
+
+<p>\[ \hat{\sigma_{F^*}}^2 = \frac{1}{L} \left( \sigma_\ell^L \left( F_\ell^* - \overline{F}^* \right) \circ \left( F_\ell^* - \overline{F}^* \right)  \right)\]</p>
+
+<p>and lastly the bootstrap ratios (Student&#39;s t statistic), \(T^* = \overline{F}^* / \hat{\sigma_{F^*}}^2\)</p>
 
 </article></slide><slide class='segue dark nobackground level1'><hgroup class = 'auto-fadein'><h2>Shiny App</h2></hgroup><article  id="shiny-app">
 
@@ -300,6 +345,10 @@ cumulativeInertia 61.2296749 71.0013527 78.21217882 84.25484584 88.99266698 92.1
 </article></slide><slide class=''><hgroup><h2>more screenshots&#8230;</h2></hgroup><article  id="more-screenshots...">
 
 <img src='images/spaghetti.jpg' title='fig:'/><p class='caption'>picture of spaghetti</p>
+
+<ul>
+<li>plots can be generated through the console by using the following methods: <code>plot_compromise</code>, <code>plot_loading</code>, <code>plot_partial_fac</code>, and <code>plot_ev</code></li>
+</ul>
 
 </article></slide><slide class=''><hgroup><h2>References</h2></hgroup><article  id="references">
 
