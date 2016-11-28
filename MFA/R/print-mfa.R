@@ -12,20 +12,21 @@ cat("Summary of multifactor analysis object: This object contains information on
         " the eigenvalues for an mfa object called 'x', you would type 'x$eigenvalues'. \n ",
         "Below are the component names of your mfa object: \n", fill=100)
   print(names(x))
-  cat('Number of tables considered in this multi-factor analysis:')
-  print(length(x$partialFactorScores))
-  cat('Number of active variables: ')
-  print(sum(lengths(x$sets)))
-  cat('Maximum Eigenvalue: ')
-  print(max(x$eigenvalues))
+  cat('\nNumber of tables considered in this multi-factor analysis: ')
+  cat(length(x$partialFactorScores))
+  cat('\nNumber of active variables: ')
+  cat(sum(lengths(x$sets)))
+  cat('\nMaximum Eigenvalue: ')
+  cat(max(x$eigenvalues))
 
-  cat('Factor scores for first two components: \n')
+  cat('\nCommon factor scores for first two components: \n')
   print(x$factorScores[,1:2])
 
-  ## Partial Factor Scores
+  ## Partial factor scores
+  cat('\nPartial Factor Scores:')
   par_fac_tables<-readline(paste0("If you would like to see partial factor scores for a single table,
   enter the corresponding table number (1 through ", length(x$partialFactorScores), "). To see partial
-  factor scores for all tables, type ALL. To skip seeing any partial factor scores, type NONE."))
+  factor scores for all tables, type ALL. To skip seeing any partial factor scores, type NONE (case-sensitive)."))
 
   if (par_fac_tables=="ALL"){
     cat('Partial factor scores for the first two components in all tables:  ')
@@ -43,9 +44,10 @@ cat("Summary of multifactor analysis object: This object contains information on
 
 
   ## Variable loadings
+  cat('\nVariable loadings:')
   table_loadings<-readline(paste0("If you would like to see variable loadings for a single table,
   enter the corresponding table number (1 through ", length(x$matrixLoadings), "). To see variable
-  loadings for all tables, type ALL. To skip seeing any variable loadings, type NONE."))
+  loadings for all tables, type ALL. To skip seeing any variable loadings, type NONE (case-sensitive)."))
 
   if (table_loadings=="ALL"){
     cat('Loadings for the first two components in all tables:  ')
