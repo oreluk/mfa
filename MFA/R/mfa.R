@@ -64,14 +64,14 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
 
   # Factor scores, weights and Normalized Tables
   G = vector(mode = "list", length = length(xTables))
-  a = vector()  # can proabably  pre-allocate memory properly
+  aVector = vector()  # can proabably  pre-allocate memory properly
   alpha = vector(mode = "list", length = length(xTables))
 
   for (k in 1:length(xTables)) {
     val = svd(xTables[[k]])
     G[[k]] =  val$u %*% diag(val$d)
     alpha[[k]] = (val$d[1]^-2)
-    a = c(a, rep(alpha[[k]], ncol(val$u)) )
+    aVector = c(aVector, rep(alpha[[k]], ncol(val$u)) )
   }
 
   # Calculating mass of observations
@@ -89,12 +89,12 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
 
   # Calculate GSVD
   # X = P \Delta Q^T
-  xTilde = diag(m^(1/2)) %*% X %*% diag(a^(1/2))  # \tilde{X} = M^{1/2} A W^{1/2}
+  xTilde = diag(m^(1/2)) %*% X %*% diag(aVector^(1/2))  # \tilde{X} = M^{1/2} A W^{1/2}
   xDecomp = svd(xTilde)  # \tilde{A} = P \Delta Q^T
   eigenvalues = (xDecomp$d)^2
 
   P = diag(m^(-1/2)) %*% xDecomp$u
-  Q = diag(a^(-1/2)) %*% xDecomp$v
+  Q = diag(aVector^(-1/2)) %*% xDecomp$v
 
   if (is.null(ncomps)){
     components = length(eigenvalues)
@@ -135,6 +135,7 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
              eigenvalues=eigenvalues,
              factorScores=factorScores,
              alpha = alpha,
+             aVector = aVector,
              partialFactorScores=pFactorScores,
              matrixLoadings=matrixLoadingsList,
              matrixLoadingsMatrix=matrixLoadings,

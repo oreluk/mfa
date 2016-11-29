@@ -188,7 +188,7 @@ dsWine <- mfa(data, sets, ncomps = NULL, center = TRUE, scale = TRUE)
 
 ## View results 
 
-Looking at the singular values, eigenvalues and their interia:
+Looking at the singular values, eigenvalues and their inertia:
 
 ```
 eigenvalueTable(a)
@@ -205,7 +205,9 @@ cumulativeInertia 61.2296749 71.0013527 78.21217882 84.25484584 88.99266698 92.1
 
 
 ## Factor Scores 
+
 - Factor scores can provide insight 
+
 - Factor scores are a property of the  __mfa__ object. Looking at the first two components:
 
 ```
@@ -221,12 +223,17 @@ dsWine$factorScores[,1:2]
  [7,]  0.808  0.205
  [8,]  0.925  0.408
  [9,] -0.669  0.369
-
 ```
+
 ## Factor Scores
+
+- 
+
+- 
 
 ## Partial factor scores and loadings 
 
+- 
 
 ## Calculating R$_v$ and L$_g$ coeffient 
 
@@ -243,13 +250,14 @@ $$L_{g(k,k^\prime)} = \frac{ \text{trace} \left\{ \left( X_{[k]} X_{[k]}^T \righ
 
 $$ \overline{F}^* = \frac{1}{L} \sum_\ell^L F_{\ell}^* $$ 
 
-estimate of the variance: 
+- Estimate of the variance: 
 
 $$ \hat{\sigma_{F^*}}^2 = \frac{1}{L} \left( \sigma_\ell^L \left( F_\ell^* - \overline{F}^* \right) \circ \left( F_\ell^* - \overline{F}^* \right)  \right)$$
 
-and lastly the bootstrap ratios (Student's t statistic), $T^* = \overline{F}^* / \hat{\sigma_{F^*}}$
+- Lastly the bootstrap ratios (Student's t statistic), $T^* = \overline{F}^* / \hat{\sigma_{F^*}}$
 
 # Shiny App
+
 ## screenshots
 ![picture of spaghetti](images/spaghetti.jpg)
 
