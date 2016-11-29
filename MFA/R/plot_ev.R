@@ -12,7 +12,7 @@ plot_ev.mfa <- function(x) {
   #' @description plots bar graph of eigenvals
 
   # first get the ev table..
-  evs <- mfa_obj$eigenvalues
+  evs <- x$eigenvalues
   # get nice colors with colorbrewer:
   darkcols <- rainbow(length(evs),s=0.5)
   par(mar=c(5.1,8.1,4.1,2.1))

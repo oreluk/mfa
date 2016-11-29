@@ -2,19 +2,15 @@
 
 # should just be able to use load_all() from devtools and the package will
 # be loaded into your workspace (neglects unit tests, etc.)
-# devtools::load_all()
+devtools::load_all()
 
 # WINE DATA
 #load the wine data and information on var names
 d <- loadWineData()
-varkeys <- loadWineInfo()$varkeys
-obskeys <- loadWineInfo()$obskeys
 s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
            seq(25,30), seq(31,35), seq(36,39), seq(40,45),
            seq(46,50), seq(51,54) )
 a = mfa(d, s)
-#test print method
-#a
 
 # TEST APP (wine data)
 mfa_obj <- a #name needed for app
@@ -56,16 +52,21 @@ print(a)
 eigenvalueTable(a)
 
 # test plotting methods
+#first get obsnames and varnames:
+obskeys<-loadWineInfo()$obskeys
+varkeys<-loadWineInfo()$varkeys
+#
 plot_compromise(a)
 plot_compromise(a,dim1=3,dim2=1)
 plot_partial_fac(a,table=1)
 plot_partial_fac(a,table=1,dim1=3,dim2=4)
 plot_partial_fac(a,table=1,dim1=1,dim2=2,obsnames=obskeys)
 plot_loading(a,table=1)
-plot_loading(a,table=1,varnames=keys)
-plot_loading(a,table=1,dim1=3,dim2=4,varnames=keys)
+plot_loading(a,table=1,varnames=varkeys)
+plot_loading(a,table=1,dim1=3,dim2=4,varnames=varkeys)
 #bar graph
 plot_ev(a)
+plot_inertia_pie(a)
 
 #shouldnt work:
 plot_compromise(a,dim1=3,dim2=100)
