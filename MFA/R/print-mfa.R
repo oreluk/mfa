@@ -1,4 +1,10 @@
 #' @export
+#' @param x an object of class mfa
+#' @title Print mfa
+#' @name print mfa
+#' @description prints information about an mfa object. note when using this method,
+#' the user will be prompted to input which table she would like to see
+#' for partial factor scores and for variable loadings
 print.mfa = function(x) {
   cat("Summary of Multiple Factor Analysis (mfa) object: \n",
       "This object contains information on the data inputs as well as on the analysis outputs.",
@@ -33,7 +39,9 @@ print.mfa = function(x) {
   cat('\nMaximum Eigenvalue: ')
   cat(max(x$eigenvalues))
 
+  ## Common Factor Scores
   cat('\nCommon factor scores for first two components: \n')
+
   #make a pretty table for the common factor scores, using cat
   cat(sprintf('%13s','Dim1'),sprintf("%7s",'Dim2'))
   cat('\n')
@@ -42,7 +50,6 @@ print.mfa = function(x) {
   for (s in 1:nrows) {
     cat(sprintf('%5s',s), sprintf(': %+0.2f', table_of_interest[s,1]), sprintf(': %+0.2f',table_of_interest[s,2]), "\n"
     )}
-  #print(x$factorScores[,1:2])
 
   ## Partial factor scores
   cat('\n################################################################################\n')
@@ -67,7 +74,6 @@ print.mfa = function(x) {
     cat('No partial factor scores displayed, Index out of range.')
   }
   else {
-    #check that par_fac_tables is valid entry
 
     cat("Partial factor scores for the first two components: ")
     cat("\nTable ", as.integer(par_fac_tables)," of ", length(x$loadingByTable))

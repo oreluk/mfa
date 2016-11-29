@@ -5,7 +5,7 @@ plot_ev.mfa <- function(x) {
   #' @export
   #' @title Plot Bar Graph of Eigenvalues
   #' @name plot eigenvalue bar graph
-  #' @description plots bar graph of eigenvals
+  #' @description plots bar graph of eigenvalues from an mfa object
 
   # first get the ev table..
   evs <- x$eigenvalues

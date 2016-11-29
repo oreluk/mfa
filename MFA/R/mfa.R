@@ -8,14 +8,27 @@
 #' @param scale either a logical value or a numeric vector of length equal to the number of active variables in the analysis
 #' @export
 #' @examples
-#' filename = system.file("extdata", "wines.csv", package = "MFA")
-#' d = read.csv(filename, header=TRUE, check.names=FALSE)
+#' # wine data example
+#' # load the data. function is provided in this package
+#' d = loadWineData()
+#' # define list of index vectors that correspond to subtable indices
 #' s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
 #'           seq(25,30), seq(31,35), seq(36,39), seq(40,45),
 #'           seq(46,50), seq(51,54) )
-#'
+#' # run mfa on the data d and sets s
 #' a = mfa(d, s)
 #' print(a)
+#'
+#' # random data example
+#' # create a data set of random integers ranging from 50 to 100
+#' nrows=14 #number of observations (like the wines in first example)
+#' nvars=33 #number of vars (across all tables)
+#' d2 <- replicate(nvars,sample(50:100,size=nrows,rep=TRUE))
+#' # define indices that represent 6 sub-tables of varying size
+#' s2 = list(  seq(1,4), seq(5,10), seq(11,19), seq(20,22),
+#'             seq(23,30), seq(31,33))
+#' a2 = mfa(d2, s2, ncomps=3)
+#' print(a2)
 #'
 mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   # Checks validity of inputs
