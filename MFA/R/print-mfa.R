@@ -47,11 +47,11 @@ print.mfa = function(x) {
   cat('\n################################################################################\n')
   cat('\nPartial Factor Scores:\n')
   cat('################################################################################\n')
-  par_fac_tables<-readline(paste0("If you would like to see partial factor scores for a single table,
-  enter the corresponding table number (1 through ", length(x$partialFactorScores), "). \n To see partial
-  factor scores for all tables, type ALL. \n To skip seeing any partial factor scores, type NONE (case-sensitive) or Return."))
-
-
+  cat('To see partial factor scores for a single table, ',
+      "enter the corresponding table number (1 through ", length(x$partialFactorScores), ")")
+  cat("\nTo see partial factor scores for all tables, type ALL. (case-sensitive)")
+  cat("\nTo skip seeing any partial factor scores, type NONE (case-sensitive) or Return")
+  par_fac_tables<-readline("Which table would you like to display ? ")
 
   if (par_fac_tables=="ALL"){
     cat('Partial factor scores for the first two components in all tables:  ')
@@ -68,8 +68,8 @@ print.mfa = function(x) {
   else {
     #check that par_fac_tables is valid entry
 
-    cat(paste0("Partial factor scores for the first two components, showing table ", as.integer(par_fac_tables),
-               " of ", length(x$partialFactorScores), ": "))
+    cat("Partial factor scores for the first two components: ")
+    cat("\nTable ", as.integer(par_fac_tables)," of ", length(x$matrixLoadings))
     cat('\n')
     cat(sprintf('%13s','Dim1'),sprintf("%7s",'Dim2'))
     cat('\n')
@@ -85,9 +85,11 @@ print.mfa = function(x) {
   cat('\n################################################################################\n')
   cat('\nVariable loadings:\n')
   cat('################################################################################\n')
-  table_loadings<-readline(paste0("If you would like to see variable loadings for a single table,
-  enter the corresponding table number (1 through ", length(x$matrixLoadings), "). \n To see variable
-  loadings for all tables, type ALL. \n To skip seeing any variable loadings, type NONE (case-sensitive), or Return."))
+  cat('To see variable loadings for a single table, ',
+      "enter the corresponding table number (1 through ", length(x$matrixLoadings), ")")
+  cat("\nTo see variable loadings for all tables, type ALL. (case-sensitive)")
+  cat("\nTo skip seeing any variable loadings, type NONE (case-sensitive) or Return")
+  table_loadings<-readline("Which table would you like to display ? ")
 
   if (table_loadings=="ALL"){
     cat('Loadings for the first two components in all tables:  ')
@@ -102,8 +104,8 @@ print.mfa = function(x) {
     cat('No variable loadings displayed. Index out of range.')
   }
   else {
-    cat(paste0("Loadings for the first two components, showing table ", as.integer(table_loadings),
-               " of ", length(x$matrixLoadings), ": "))
+    cat(paste0("Loadings for the first two components:"))
+    cat("\nTable ", as.integer(table_loadings)," of ", length(x$matrixLoadings))
     cat('\n')
     cat(sprintf('%13s','Dim1'),sprintf("%7s",'Dim2'))
     cat('\n')
