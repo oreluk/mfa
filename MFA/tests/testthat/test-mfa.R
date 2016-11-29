@@ -53,7 +53,7 @@ test_that("the correct number of elements from eigenvalues and partial factor sc
   expect_equal(length(a$eigenvalues), 12)
   expect_equal(length(a$partialFactorScores), length(s))
   expect_equal(ncol(b$factorScores), 2)
-  expect_equal(ncol(b$matrixLoadings[[1]]), 2)
+  expect_equal(ncol(b$matrixLoadings), 2)
 })
 
 test_that("results from list of characters or list of vectors is same", {

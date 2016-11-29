@@ -21,14 +21,14 @@ plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) {
 
   #should plot the first 2 factor scores
   #keep all rows to include all variables for the table of interest,
-  X = x$matrixLoadings[[table]][,dim1]
-  Y = x$matrixLoadings[[table]][,dim2]
+  X = x$loadingByTable[[table]][,dim1]
+  Y = x$loadingByTable[[table]][,dim2]
   #have labels be the names of X,Y if no varnames mapping is given:
   if (!is.null(varnames)){
     varlabels <- names(X)
     ind = 1
     for (n in names(X)){
-      varlabels[ind] <- varnames[[n]]
+      varlabels[ind] <- varnames[n]
       ind <- ind + 1
     }
   } else {

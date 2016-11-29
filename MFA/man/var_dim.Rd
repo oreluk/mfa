@@ -10,9 +10,9 @@ var_dim(obj)
 \item{obj}{is an mfa object}
 }
 \value{
-a matrix n-by-m where n is the variables and m is the dimensions.
+ctr_var a n-by-m matrix where n is the variables and m is the dimensions
 }
 \description{
-Calculates the constribution of a variable to a dimension.
+Calculates the constribution of a variable to a dimension
 }
 

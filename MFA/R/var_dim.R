@@ -13,10 +13,10 @@ var_dim.mfa = function(x) {
   #'
 
   # Initialize the matrix to store the variable contribution
-  ctr_var = x$matrixLoadingsMatrix
+  ctr_var = x$matrixLoadings
 
   for (j in 1:nrow(ctr_var)){
-    ctr_var[j,] = x$aVector[j] * x$matrixLoadingsMatrix[j,]^2
+    ctr_var[j,] = x$aVector[j] * x$matrixLoadings[j,]^2
   }
 
   return(ctr_var)

@@ -204,9 +204,9 @@ cumulativeInertia 61.2296749 71.0013527 78.21217882 84.25484584 88.99266698 92.1
 ```
 
 
-## Factor Scores 
+## Factor Scores {.smaller}
 
-- Factor scores can provide insight 
+- Factor scores can provide insight on which combination of factors underlie the observed data 
 
 - Factor scores are a property of the  __mfa__ object. Looking at the first two components:
 
@@ -223,17 +223,26 @@ dsWine$factorScores[,1:2]
  [7,]  0.808  0.205
  [8,]  0.925  0.408
  [9,] -0.669  0.369
+ [10,]  0.073 -0.757
+ [11,] -0.476  0.513
+ [12,]  0.367 -0.076
 ```
 
-## Factor Scores
-
-- 
-
-- 
 
 ## Partial factor scores and loadings 
 
-- 
+- Partial factor scores and loading matrices are stored in the __mfa__ object. 
+    + There are $N$ number of partial factor score matrices, where N is the number of sets (tables) in the analysis. The following code will return the partial factor score for the first table.
+
+```
+dsWine$partialFactorScores[1]
+```
+
+- Matrix loadings are the right singular vectors of the generalized singular value decomposition ($Q$). Loadings can be obtained by:  
+
+```
+dsWine$matrixLoadings
+```
 
 ## Calculating R$_v$ and L$_g$ coeffient 
 
@@ -250,21 +259,43 @@ $$L_{g(k,k^\prime)} = \frac{ \text{trace} \left\{ \left( X_{[k]} X_{[k]}^T \righ
 
 $$ \overline{F}^* = \frac{1}{L} \sum_\ell^L F_{\ell}^* $$ 
 
-- Estimate of the variance: 
+- Bootstrap estimate of the variance: 
 
-$$ \hat{\sigma_{F^*}}^2 = \frac{1}{L} \left( \sigma_\ell^L \left( F_\ell^* - \overline{F}^* \right) \circ \left( F_\ell^* - \overline{F}^* \right)  \right)$$
+$$ \hat{\sigma_{F^*}}^2 = \frac{1}{L} \left( \sum_\ell^L \left( F_\ell^* - \overline{F}^* \right) \circ \left( F_\ell^* - \overline{F}^* \right)  \right)$$
 
-- Lastly the bootstrap ratios (Student's t statistic), $T^* = \overline{F}^* / \hat{\sigma_{F^*}}$
+- Bootstrap ratios (Student's t statistic):  $T^* = \overline{F}^* / \hat{\sigma_{F^*}}$ 
 
 # Shiny App
 
-## screenshots
-![picture of spaghetti](images/spaghetti.jpg)
+## Run Application
 
-## more screenshots...
-![picture of spaghetti](images/spaghetti.jpg)
+For the wine dataset labels are used for visualization:
 
-- plots can be generated through the console by using the following methods:  `plot_compromise`, `plot_loading`, `plot_partial_fac`, and `plot_ev` 
+```
+mfa_obj <- dsWine
+active_var_names <- loadWineInfo()$varkeys
+active_obs_names <- loadWineInfo()$obskeys
+active_col_vec <- loadWineInfo()$colors
+MFA::runExample()
+```
+
+## 
+<center>![Visualization of Factor Scores](images/1.png)</center>
+
+##
+<center>![Partial factor scores of table 4, dimension 2 and 6](images/2.png)</center>
+
+## 
+<center>![Variable loadings for table 1, dimension 1 and 2](images/3.png)</center>
+
+## 
+<center>![Eigenvalue plot from the analysis](images/4.png)</center>
+
+## 
+
+<center>![Percentage of inertia of the eigenvalues](images/4.png)</center>
+
+- Plots can be reproduced through the console by using the following methods:  `plot_compromise`, `plot_loading`, `plot_partial_fac`, and `plot_ev` 
 
 ## References
 [1] Abdi, H., Williams, L. J., & Valentin, D. (2013). Multiple factor analysis: principal component analysis for multitable and multiblock data sets. Wiley Interdisciplinary reviews: computational statistics, 5(2), 149-179.

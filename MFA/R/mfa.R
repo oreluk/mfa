@@ -137,8 +137,8 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
              alpha = alpha,
              aVector = aVector,
              partialFactorScores=pFactorScores,
-             matrixLoadings=matrixLoadingsList,
-             matrixLoadingsMatrix=matrixLoadings,
+             loadingByTable=matrixLoadingsList,
+             matrixLoadings=matrixLoadings,
              X = X)
 
   class(obj) <- "mfa"

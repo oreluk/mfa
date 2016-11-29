@@ -69,7 +69,7 @@ print.mfa = function(x) {
     #check that par_fac_tables is valid entry
 
     cat("Partial factor scores for the first two components: ")
-    cat("\nTable ", as.integer(par_fac_tables)," of ", length(x$matrixLoadings))
+    cat("\nTable ", as.integer(par_fac_tables)," of ", length(x$loadingByTable))
     cat('\n')
     cat(sprintf('%13s','Dim1'),sprintf("%7s",'Dim2'))
     cat('\n')
@@ -86,16 +86,16 @@ print.mfa = function(x) {
   cat('\nVariable loadings:\n')
   cat('################################################################################\n')
   cat('To see variable loadings for a single table, ',
-      "enter the corresponding table number (1 through ", length(x$matrixLoadings), ")")
+      "enter the corresponding table number (1 through ", length(x$loadingByTable), ")")
   cat("\nTo see variable loadings for all tables, type ALL. (case-sensitive)")
   cat("\nTo skip seeing any variable loadings, type NONE (case-sensitive) or Return")
   table_loadings<-readline("Which table would you like to display ? ")
 
   if (table_loadings=="ALL"){
     cat('Loadings for the first two components in all tables:  ')
-    for (i in 1:length(x$matrixLoadings)){
+    for (i in 1:length(x$loadingByTable)){
       print(paste0("Table ",i,":"))
-      print(x$matrixLoadings[[i]][,1:2])}
+      print(x$loadingByTable[[i]][,1:2])}
   }
   else if (table_loadings=="NONE" | table_loadings==''| is.na(as.integer(table_loadings))){
     cat('No variable loadings displayed.')
@@ -105,11 +105,11 @@ print.mfa = function(x) {
   }
   else {
     cat(paste0("Loadings for the first two components:"))
-    cat("\nTable ", as.integer(table_loadings)," of ", length(x$matrixLoadings))
+    cat("\nTable ", as.integer(table_loadings)," of ", length(x$loadingByTable))
     cat('\n')
     cat(sprintf('%13s','Dim1'),sprintf("%7s",'Dim2'))
     cat('\n')
-    table_of_interest <- x$matrixLoadings[[as.integer(table_loadings)]][,1:2]
+    table_of_interest <- x$loadingByTable[[as.integer(table_loadings)]][,1:2]
     rowlabels <- rownames(table_of_interest)
     for (s in 1:length(rowlabels)) {
       cat(sprintf('%5s',rowlabels[s]), sprintf(': %+0.2f', table_of_interest[s,1]), sprintf(': %+0.2f',table_of_interest[s,2]), "\n"
