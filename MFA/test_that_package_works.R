@@ -7,19 +7,20 @@
 # WINE DATA
 #load the wine data and information on var names
 d <- loadWineData()
-keys <- loadWineInfo()
+varkeys <- loadWineInfo()$varkeys
+obskeys <- loadWineInfo()$obskeys
 s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
            seq(25,30), seq(31,35), seq(36,39), seq(40,45),
            seq(46,50), seq(51,54) )
 a = mfa(d, s)
 #test print method
-a
-
-
+#a
 
 # TEST APP (wine data)
 mfa_obj <- a #name needed for app
-active_var_names <- loadWineInfo()
+active_var_names <- loadWineInfo()$varkeys
+active_obs_names <- loadWineInfo()$obskeys
+active_col_vec <- loadWineInfo()$colors
 MFA::runExample()
 
 
@@ -32,19 +33,20 @@ d2 <- replicate(nvars,sample(50:100,size=nrows,rep=TRUE))
 s2 = list(  seq(1,4), seq(5,10), seq(11,19), seq(20,22),
            seq(23,30), seq(31,33))
 a2 = mfa(d2, s2)
-
-# NOW RUN APP WITH EITHER DATASET
-# the way the app can use different data sets right now is
-# by the names mfa_obj and active_var_names
-# make sure you set these before running...
-# test run app: WINE DATA
-mfa_obj <- a #name needed for app
-active_var_names <- loadWineInfo()
-MFA::runExample()
 # test run app with RANDOM DATA
 mfa_obj <- a2 #name needed for app
 active_var_names <- NULL
+active_obs_names <- NULL
+active_col_vec <- NULL
 MFA::runExample()
+
+# the way the app can use different data sets right now is
+# by the names mfa_obj and active_var_names
+# make sure you set these before running...
+# also active_obs_names and active_col_vec should be set to null if you
+# dont have obs labels or colors youd like your obs to be labeled with!
+
+
 
 
 #test print method
@@ -58,6 +60,7 @@ plot_compromise(a)
 plot_compromise(a,dim1=3,dim2=1)
 plot_partial_fac(a,table=1)
 plot_partial_fac(a,table=1,dim1=3,dim2=4)
+plot_partial_fac(a,table=1,dim1=1,dim2=2,obsnames=obskeys)
 plot_loading(a,table=1)
 plot_loading(a,table=1,varnames=keys)
 plot_loading(a,table=1,dim1=3,dim2=4,varnames=keys)

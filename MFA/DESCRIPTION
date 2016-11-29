@@ -26,8 +26,10 @@ Collate: mfa.R
          bootstrap_factorscores.R
          loadWineData.R
          runExample.R
+         plot_inertia_pie.R
 Suggests:
     knitr,
     rmarkdown,
-    shiny
+    shiny,
+    RColorBrewer
 VignetteBuilder: knitr

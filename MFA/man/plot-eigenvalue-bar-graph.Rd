@@ -4,7 +4,7 @@
 \alias{plot eigenvalue bar graph}
 \alias{plot_ev}
 \alias{plot_ev.mfa}
-\title{Plot EV bar graph}
+\title{Plot Bar Graph of Eigenvalues}
 \usage{
 plot_ev(obj)
 

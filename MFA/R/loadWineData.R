@@ -19,7 +19,7 @@ loadWineData <- function(checknames=FALSE) {
 #' @export
 loadWineInfo <- function() {
   ## var maps
-  keys <- list('V1'='cat pee',
+  varkeys <- list('V1'='cat pee',
           'V2'='passion fruit',
           'V3'= 'green pepper',
           'V4'= 'mineral',
@@ -34,5 +34,12 @@ loadWineInfo <- function() {
           'V13'= 'melon',
           'V14'= 'grass',
           'V15'= 'peach')
-  keys
+  obskeys <- c('NZ1','NZ2','NZ3','NZ4',
+               'FR1','FR2','FR3','FR4',
+               'CA1','CA2','CA3','CA4')
+  colors <- c('magenta','magenta','magenta','magenta',
+                     'red','red','red','red',
+                     'black','black','black','black')
+  obj = list(varkeys=varkeys, obskeys=obskeys, colors=colors)
+  obj
 }

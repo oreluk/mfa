@@ -21,7 +21,7 @@ plot_loading(obj, table = 1, dim1 = 1, dim2 = 2, sz = 2,
 
 \item{dim2}{dimension for y axis, default 2nd component}
 
-\item{sz}{size of point on scatter plot}
+\item{sz}{size of text label in plot}
 
 \item{varnames}{variable labels}
 

@@ -6,9 +6,11 @@
 \alias{plot_compromise.mfa}
 \title{Plot Compromise}
 \usage{
-plot_compromise(obj, dim1 = 1, dim2 = 2, sz = 2)
+plot_compromise(obj, dim1 = 1, dim2 = 2, sz = 2, obsnames = NULL,
+  textcolor = "black")
 
-\method{plot_compromise}{mfa}(x, dim1 = 1, dim2 = 2, sz = 2)
+\method{plot_compromise}{mfa}(x, dim1 = 1, dim2 = 2, sz = 2,
+  obsnames = NULL, textcolor = "black")
 }
 \arguments{
 \item{obj}{An object of class mfa}
@@ -17,7 +19,11 @@ plot_compromise(obj, dim1 = 1, dim2 = 2, sz = 2)
 
 \item{dim2}{dimension for y axis, default 2nd component}
 
-\item{sz}{size of point on scatter plot}
+\item{sz}{size of text label in scatter plot}
+
+\item{obsnames}{input labels for your observations if desired}
+
+\item{textcolor}{color of text labeling points}
 
 \item{x}{An object of class mfa}
 }
