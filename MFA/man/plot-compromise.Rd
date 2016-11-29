@@ -2,18 +2,14 @@
 % Please edit documentation in R/plot_compromise.R
 \name{plot compromise}
 \alias{plot compromise}
-\alias{plot_compromise}
 \alias{plot_compromise.mfa}
 \title{Plot Compromise}
 \usage{
-plot_compromise(obj, dim1 = 1, dim2 = 2, sz = 2, obsnames = NULL,
-  textcolor = "black")
-
 \method{plot_compromise}{mfa}(x, dim1 = 1, dim2 = 2, sz = 2,
   obsnames = NULL, textcolor = "black")
 }
 \arguments{
-\item{obj}{An object of class mfa}
+\item{x}{An object of class mfa}
 
 \item{dim1}{dimension for x axis, default 1st component}
 
@@ -23,13 +19,9 @@ plot_compromise(obj, dim1 = 1, dim2 = 2, sz = 2, obsnames = NULL,
 
 \item{obsnames}{input labels for your observations if desired}
 
-\item{textcolor}{color of text labeling points}
-
-\item{x}{An object of class mfa}
+\item{textcolor}{color of text labeling points, can be one color or a vector of length num obs colors}
 }
 \description{
-plots compromise
-
-plots compromise
+plots the compromise, i.e. the common factor scores, for 2 given dimensions of an mfa table
 }
 

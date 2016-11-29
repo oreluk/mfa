@@ -2,22 +2,15 @@
 % Please edit documentation in R/plot_ev.R
 \name{plot eigenvalue bar graph}
 \alias{plot eigenvalue bar graph}
-\alias{plot_ev}
 \alias{plot_ev.mfa}
 \title{Plot Bar Graph of Eigenvalues}
 \usage{
-plot_ev(obj)
-
 \method{plot_ev}{mfa}(x)
 }
 \arguments{
-\item{obj}{An object of class mfa}
-
 \item{x}{An object of class mfa}
 }
 \description{
-plots bar graph of eigenvals
-
 plots bar graph of eigenvals
 }
 

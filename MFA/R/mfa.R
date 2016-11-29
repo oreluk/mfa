@@ -190,12 +190,8 @@ check_inputs = function(data, sets, ncomps, center, scale) {
 
 
 ## Methods
-#' @param  x An object of class mfa
 #' @export
-#' @title Eigenvalue Table
-#' @name eigenvalue table
-#' @description eigenvalue table from mfa obj
-eigenvalueTable = function(x) UseMethod("eigenvalueTable")
+eigenvalueTable = function(x) UseMethod("eigenvalueTable",x)
 
 #' @method eigenvalueTable mfa
 #' @param  obj An object of class mfa

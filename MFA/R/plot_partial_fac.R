@@ -1,8 +1,4 @@
-#' @param  obj An object of class mfa
 #' @export
-#' @title Plot Partial Fac
-#' @name plot partial fac
-#' @description plots partial factor scores
 plot_partial_fac = function(obj, table=1, dim1=1, dim2=2, sz=2, obsnames=NULL, textcolor='black') UseMethod("plot_partial_fac", obj)
 plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, obsnames=NULL, textcolor='black') {
   #' @param  x An object of class mfa
@@ -10,14 +6,14 @@ plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, obsnames=NULL
   #' @param  dim2 dimension for y axis, default 2nd component
   #' @param  table which table to plot (integer 1:K)
   #' @param  obsnames input labels for your observations if desired
-  #' @param  textcolor color of text labeling points
-  #' @param  sz size of point on scatter plot
+  #' @param  textcolor color of text labeling points, either a single color or a vector of colors equal to number of obs in mfa object
+  #' @param  sz size of text labeling points on scatterplot
   #' @export
-  #' @title Plot Partial Fac
-  #' @name plot partial fac
-  #' @description plots partial factor scores
+  #' @title Plot Partial Factor Scores
+  #' @name plot partial factor scores
+  #' @description plots partial factor scores for 2 given dimensions/components of a given table in an mfa object
 
-  #plot the partial factor scores for dim1 and dim2
+  # select the table and dimension of interest, and store in X (dim1) and Y (dim2)
   X = x$partialFactorScores[[table]][,dim1] #fac score first table, 1st comp
   Y = x$partialFactorScores[[table]][,dim2] #fac score first table, 2nd comp
 
@@ -27,12 +23,15 @@ plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, obsnames=NULL
   } else {
     obslabels <- 1:length(X)
   }
-  #widen left margin
+
+  # widen left margin to accomodate large axis label font
   par(mar=c(5.1,8.1,4.1,2.1))
+
+  # plot the data (white points are not visible, but text is added with text())
   plot(X, Y,
        type = "p", pch=19, col='white',
-       xlab = paste0('Dimension ', dim1),
-       ylab = paste0('Dimension ', dim2),
+       xlab = paste0('Component ', dim1),
+       ylab = paste0('Component ', dim2),
        xlim=c(min(X)-0.4,max(X)+0.4),
        ylim=c(min(Y)-0.4,max(Y)+0.4),
        cex=1,

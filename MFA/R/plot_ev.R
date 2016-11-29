@@ -1,8 +1,4 @@
-#' @param  obj An object of class mfa
 #' @export
-#' @title Plot Bar Graph of Eigenvalues
-#' @name plot eigenvalue bar graph
-#' @description plots bar graph of eigenvals
 plot_ev = function(obj) UseMethod("plot_ev", obj)
 plot_ev.mfa <- function(x) {
   #' @param  x An object of class mfa

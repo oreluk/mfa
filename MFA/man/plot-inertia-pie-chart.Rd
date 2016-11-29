@@ -2,22 +2,15 @@
 % Please edit documentation in R/plot_inertia_pie.R
 \name{plot inertia pie chart}
 \alias{plot inertia pie chart}
-\alias{plot_inertia_pie}
 \alias{plot_inertia_pie.mfa}
 \title{Plot Pie Chart of Inertia}
 \usage{
-plot_inertia_pie(obj)
-
 \method{plot_inertia_pie}{mfa}(x)
 }
 \arguments{
-\item{obj}{An object of class mfa}
-
 \item{x}{An object of class mfa}
 }
 \description{
-plots bar graph of eigenvals
-
-plots a pie chart from mfa objects eigenvalue table
+plots a pie chart of percent inertia (from mfa objects eigenvalue table)
 }
 

@@ -1,15 +1,11 @@
-#' @param  obj An object of class mfa
 #' @export
-#' @title Plot Pie Chart of Inertia
-#' @name plot inertia pie chart
-#' @description plots bar graph of eigenvals
 plot_inertia_pie = function(obj) UseMethod("plot_inertia_pie", obj)
 plot_inertia_pie.mfa <- function(x) {
   #' @param  x An object of class mfa
   #' @export
   #' @title Plot Pie Chart of Inertia
   #' @name plot inertia pie chart
-  #' @description plots a pie chart from mfa objects eigenvalue table
+  #' @description plots a pie chart of percent inertia (from mfa objects eigenvalue table)
 
   # first get the inertias from the ev table..
   inertias <- eigenvalueTable(mfa_obj)['percentInertia',]

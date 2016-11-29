@@ -1,8 +1,4 @@
-#' @param  obj An object of class mfa
 #' @export
-#' @title Plot Loadings
-#' @name plot matrix loadings
-#' @description plots matrix loadings
 plot_loading = function(obj, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) UseMethod("plot_loading", obj)
 plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) {
   #' @param  x An object of class mfa
@@ -10,20 +6,20 @@ plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) {
   #' @param  dim2 dimension for y axis, default 2nd component
   #' @param  table which table to plot (integer 1:K)
   #' @param  sz size of text label in plot
-  #' @param  varnames variable labels
+  #' @param  varnames variable labels if available
   #' @export
   #' @title Plot Loadings
-  #' @name plot matrix loadings
-  #' @description plots matrix loadings
+  #' @name plot variable loadings
+  #' @description plots variable loadings for 2 given dimensions of a given table in an mfa object
 
-  #Note : for variable loadings, we first select a table 1:K, then we can plot the varibale loadings for
-  # that table (figure 3)
-
-  #should plot the first 2 factor scores
-  #keep all rows to include all variables for the table of interest,
+  #select the table and dimension of interest, and store in X (dim1) and Y (dim2)
   X = x$loadingByTable[[table]][,dim1]
   Y = x$loadingByTable[[table]][,dim2]
-  #have labels be the names of X,Y if no varnames mapping is given:
+
+  # define labels for points on the plot:
+  # if varnames are provided, use them as labels on the plot
+  # if they are not provided, try to use the names of the items in X
+  # if names(X) is null, set labels as integers ranging from 1 to length(X)
   if (!is.null(varnames)){
     varlabels <- names(X)
     ind = 1
@@ -36,17 +32,19 @@ plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) {
   }
   library(RColorBrewer)
   darkcols <- brewer.pal(length(X), "Dark2")
-
-  #sometimes (e.g. random data martix), the names(X) will be null
+  # sometimes (e.g. random data martix), the names(X) will be null
   # in this case, set varlabels to 1:length(X)
   if (is.null(names(X))){ varlabels <- 1:length(X)}
-  #widen left margin
+
+
+  # widen left margin to accomodate the large font of axis label
   par(mar=c(5.1,8.1,4.1,2.1))
-  # note this will be much more useful if we have the variable names not just indices!
+
+  # plot the data (white points are not visible, but text is added with text())
   plot(X, Y,
        type = "p", pch=19, col='white',
-       xlab = paste0('Dimension ', dim1),
-       ylab = paste0('Dimension ', dim2),
+       xlab = paste0('Component ', dim1),
+       ylab = paste0('Component ', dim2),
        xlim=c(min(X)-0.4,max(X)+0.4),
        ylim=c(min(Y)-0.4,max(Y)+0.4),
        cex=1,
