@@ -75,6 +75,8 @@ $$ X = P \Delta Q^T $$
 where, 
 $$ X \in \mathbb{R}^{n \times m},\;\; P,\Delta \in \mathbb{R}^{n \times n},\;\; Q^T \in \mathbb{R}^{n \times m}$$
 
+<center>![](images/gsvd_decomp.png)</center>
+
 ## Generalized Singular Value Decomposition
 
 - GSVD adds additional constraints in the form of:
@@ -219,9 +221,7 @@ dsWine$factorScores[,1:2]
  [7,]  0.808  0.205
  [8,]  0.925  0.408
  [9,] -0.669  0.369
-[10,]  0.073 -0.757
-[11,] -0.476  0.513
-[12,]  0.367 -0.076
+
 ```
 ## Factor Scores
 
@@ -239,7 +239,7 @@ $$L_{g(k,k^\prime)} = \frac{ \text{trace} \left\{ \left( X_{[k]} X_{[k]}^T \righ
 
 ## Bootstrap Factor Scores
 
-- By sampling with replacement (bootstrap) we are able to get estimates of the variance of our factor scores. This function is available by using `bootstrap_factorscores(obj)` on a __mfa__ object. This function returns the bootstrap estimate of the factor score
+- By sampling with replacement (bootstrap) we are able to get estimates of the variance of our factor scores. This function is available by using `bootstrap_factorscores(obj)` on a __mfa__ object. This function returns the bootstrap estimate of the factor score:
 
 $$ \overline{F}^* = \frac{1}{L} \sum_\ell^L F_{\ell}^* $$ 
 
