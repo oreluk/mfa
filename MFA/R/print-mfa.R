@@ -15,7 +15,8 @@ print.mfa = function(x) {
                     'common factor scores',
                     'table weights',
                     'partial factor scores',
-                    'variable loadings',
+                    'variable loadings (list form)',
+                    'variable loadings (matrix form)',
                     'the processed concatenated data table')
   cat('################################################################################\n')
   cat(sprintf('%25s','Component Name') , '   ::   ', 'Description\n')
@@ -43,7 +44,7 @@ print.mfa = function(x) {
   #print(x$factorScores[,1:2])
 
   ## Partial factor scores
-  cat('################################################################################\n')
+  cat('\n################################################################################\n')
   cat('\nPartial Factor Scores:\n')
   cat('################################################################################\n')
   par_fac_tables<-readline(paste0("If you would like to see partial factor scores for a single table,
@@ -81,7 +82,7 @@ print.mfa = function(x) {
 
 
   ## Variable loadings
-  cat('################################################################################\n')
+  cat('\n################################################################################\n')
   cat('\nVariable loadings:\n')
   cat('################################################################################\n')
   table_loadings<-readline(paste0("If you would like to see variable loadings for a single table,
