@@ -8,7 +8,7 @@ plot_inertia_pie.mfa <- function(x) {
   #' @description plots a pie chart of percent inertia (from mfa objects eigenvalue table)
 
   # first get the inertias from the ev table..
-  inertias <- eigenvalueTable(mfa_obj)['percentInertia',]
+  inertias <- eigenvalueTable(x)['percentInertia',]
   darkcols <- rainbow(length(inertias),s=0.5)
   # Simple Pie Chart
   labels=1:length(inertias)
