@@ -267,7 +267,7 @@ knitr::kable(head(obs_dim(a)))
 
 ## Toy data set 
 
-We included our toy data set with the package for the users to work with. The function loadWineData.R accesses the included dataset. loadWineInfo loads more info on the dataset, such as labels for the variables and wines. See plotting part of vignette for example of loading the data and including the labels in your plots.
+We included our toy data set with the package for the users to work with. The function loadWineData.R accesses the included dataset. loadWineInfo loads more info on the dataset, such as labels for the variables and wines. See the plotting part of vignette for example of loading the data and including the labels in your plots.
 
 
 
@@ -277,9 +277,68 @@ We included our toy data set with the package for the users to work with. The fu
 
 We also developed a shiny app to provide users a convenient platform to interactively explore the different visualizations created with the plotting methods. 
 
-lots of screenshots. 
+You can view a demo on YouTube here : https://www.youtube.com/watch?v=xsPIMDiTfro
 
-Link to video
+To run the shiny app using the wine data set, use the block of code below, where a is the object created above in the plotting section of this vignette. Note that the app will use whatever mfa object is stored in the variable mfa_obj. Additionally, the names active_var_names, active_obs_names, and active_col_vec should be used respectively for labeling variables, labeling observations, and specifying colors to use for the observations. If you want to use the default labels (integers) and colors (black), make sure these variables are set to NULL.
+
+```{r, eval=FALSE}
+mfa_obj <- a #name needed for app
+active_var_names <- loadWineInfo()$varkeys #name needed for app
+active_obs_names <- loadWineInfo()$obskeys #name needed for app
+active_col_vec <- loadWineInfo()$colors #name needed for app
+MFA::runExample()
+```
+
+
+----
+Upon running MFA::runExample(), the app should pop up with the compromise plot displayed:
+
+<center>![Visualization of Factor Scores](images/1.png)</center>
+
+----
+You can click 'Partial Factor Scores' to see the partial factor scores, and you can change the dimensions of the axes as well as the table (assessor) number with the numeric input boxes. For example, here is a plot of assessor 4, dimensions 2 and 6.
+
+<center>![Partial factor scores of table 4, dimension 2 and 6](images/2.png)</center>
+
+----
+You can select 'Variable loadings' to see where the variables lie.
+
+<center>![Variable loadings for table 1, dimension 1 and 2](images/3.png)</center>
+
+----
+Click Eigenvalue Bar Plot to see this visualization:
+
+<center>![Eigenvalue plot from the analysis](images/4.png)</center>
+
+----
+Select Inertia pie chart to see this:
+
+<center>![Percentage of inertia of the eigenvalues](images/5.png)</center>
+
+----
+
+Here is an example of how to run the app with random data and no variable/observation labels:
+
+```{r, eval=FALSE}
+# create a data set of random integers ranging from 50 to 100
+nrows=14 #number of observations (like the wines)
+nvars=33 #number of vars
+# fill data with random integers between 50 and 100
+d2 <- replicate( nvars, sample( 50:100, size=nrows, rep=TRUE ) )
+# sets -- indexing into d2, so should cover range 1:nvars
+s2 <- list( seq(1,4), seq(5,10), seq(11,19), seq(20,22),
+            seq(23,30), seq(31,33) )
+# create the mfa object with the random dataset
+a2 <- mfa( d2, s2 )
+# test run app with a2 object
+mfa_obj <- a2 #name needed for app
+active_var_names <- NULL #clear previous values so defaults will be used
+active_obs_names <- NULL #clear previous values so defaults will be used
+active_col_vec <- NULL #clear previous values so defaults will be used
+# run the app
+MFA::runExample()
+```
+
 
 
 <a id="id7"></a> 
