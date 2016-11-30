@@ -197,7 +197,7 @@ plot_ev(a)
 
 And finally, plot_inertia_pie.R generates a pie chart showing the variance explained by each of the components, similar to the bar graph of the eigenvalues, but visualized in a different way:
 
-```{r, fig.cap="Eigenvalues for the toy data set", fig.show='hold', fig.width=4, echo=FALSE}
+```{r, fig.cap="Pie chart of inertia", fig.show='hold', fig.width=4, echo=FALSE}
 plot_inertia_pie(a)
 ```
 
@@ -205,43 +205,62 @@ plot_inertia_pie(a)
 
 ## Additional descriptive statistics
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+There are several different methods included to explore various descriptive statistics. 
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
+Reduce all these tables by assigning to values first
+
+Lg Table:
+
+```{r, echo=FALSE}
+knitr::kable(lg_table(d,s))
 ```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
+Rv Table: 
 
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
+```{r, echo=FALSE}
+knitr::kable(rv_table(d,s))
+```
 
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+Tables by contribution to dimensions:
+
+```{r, echo=FALSE}
+knitr::kable(head(table_dim(a)))
+```
+
+Variables by contributions to dimensions: 
+
+```{r, echo=FALSE}
+knitr::kable(head(var_dim(a)))
+```
+
+Observations by contributions to dimensions: 
+
+```{r, echo=FALSE}
+knitr::kable(head(obs_dim(a)))
+```
+
+
 
 <a id="id5"></a> 
 
 ## Toy data set 
 
-The figure sizes have been customised so that you can easily put two images side-by-side. 
+We included our toy data set with the package for the users to work with. The function loadWineData.R accesses the included dataset.  
 
-```{r, fig.show='hold'}
-plot(1:10)
-plot(10:1)
-```
 
-You can enable figure captions by `fig_caption: yes` in YAML:
-
-    output:
-      rmarkdown::html_vignette:
-        fig_caption: yes
-
-Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
 
 <a id="id6"></a> 
 
 ## Shiny App
+
+We also developed a shiny app to provide users a convenient platform to interactively explore the different visualizations created with the plotting methods. 
+
+lots of screenshots. 
+
+
+<a id="id7"></a> 
+
+## References 
 
 You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
 
@@ -253,10 +272,6 @@ Also a quote using `>`:
 
 > "He who gives up [code] safety for [code] speed deserves neither."
 ([via](https://twitter.com/hadleywickham/status/504368538874703872))
-
-<a id="id7"></a> 
-
-## References 
 
 The figure sizes have been customised so that you can easily put two images side-by-side. 
 
