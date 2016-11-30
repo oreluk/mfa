@@ -16,8 +16,8 @@ returns a 3-by-1 list containing the mean bootstrapped factor scores, the varian
 Calculates the bootstrap confidence intervals by sampling with replace of factor scores
 }
 \examples{
-b bootstrap factorscore
-from the set of tables. This approach also computes boostrap ratios for
+b bootstrap factor score
+from the set of tables. This approach also computes bootstrap ratios for
 each dimension
 
 }

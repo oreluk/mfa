@@ -44,7 +44,7 @@ plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, varnames=NULL,
   # in this case, set varlabels to 1:length(X)
   if (is.null(names(X))){ varlabels <- 1:length(X)}
 
-  # widen left margin to accomodate the large font of axis label
+  # widen left margin to accommodate the large font of axis label
   if (app==TRUE) {par(mar=c(5.1,8.1,4.1,2.1))}
 
   # plot the data (white points are not visible, but text is added with text())

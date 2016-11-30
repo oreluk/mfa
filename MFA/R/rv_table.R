@@ -14,8 +14,7 @@ rv_table <- function(dataset, sets) {
   # Initialize rv table
   rvtable = matrix(rep(1,length(sets)^2), nrow = length(sets))
 
-  # To calculate elements for rvtable: diagonal equals to 1, and
-  # the matrix is symetric.
+  # Looping over the initialized matrix. Making use of symmetric & diag(rvtable) = 1
   for (i in 1:length(sets)) {
     for (j in 1:length(sets)) {
       if (i == j){

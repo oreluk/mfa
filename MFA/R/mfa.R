@@ -76,7 +76,7 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   }
 
   # Individual Table SVDs to compute table weights
-  aVector = vector()  # can proabably  pre-allocate memory properly
+  aVector = vector()  
   alpha = vector(mode = "list", length = length(xTables))
 
   for (k in 1:length(xTables)) {
@@ -114,7 +114,7 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   }
   factorScores = P[,1:components] %*% diag(xDecomp$d[1:components])
 
-
+  # Calculating Partial Factor Scores ( Factor Scores for each table )
   pFactorScores = vector(mode = "list", length = length(xTables))
   iterate = 0
   for (k in 1:length(xTables)) {
@@ -165,7 +165,7 @@ check_inputs = function(data, sets, ncomps, center, scale) {
 
   # sets
   if (!is.list(sets)) {
-    stop("'sets' must be a list containting a character vector or list containing vectors indicating the sets of variables")
+    stop("'sets' must be a list containing a character vector or list containing vectors indicating the sets of variables")
   } else if ( is.character(sets[[1]]) ) {
     if(!is.data.frame(data)) {
       stop('"data" is not data.frame object, unable to parse with a character vector.')

@@ -6,8 +6,8 @@ bootstrap_factorscores = function(x){
   #' @return returns a 3-by-1 list containing the mean bootstrapped factor scores, the variance of the bootstrapped factor scores and the associated T star statistic.
   #' @export
   #'
-  #' @examples b bootstrap factorscore
-  #' from the set of tables. This approach also computes boostrap ratios for
+  #' @examples b bootstrap factor score
+  #' from the set of tables. This approach also computes bootstrap ratios for
   #' each dimension
   #'
 

@@ -13,6 +13,6 @@
 ctr_var a n-by-m matrix where n is the variables and m is the dimensions
 }
 \description{
-Calculates the constribution of a variable to a dimension
+Calculates the contribution of a variable to a dimension
 }
 

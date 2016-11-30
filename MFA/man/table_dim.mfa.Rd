@@ -13,6 +13,6 @@
 a matrix k-by-l where k is the tables and l is the dimensions
 }
 \description{
-Calculates the constribution of a table to the dimension
+Calculates the contributions of a table to the dimension
 }
 

@@ -1,7 +1,7 @@
 rv <- function(table1, table2){
   #' @title Rv Coefficient - rv
   #' @description Calculates Rv coefficient between two tables
-  #' @param table1 is a list or matrix of the  first input table to be included in the analysis
+  #' @param table1 is a list or matrix of the first input table to be included in the analysis
   #' @param table2 is a list or matrix of the second input table to be included in the analysis
   #' @export
   #'
@@ -16,6 +16,7 @@ rv <- function(table1, table2){
   table1 = as.matrix(table1)
   table2 = as.matrix(table2)
 
+  # Equation shown in tutorial slide 23
   # Numerator:
   num = sum(diag(tcrossprod(table1) %*% tcrossprod(table2)))
 

@@ -7,7 +7,7 @@
 rv(table1, table2)
 }
 \arguments{
-\item{table1}{is a list or matrix of the  first input table to be included in the analysis}
+\item{table1}{is a list or matrix of the first input table to be included in the analysis}
 
 \item{table2}{is a list or matrix of the second input table to be included in the analysis}
 }

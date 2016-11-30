@@ -14,8 +14,8 @@ lg_table <- function(dataset, sets){
   # Initialize lg table
   lgtable = matrix(rep(1,length(sets)^2), nrow = length(sets))
 
-  # To calculate elements for lgtable: diagonal equals to 1, and
-  # the matrix is symetric.
+  # Loop over initialized table to calculate elements of lgtable. Utilizing the fact the matrix 
+  # is symmetric and diag(lgtable) = 1 
   for (i in 1:length(sets)) {
     for (j in 1:length(sets)) {
       if (i == j){

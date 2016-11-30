@@ -10,9 +10,9 @@
 \item{x}{is an mfa object}
 }
 \value{
-a matrix n-by-m where n is the observations and m is the dimension.
+a matrix n-by-m where n is the number of observations and m is the number of dimensions
 }
 \description{
-Calculates the constribution of an observation to a dimension.
+Calculates the contribution of an observation to a dimension.
 }
 
