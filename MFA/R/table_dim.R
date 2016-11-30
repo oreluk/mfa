@@ -1,27 +1,22 @@
-table_dim = function(x, ctr_var = 1, numvar_table = 1) UseMethod("table_dim")
-table_dim.mfa = function(x, ctr_var = 1, numvar_table = 1) {
+#' @export
+table_dim = function(x) UseMethod("table_dim")
+table_dim.mfa = function(x) {
   #' @title Contribution: table to dimension
   #' @description Calculates the constribution of a table to the dimension
   #' @param x is an mfa object
-  #' @param ctr_var is the contribution variable
-  #' @param numvar_table is the variable index in the table
   #' @export
-  #' @return a matrix n-by-m where n is the tables and m is the dimensions.
+  #' @return a matrix k-by-l where k is the tables and l is the dimensions
   #'
 
   # Initialize the matrix to store the table contribution
-  ctr_var = matrix(rep(1,numvar_table*ncol(ctr_col)),
-                 nrow = numvar_table, ncol = ncol(ctr_col))
+  ctr_tab = matrix(rep(1, length(x$sets) * length(x$eigenvalues)),
+                   nrow = length(x$sets), ncol = length(x$eigenvalues))
 
-  # Counter
-  j = 1
-  # Eq.28
-  for (l in ncol(ctr_var)){
-    for (k in 1:length(numvar_table)) {
-      ctr_table[k,l] = sum( ctr_var[j:(j+numvar_table[k]), l] )
-      j = j + numvar_table[k] + 1
-    }
+  res = var_dim(x)
+
+  for (i in 1:length(x$sets)){
+    idx = x$aVector == x$alpha[[i]]
+    ctr_tab[i,] = colSums(res[idx,])
   }
-
-  return(ctr_table)
+  return(ctr_tab)
 }

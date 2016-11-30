@@ -4,17 +4,13 @@
 \alias{table_dim.mfa}
 \title{Contribution: table to dimension}
 \usage{
-\method{table_dim}{mfa}(x, ctr_var = 1, numvar_table = 1)
+\method{table_dim}{mfa}(x)
 }
 \arguments{
 \item{x}{is an mfa object}
-
-\item{ctr_var}{is the contribution variable}
-
-\item{numvar_table}{is the variable index in the table}
 }
 \value{
-a matrix n-by-m where n is the tables and m is the dimensions.
+a matrix k-by-l where k is the tables and l is the dimensions
 }
 \description{
 Calculates the constribution of a table to the dimension

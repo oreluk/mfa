@@ -1,8 +1,5 @@
-#' @title Contribution: observation to dimension
-#' @description Calculates the constribution of an observation to a dimension.
-#' @param obj is an mfa object
 #' @export
-obs_dim = function(obj) UseMethod("obs_dim",obj)
+obs_dim = function(obj) UseMethod("obs_dim")
 obs_dim.mfa = function(x) {
   #' @title Contribution: observation to dimension
   #' @description Calculates the constribution of an observation to a dimension.
