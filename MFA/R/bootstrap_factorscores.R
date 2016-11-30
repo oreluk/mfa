@@ -36,8 +36,9 @@ bootstrap_factorscores = function(x){
   }
 
   Bootvar = Bootvar/nSamples
-  Tstar = Fmean/sqrt(Bootvar)
+  Sig= sqrt(Bootvar)
+  Tstar = Fmean/Sig
 
-  bootResults = list(Fmean, Sig, Tstar)
+  bootResults = list(Fmean=Fmean, Sig=Sig, Tstar=Tstar)
   return(bootResults)
 }
