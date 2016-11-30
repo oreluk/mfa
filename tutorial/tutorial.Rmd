@@ -1,7 +1,7 @@
 ---
 title: "Multiple Factor Analysis"
-author: Yulin Chen, Stephanie Wuerth, Eren Bilir, and Jim Oreluk
-date:  December 2016
+author: "Yulin Chen, Stephanie Wuerth, Eren Bilir, Jim Oreluk"
+date: "December 2016"
 output: ioslides_presentation
 widescreen: true
 ---
@@ -136,7 +136,7 @@ install_github("oreluk/MFA")
 
 - Provides visualization of the factor analysis by using biplots
 
-- something else.. contributions?
+- Contributions of a observation, variable or table to the dimensions
 
 # Demo
 ## Wine Tasting Dataset
@@ -278,24 +278,22 @@ active_obs_names <- loadWineInfo()$obskeys
 active_col_vec <- loadWineInfo()$colors
 MFA::runExample()
 ```
+- Plots shown can be reproduced through the console by using the following methods:  `plot_compromise`, `plot_loading`, `plot_partial_fac`, and `plot_ev` 
 
-## 
+----
 <center>![Visualization of Factor Scores](images/1.png)</center>
 
-##
+----
 <center>![Partial factor scores of table 4, dimension 2 and 6](images/2.png)</center>
 
-## 
+----
 <center>![Variable loadings for table 1, dimension 1 and 2](images/3.png)</center>
 
-## 
+----
 <center>![Eigenvalue plot from the analysis](images/4.png)</center>
 
-## 
-
-<center>![Percentage of inertia of the eigenvalues](images/4.png)</center>
-
-- Plots can be reproduced through the console by using the following methods:  `plot_compromise`, `plot_loading`, `plot_partial_fac`, and `plot_ev` 
+----
+<center>![Percentage of inertia of the eigenvalues](images/5.png)</center>
 
 ## References
 [1] Abdi, H., Williams, L. J., & Valentin, D. (2013). Multiple factor analysis: principal component analysis for multitable and multiblock data sets. Wiley Interdisciplinary reviews: computational statistics, 5(2), 149-179.
