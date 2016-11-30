@@ -5,10 +5,21 @@
 \alias{plot_ev.mfa}
 \title{Plot Bar Graph of Eigenvalues}
 \usage{
-\method{plot_ev}{mfa}(x)
+\method{plot_ev}{mfa}(x, cexaxis = 1, cexnames = 1, cexlab = 1,
+  cexmain = 1, app = FALSE)
 }
 \arguments{
 \item{x}{An object of class mfa}
+
+\item{cexaxis, }{size axis labels}
+
+\item{cexnames, }{size names}
+
+\item{cexlab, }{size labels}
+
+\item{cexmain}{size main title, default 1}
+
+\item{app}{if using shiny, set to true to fix margins}
 }
 \description{
 plots bar graph of eigenvalues from an mfa object

@@ -10,9 +10,9 @@ plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, obsnames=NULL
   #' @param  obsnames input labels for your observations if desired
   #' @param  textcolor color of text labeling points, either a single color or a vector of colors equal to number of obs in mfa object
   #' @param  sz size of text labeling points on scatterplot
-  #' @param  textcolor color of text labeling points, can be one color or a vector of length num obs colors
   #' @param  cexmain size for main title label, default 1, 2 used for app
   #' @param  cexlab size for axis labels, default 1, 1.7 used for app
+  #' @param  app if true, this is for the shiny app and margins are changed
   #' @export
   #' @title Plot Partial Factor Scores
   #' @name plot partial factor scores
@@ -35,8 +35,8 @@ plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, obsnames=NULL
   # plot the data (white points are not visible, but text is added with text())
   plot(X, Y,
        type = "p", pch=19, col='white',
-       xlab = paste0('Component ', dim1),
-       ylab = paste0('Component ', dim2),
+       xlab = paste0('Dimension ', dim1),
+       ylab = paste0('Dimension ', dim2),
        xlim=c(min(X)-0.4,max(X)+0.4),
        ylim=c(min(Y)-0.4,max(Y)+0.4),
        cex=1,

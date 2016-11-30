@@ -32,8 +32,8 @@ plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolo
   # plot the data (white points are not visible, but text is added with text())
   plot(X, Y,
        type = "p", pch=19, col='white',
-       xlab = paste0('Component ', dim1),
-       ylab = paste0('Component ', dim2),
+       xlab = paste0('Dimension ', dim1),
+       ylab = paste0('Dimension ', dim2),
        xlim=c(min(X)-0.4,max(X)+0.4),
        ylim=c(min(Y)-0.4,max(Y)+0.4),
        cex=1,

@@ -56,10 +56,10 @@ shinyServer(function(input, output) {
     }
 
     if (input$radio==4){
-        plot_ev(mfa_obj)}
+        plot_ev(mfa_obj,cexaxis=2, cexnames=2, cexlab=2,cexmain=2,app=TRUE)}
 
     if (input$radio==5){
-      plot_inertia_pie(mfa_obj)}
+      plot_inertia_pie(mfa_obj,cexmain=2,cexlab=1.5, app=TRUE)}
 
     }
 

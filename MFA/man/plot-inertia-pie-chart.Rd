@@ -5,10 +5,19 @@
 \alias{plot_inertia_pie.mfa}
 \title{Plot Pie Chart of Inertia}
 \usage{
-\method{plot_inertia_pie}{mfa}(x)
+\method{plot_inertia_pie}{mfa}(x, cexmain = 1, cexlab = 1, radius = 1,
+  app = FALSE)
 }
 \arguments{
 \item{x}{An object of class mfa}
+
+\item{cexmain}{size for main title}
+
+\item{cexlab}{size for labels}
+
+\item{radius}{radius of circle, default 1}
+
+\item{app}{if TRUE, wider margins}
 }
 \description{
 plots a pie chart of percent inertia (from mfa objects eigenvalue table)

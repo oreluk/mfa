@@ -13,7 +13,7 @@ s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
 a = mfa(d, s)
 
 v = vardim(a)
-for (seti in a$sets){ print(length(seti))}
+
 
 
 

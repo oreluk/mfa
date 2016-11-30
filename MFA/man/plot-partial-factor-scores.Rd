@@ -28,7 +28,7 @@
 
 \item{cexlab}{size for axis labels, default 1, 1.7 used for app}
 
-\item{textcolor}{color of text labeling points, can be one color or a vector of length num obs colors}
+\item{app}{if true, this is for the shiny app and margins are changed}
 }
 \description{
 plots partial factor scores for 2 given dimensions/components of a given table in an mfa object
