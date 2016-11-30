@@ -1,29 +1,37 @@
 # stephanie's testing that the package actually works --
 
-# should just be able to use load_all() from devtools and the package will
-# be loaded into your workspace (neglects unit tests, etc.)
-devtools::load_all()
+path_to_file="/Users/stephanie/classes/STAT243/MFA/MFA_0.1.0.tar.gz"
+install.packages(path_to_file, repos = NULL, type="source")
+library(MFA)
 
 # WINE DATA
-#load the wine data and information on var names
-d <- loadWineData()
+#load the wine data and define indices for the sub-tables within the data table
+d <- loadWineData() #wine data
+# sets, list of vectors indexing into d
 s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
            seq(25,30), seq(31,35), seq(36,39), seq(40,45),
            seq(46,50), seq(51,54) )
+# use mfa constructor on d,s
 a = mfa(d, s)
 
-v = vardim(a)
-
-
-
+# APP TESTING
+# The app will use whatever mfa object in your workspace that is called
+# mfa_obj. Make sure this is set to the object you want to use in the app!
+# If you have variable names associated with your dataset, make sure
+# to store those in active_var_names
+# If you have observation names you'd like to use with your dataset,
+# make sure to store those in active_obs_names.
+# If you have a color or vector of colors you'd like to use for the variables,
+# make sure to store that as active_col_vec
+# If you don't have observation names, variable names, or colors for variables,
+# make sure these are set to NULL.
 
 # TEST APP (wine data)
 mfa_obj <- a #name needed for app
-active_var_names <- loadWineInfo()$varkeys
-active_obs_names <- loadWineInfo()$obskeys
-active_col_vec <- loadWineInfo()$colors
+active_var_names <- loadWineInfo()$varkeys #name needed for app
+active_obs_names <- loadWineInfo()$obskeys #name needed for app
+active_col_vec <- loadWineInfo()$colors #name needed for app
 MFA::runExample()
-
 
 # RANDOM DATA
 # create a data set of random integers ranging from 50 to 100
@@ -41,11 +49,7 @@ active_obs_names <- NULL
 active_col_vec <- NULL
 MFA::runExample()
 
-# the way the app can use different data sets right now is
-# by the names mfa_obj and active_var_names
-# make sure you set these before running...
-# also active_obs_names and active_col_vec should be set to null if you
-# dont have obs labels or colors youd like your obs to be labeled with!
+
 
 
 
@@ -73,14 +77,10 @@ plot_loading(a,table=1,dim1=3,dim2=4,varnames=varkeys)
 plot_ev(a)
 plot_inertia_pie(a)
 
-#shouldnt work:
-plot_compromise(a,dim1=3,dim2=100)
-plot_partial_fac(a,table=100)
-
 # does the documentation exist?
 #now you should get documentation for things:
 ?mfa #should give html
-?eigenvalueTable
+?eigenvalueTable.mfa
 ?rv_table
 ?rv
 ?lg

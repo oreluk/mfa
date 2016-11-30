@@ -36,12 +36,13 @@ plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, varnames=NULL,
   } else {
     varlabels <- names(X)
   }
-  library(RColorBrewer)
-  darkcols <- brewer.pal(length(X), "Dark2")
-  # sometimes (e.g. random data martix), the names(X) will be null
+  #library(RColorBrewer)
+  #darkcols <- brewer.pal(8, "Dark2")
+  darkcols <- rainbow(length(X), s=0.7)
+
+  # sometimes (e.g. random data matrix), the names(X) will be null
   # in this case, set varlabels to 1:length(X)
   if (is.null(names(X))){ varlabels <- 1:length(X)}
-
 
   # widen left margin to accomodate the large font of axis label
   if (app==TRUE) {par(mar=c(5.1,8.1,4.1,2.1))}
