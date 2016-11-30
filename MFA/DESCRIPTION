@@ -27,6 +27,7 @@ Collate: mfa.R
          loadWineData.R
          runExample.R
          plot_inertia_pie.R
+         plot_biplot.R
 Suggests:
     knitr,
     rmarkdown,

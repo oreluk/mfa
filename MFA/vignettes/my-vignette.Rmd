@@ -19,7 +19,7 @@ Multiple Factor Analysis is a statistical method that expands the concept of pri
 
 [The print method: print-mfa.R](#id2)
 
-[The five plotting methods: plot_compromise.R, plot_ev.R, plot_loading.R, plot_partial_fac.R, plot_inertia_pie.R](#id3)
+[The six plotting methods: plot_compromise.R, plot_ev.R, plot_loading.R, plot_biplot.R, plot_partial_fac.R, plot_inertia_pie.R](#id3)
 
 [Additional descriptive statistics: lg.R, lg_table.R, rv.R, rv_table.R, obs_dim.R, var_dim.R, bootstrap_factorscores.R](#id4)
 
@@ -157,9 +157,9 @@ We chose to only display only the first two components in each case, even when t
 
 <a id="id3"></a> 
 
-## Five plotting methods 
+## Six plotting methods 
 
-Five plotting methods were developed for this package. 
+Six plotting methods were developed for this package. 
 
 Once you have installed this package, you should be able to produce all of the plots shown here by loading our sample wine data set. The code below demonstrates how to load the data set and more information on the the data set, and how to create your mfa object with the constructor function.
 
@@ -206,6 +206,16 @@ plot_loading(a, varnames = varlabels, table = 2,
              cexmain=0.9, cexaxis=0.6, cexlab=0.8, sz=0.8 )
 plot_loading(a, varnames = varlabels, table = 4, 
              cexmain=0.9, cexaxis=0.6, cexlab=0.8, sz=0.8 )
+```
+
+It is useful to view the loadings and partial factor scores on the same plot. For this purpose, we have plot_biplot.R. Below we show this for tables 2 and 4 again.
+
+```{r, fig.cap="Variable loadings for assessors 2 and 4", fig.show='hold',  fig.width=7, fig.height=4, echo=TRUE}
+par(mfrow=c(1,2))
+plot_biplot(a, obsnames = obslabels, varnames = varlabels, table=2,
+             cexmain=0.8, cexaxis=0.6, cexlab=0.8, sz=0.8 )
+plot_biplot(a, obsnames = obslabels, varnames = varlabels, table=4,
+             cexmain=0.8, cexaxis=0.6, cexlab=0.8, sz=0.8 )
 ```
 
 

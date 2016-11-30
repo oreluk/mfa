@@ -64,6 +64,8 @@ eigenvalueTable(a)
 #first get obsnames and varnames:
 obskeys<-loadWineInfo()$obskeys
 varkeys<-loadWineInfo()$varkeys
+obslabels<-obskeys
+varlabels<-varkeys
 #
 plot_compromise(a)
 plot_compromise(a,dim1=3,dim2=1)
@@ -76,6 +78,19 @@ plot_loading(a,table=1,dim1=3,dim2=4,varnames=varkeys)
 #bar graph
 plot_ev(a)
 plot_inertia_pie(a)
+
+#biplot...
+plot_biplot(a, obsnames=obskeys, varnames = varkeys, textcolor = loadWineInfo()$colors)
+plot_biplot(a, obsnames=obskeys, varnames = varkeys)
+plot_biplot(a, obsnames=obskeys, varnames = varkeys, table=2)
+plot_biplot(a, obsnames=obskeys, varnames = varkeys, table=3)
+
+par(mfrow=c(1,2))
+plot_biplot(a, obsnames = obslabels, varnames = varlabels, table=2,
+            cexmain=0.9, cexaxis=0.6, cexlab=0.8, sz=0.8 )
+plot_biplot(a, obsnames = obslabels, varnames = varlabels, table=4,
+            cexmain=0.9, cexaxis=0.6, cexlab=0.8, sz=0.8 )
+
 
 # does the documentation exist?
 #now you should get documentation for things:
