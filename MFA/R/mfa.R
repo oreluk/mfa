@@ -50,7 +50,7 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   }
 
 
-  # Scale center each table in tableList
+  # Scale and center each table in tableList
   xTables = vector(mode = "list", length = length(yTables))
   for (i in 1:length(xTables)){
     if (!is.logical(center)){
@@ -75,14 +75,12 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
     xTables[[i]] = xTables[[i]] / sqrt(nrow(xTables[[i]])-1)  # this is used to match the paper results
   }
 
-  # Factor scores, weights and Normalized Tables
-  G = vector(mode = "list", length = length(xTables))
+  # Individual Table SVDs to compute table weights
   aVector = vector()  # can proabably  pre-allocate memory properly
   alpha = vector(mode = "list", length = length(xTables))
 
   for (k in 1:length(xTables)) {
     val = svd(xTables[[k]])
-    G[[k]] =  val$u %*% diag(val$d)
     alpha[[k]] = (val$d[1]^-2)
     aVector = c(aVector, rep(alpha[[k]], ncol(val$u)) )
   }
@@ -91,7 +89,7 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   nObs = nrow(xTables[[1]])
   m = rep(1/nObs, nObs)
 
-  # Concatenate normalized tables
+  # Concatenate individual tables into 'grand' table
   for (j in 1:length(xTables)){
     if (j == 1) {
       X = xTables[[j]]
