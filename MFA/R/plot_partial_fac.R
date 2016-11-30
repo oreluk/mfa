@@ -1,6 +1,8 @@
 #' @export
-plot_partial_fac = function(obj, table=1, dim1=1, dim2=2, sz=2, obsnames=NULL, textcolor='black') UseMethod("plot_partial_fac", obj)
-plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, obsnames=NULL, textcolor='black') {
+plot_partial_fac = function(obj, table=1, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',
+                            cexmain=1,cexlab=1, app=FALSE) UseMethod("plot_partial_fac", obj)
+plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',
+                                 cexmain=1,cexlab=1, app=FALSE) {
   #' @param  x An object of class mfa
   #' @param  dim1 dimension for x axis, default 1st component
   #' @param  dim2 dimension for y axis, default 2nd component
@@ -8,6 +10,9 @@ plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, obsnames=NULL
   #' @param  obsnames input labels for your observations if desired
   #' @param  textcolor color of text labeling points, either a single color or a vector of colors equal to number of obs in mfa object
   #' @param  sz size of text labeling points on scatterplot
+  #' @param  textcolor color of text labeling points, can be one color or a vector of length num obs colors
+  #' @param  cexmain size for main title label, default 1, 2 used for app
+  #' @param  cexlab size for axis labels, default 1, 1.7 used for app
   #' @export
   #' @title Plot Partial Factor Scores
   #' @name plot partial factor scores
@@ -25,7 +30,7 @@ plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, obsnames=NULL
   }
 
   # widen left margin to accomodate large axis label font
-  par(mar=c(5.1,8.1,4.1,2.1))
+  if (app==TRUE) {par(mar=c(5.1,8.1,4.1,2.1))}
 
   # plot the data (white points are not visible, but text is added with text())
   plot(X, Y,
@@ -36,8 +41,8 @@ plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, obsnames=NULL
        ylim=c(min(Y)-0.4,max(Y)+0.4),
        cex=1,
        cex.axis = 1,
-       cex.lab = 1.7)
+       cex.lab = cexlab)
   text(X,Y,labels=obslabels,col=textcolor,cex=sz)
   abline(v=0,h=0)
-  title(paste0('Partial Factor Scores for Table ', table ), cex.main=2)
+  title(paste0('Partial Factor Scores for Table ', table ), cex.main=cexmain)
 }

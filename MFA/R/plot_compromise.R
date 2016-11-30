@@ -1,6 +1,8 @@
 #' @export
-plot_compromise = function(obj, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',cexmain=1,cexlab=1, app=FALSE) UseMethod("plot_compromise", obj)
-plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',cexmain=1,cexlab=1, app=FALSE) {
+plot_compromise = function(obj, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',
+                           cexmain=1,cexlab=1, app=FALSE) UseMethod("plot_compromise", obj)
+plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',
+                                cexmain=1,cexlab=1, app=FALSE) {
   #' @param  x An object of class mfa
   #' @param  dim1 dimension for x axis, default 1st component
   #' @param  dim2 dimension for y axis, default 2nd component

@@ -1,12 +1,17 @@
 #' @export
-plot_loading = function(obj, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) UseMethod("plot_loading", obj)
-plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) {
+plot_loading = function(obj, table=1, dim1=1, dim2=2, sz=1, varnames=NULL,
+                        cexmain=1,cexlab=1, app=FALSE) UseMethod("plot_loading", obj)
+plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, varnames=NULL,
+                             cexmain=1,cexlab=1, app=FALSE) {
   #' @param  x An object of class mfa
   #' @param  dim1 dimension for x axis, default 1st component
   #' @param  dim2 dimension for y axis, default 2nd component
   #' @param  table which table to plot (integer 1:K)
   #' @param  sz size of text label in plot
   #' @param  varnames variable labels if available
+  #' @param  cexmain size for main title label, default 1, 2 used for app
+  #' @param  cexlab size for axis labels, default 1, 1.7 used for app
+  #' @param  app if true, this is for the shiny app and margins are changed
   #' @export
   #' @title Plot Loadings
   #' @name plot variable loadings
@@ -38,7 +43,7 @@ plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) {
 
 
   # widen left margin to accomodate the large font of axis label
-  par(mar=c(5.1,8.1,4.1,2.1))
+  if (app==TRUE) {par(mar=c(5.1,8.1,4.1,2.1))}
 
   # plot the data (white points are not visible, but text is added with text())
   plot(X, Y,
@@ -49,8 +54,8 @@ plot_loading.mfa <- function(x, table=1, dim1=1, dim2=2, sz=2, varnames=NULL) {
        ylim=c(min(Y)-0.4,max(Y)+0.4),
        cex=1,
        cex.axis = 1,
-       cex.lab = 1.7)
+       cex.lab = cexlab)
   text(X,Y,labels=varlabels,col=darkcols,cex=sz)
   abline(v=0,h=0)
-  title(paste0('Variable Loadings for Table ', table ),cex.main=2)
+  title(paste0('Variable Loadings for Table ', table ),cex.main=cexmain)
 }

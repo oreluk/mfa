@@ -5,8 +5,8 @@
 \alias{plot_loading.mfa}
 \title{Plot Loadings}
 \usage{
-\method{plot_loading}{mfa}(x, table = 1, dim1 = 1, dim2 = 2, sz = 2,
-  varnames = NULL)
+\method{plot_loading}{mfa}(x, table = 1, dim1 = 1, dim2 = 2, sz = 1,
+  varnames = NULL, cexmain = 1, cexlab = 1, app = FALSE)
 }
 \arguments{
 \item{x}{An object of class mfa}
@@ -20,6 +20,12 @@
 \item{sz}{size of text label in plot}
 
 \item{varnames}{variable labels if available}
+
+\item{cexmain}{size for main title label, default 1, 2 used for app}
+
+\item{cexlab}{size for axis labels, default 1, 1.7 used for app}
+
+\item{app}{if true, this is for the shiny app and margins are changed}
 }
 \description{
 plots variable loadings for 2 given dimensions of a given table in an mfa object

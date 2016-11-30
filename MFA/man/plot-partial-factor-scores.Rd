@@ -5,8 +5,9 @@
 \alias{plot_partial_fac.mfa}
 \title{Plot Partial Factor Scores}
 \usage{
-\method{plot_partial_fac}{mfa}(x, table = 1, dim1 = 1, dim2 = 2, sz = 2,
-  obsnames = NULL, textcolor = "black")
+\method{plot_partial_fac}{mfa}(x, table = 1, dim1 = 1, dim2 = 2, sz = 1,
+  obsnames = NULL, textcolor = "black", cexmain = 1, cexlab = 1,
+  app = FALSE)
 }
 \arguments{
 \item{x}{An object of class mfa}
@@ -22,6 +23,12 @@
 \item{obsnames}{input labels for your observations if desired}
 
 \item{textcolor}{color of text labeling points, either a single color or a vector of colors equal to number of obs in mfa object}
+
+\item{cexmain}{size for main title label, default 1, 2 used for app}
+
+\item{cexlab}{size for axis labels, default 1, 1.7 used for app}
+
+\item{textcolor}{color of text labeling points, can be one color or a vector of length num obs colors}
 }
 \description{
 plots partial factor scores for 2 given dimensions/components of a given table in an mfa object
