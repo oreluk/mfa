@@ -7,7 +7,7 @@
 \usage{
 \method{plot_compromise}{mfa}(x, dim1 = 1, dim2 = 2, sz = 1,
   obsnames = NULL, textcolor = "black", cexmain = 1, cexlab = 1,
-  app = FALSE)
+  cexaxis = 0.8, app = FALSE)
 }
 \arguments{
 \item{x}{An object of class mfa}
@@ -25,6 +25,8 @@
 \item{cexmain}{size for main title label, default 1, 2 used for app}
 
 \item{cexlab}{size for axis labels, default 1, 1.7 used for app}
+
+\item{cexaxis}{size for axis tick labels, default 0.8}
 
 \item{app}{if true, this is for the shiny app and margins are changed}
 }

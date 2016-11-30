@@ -3,8 +3,8 @@ plot_inertia_pie = function(obj, cexmain=1, cexlab=1, radius=1, app=FALSE) UseMe
 plot_inertia_pie.mfa <- function(x, cexmain=1, cexlab=1, radius=1, app=FALSE) {
   #' @param  x An object of class mfa
   #' @param  cexmain size for main title
-  #' @param  cexlab size for labels
-  #' @param  app if TRUE, wider margins
+  #' @param  cexlab size for labels of pie slices
+  #' @param  app set to TRUE if you are using this in the shiny app context
   #' @param  radius radius of circle, default 1
   #' @export
   #' @title Plot Pie Chart of Inertia
@@ -21,5 +21,4 @@ plot_inertia_pie.mfa <- function(x, cexmain=1, cexlab=1, radius=1, app=FALSE) {
       cex=cexlab, xaxs="r", yaxs="r")
   title(maintitle,cex.main=cexmain)
   if (app == FALSE){par(mar=c(1.1,1.1,1.1,1.1))}
-#for app cexmain=2,cexlab=1.5
 }

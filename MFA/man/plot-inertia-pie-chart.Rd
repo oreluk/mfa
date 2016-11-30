@@ -13,11 +13,11 @@
 
 \item{cexmain}{size for main title}
 
-\item{cexlab}{size for labels}
+\item{cexlab}{size for labels of pie slices}
 
 \item{radius}{radius of circle, default 1}
 
-\item{app}{if TRUE, wider margins}
+\item{app}{set to TRUE if you are using this in the shiny app context}
 }
 \description{
 plots a pie chart of percent inertia (from mfa objects eigenvalue table)

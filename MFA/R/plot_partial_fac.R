@@ -1,8 +1,8 @@
 #' @export
 plot_partial_fac = function(obj, table=1, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',
-                            cexmain=1,cexlab=1, app=FALSE) UseMethod("plot_partial_fac", obj)
+                            cexmain=1,cexlab=1, cexaxis=0.8, app=FALSE) UseMethod("plot_partial_fac", obj)
 plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',
-                                 cexmain=1,cexlab=1, app=FALSE) {
+                                 cexmain=1,cexlab=1, cexaxis=0.8, app=FALSE) {
   #' @param  x An object of class mfa
   #' @param  dim1 dimension for x axis, default 1st component
   #' @param  dim2 dimension for y axis, default 2nd component
@@ -12,7 +12,8 @@ plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, obsnames=NULL
   #' @param  sz size of text labeling points on scatterplot
   #' @param  cexmain size for main title label, default 1, 2 used for app
   #' @param  cexlab size for axis labels, default 1, 1.7 used for app
-  #' @param  app if true, this is for the shiny app and margins are changed
+  #' @param  cexaxis size for axis tick labels, default 0.8
+  #' @param  app if TRUE, this is for the shiny app and margins are changed
   #' @export
   #' @title Plot Partial Factor Scores
   #' @name plot partial factor scores
@@ -40,7 +41,7 @@ plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, obsnames=NULL
        xlim=c(min(X)-0.4,max(X)+0.4),
        ylim=c(min(Y)-0.4,max(Y)+0.4),
        cex=1,
-       cex.axis = 1,
+       cex.axis = cexaxis,
        cex.lab = cexlab)
   text(X,Y,labels=obslabels,col=textcolor,cex=sz)
   abline(v=0,h=0)
