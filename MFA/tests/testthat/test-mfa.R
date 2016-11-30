@@ -5,8 +5,8 @@ filename = system.file("extdata", "wines.csv", package = "MFA")
 d <- loadWineData(checknames=TRUE)
 
 s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
-            seq(25,30), seq(31,35), seq(36,39), seq(40,45),
-            seq(46,50), seq(51,54) )
+           seq(25,30), seq(31,35), seq(36,39), seq(40,45),
+           seq(46,50), seq(51,54) )
 
 s2 = list(c('V1','V2','V3','V4','V5','V6'), c('V1.1','V2.1','V3.1','V4.1','V7','V8'),
           c('V1.2','V2.2','V3.2','V4.2','V9','V10'), c('V1.3','V2.3','V3.3','V4.3','V8.1'),
@@ -63,6 +63,13 @@ test_that("results from list of characters or list of vectors is same", {
   expect_equal(a2$alpha, a$alpha)
 })
 
+
+test_that("contribution functions i/o correct", {
+  expect_true(all(dim(var_dim(a)) == c(length(a$aVector), length(a$eigenvalues)) ))
+  expect_true(all(dim(obs_dim(a)) == c(dim(a$data)[1], length(a$eigenvalues)) ))
+  expect_true(all(dim(table_dim(a)) == c(length(a$sets), length(a$eigenvalues)) ))
+})
+
 keys = loadWineInfo()$varkeys
 test_that("plot functions are working", {
   # Invalid Inputs
@@ -110,8 +117,16 @@ test_that("mfa solves wine demo correctly", {
 
   evaluate_PFS = round(a$partialFactorScores[[1]][,1:2],3)
   paperResultsPFS = cbind(   c(-1.037, -1.179, -0.213, -0.946, 1.546, 1.176, 0.698, 1.006, -0.922, 0.189, -0.643, 0.323),
-                          c(0.155, 0.596, -0.104, 0.446, -0.676, -0.747, 0.166, -0.063, 0.486, -0.936, 0.640, 0.036) )
+                             c(0.155, 0.596, -0.104, 0.446, -0.676, -0.747, 0.166, -0.063, 0.486, -0.936, 0.640, 0.036) )
   expect_true(all(evaluate_PFS == paperResultsPFS))
 
+  evaluate_loading = round(a$matrixLoadings[,1:2], 3)
+  paperResultsLoading = cbind( c(-0.294, -0.267, -0.260, 0.241, 0.286, -0.233, -0.297, -0.296, -0.267, 0.256, -0.238, -0.222, -0.305, -0.136, -0.258, 0.203, -0.277, 0.267,
+                                 -0.313, -0.261, -0.303, 0.230, -0.205, -0.296, -0.213, -0.268, 0.124, -0.259, 0.177, -0.302, -0.277, -0.265, 0.231, -0.205, -0.275, -0.246, -0.277, 0.180,
+                                 -0.276, -0.247, -0.235, 0.138, -0.286, 0.239, -0.303, -0.235, -0.287, 0.251, -0.296, -0.323, -0.274, -0.286, 0.282),
+                               c(0.318, -0.248, 0.396, -0.184, 0.161, 0.129, 0.183, -0.178, 0.200, -0.240, -0.113, -0.333, 0.234, -0.228, 0.379, -0.365, -0.297, 0.283,
+                                 0.082, -0.353, -0.169, 0.066, -0.117, 0.201, -0.249, 0.258, 0.132, -0.144, 0.019, 0.215, -0.274, 0.328, 0.031, -0.340, 0.380, -0.410, 0.290, 0.376,
+                                 0.309, -0.376, 0.231, -0.219, -0.261, 0.293, 0.241, -0.221, 0.226, -0.083, -0.188, 0.080, -0.262, 0.187, 0.272) )
+  expect_true(all(evaluate_loading == paperResultsLoading))
 })
 
