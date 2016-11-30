@@ -20,7 +20,7 @@ print.mfa = function(x) {
                     'eigenvalues',
                     'common factor scores',
                     'table weights',
-                    'alpha vector?',
+                    'vector of alphas',
                     'partial factor scores',
                     'variable loadings (list form)',
                     'variable loadings (matrix form)',

@@ -1,12 +1,14 @@
 #' @export
-plot_compromise = function(obj, dim1=1, dim2=2, sz=2, obsnames=NULL, textcolor='black') UseMethod("plot_compromise", obj)
-plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=2, obsnames=NULL, textcolor='black') {
+plot_compromise = function(obj, dim1=1, dim2=2, sz=2, obsnames=NULL, textcolor='black',cexmain=1,cexlab=1) UseMethod("plot_compromise", obj)
+plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=2, obsnames=NULL, textcolor='black',cexmain=1,cexlab=1) {
   #' @param  x An object of class mfa
   #' @param  dim1 dimension for x axis, default 1st component
   #' @param  dim2 dimension for y axis, default 2nd component
   #' @param  sz size of text label in scatter plot
   #' @param  obsnames input labels for your observations if desired
   #' @param  textcolor color of text labeling points, can be one color or a vector of length num obs colors
+  #' @param  cexmain size for main title label, default 1, 2 used for app
+  #' @param  cexlab size for axis labels, default 1, 1.7 used for app
   #' @export
   #' @title Plot Compromise
   #' @name plot compromise
@@ -33,8 +35,10 @@ plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=2, obsnames=NULL, textcolo
        ylim=c(min(Y)-0.4,max(Y)+0.4),
        cex=1,
        cex.axis = 1,
-       cex.lab = 1.7)
+       cex.lab = cexlab)
   text(X,Y,labels=obslabels,col=textcolor,cex=sz)
   abline(v=0,h=0)
-  title('Factor Scores',cex.main=2)
+  title('Factor Scores',cex.main=cexmain)
 }
+
+#save for app cex=1,cex.axis=1,cex.lab=1.7, cexmain=2

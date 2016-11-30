@@ -7,12 +7,15 @@ shinyServer(function(input, output) {
       if (exists('active_obs_names') & exists('active_col_vec')){
         plot_compromise(mfa_obj, dim1=input$d1, dim2=input$d2,
                          obsnames=active_obs_names,
-                         textcolor=active_col_vec)}
+                         textcolor=active_col_vec,
+                         cex.lab=1.7, cexmain=2)}
       else if (exists('active_obs_names')) {
         plot_compromise(mfa_obj, dim1=input$d1, dim2=input$d2,
-                         obsnames=active_obs_names)}
+                         obsnames=active_obs_names,
+                         cex.lab=1.7, cexmain=2)}
       else{
-        plot_compromise(mfa_obj, dim1=input$d1, dim2=input$d2)}
+        plot_compromise(mfa_obj, dim1=input$d1, dim2=input$d2,
+                        cex.lab=1.7, cexmain=2)}
     }
 
     if (input$radio==2){

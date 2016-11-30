@@ -6,7 +6,7 @@
 \title{Plot Compromise}
 \usage{
 \method{plot_compromise}{mfa}(x, dim1 = 1, dim2 = 2, sz = 2,
-  obsnames = NULL, textcolor = "black")
+  obsnames = NULL, textcolor = "black", cexmain = 1, cexlab = 1)
 }
 \arguments{
 \item{x}{An object of class mfa}
@@ -20,6 +20,10 @@
 \item{obsnames}{input labels for your observations if desired}
 
 \item{textcolor}{color of text labeling points, can be one color or a vector of length num obs colors}
+
+\item{cexmain}{size for main title label, default 1, 2 used for app}
+
+\item{cexlab}{size for axis labels, default 1, 1.7 used for app}
 }
 \description{
 plots the compromise, i.e. the common factor scores, for 2 given dimensions of an mfa table

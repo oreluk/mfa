@@ -11,6 +11,6 @@
 \item{x}{An object of class mfa}
 }
 \description{
-plots bar graph of eigenvals
+plots bar graph of eigenvalues from an mfa object
 }
 
