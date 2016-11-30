@@ -1,6 +1,6 @@
 #' @export
-plot_compromise = function(obj, dim1=1, dim2=2, sz=2, obsnames=NULL, textcolor='black',cexmain=1,cexlab=1) UseMethod("plot_compromise", obj)
-plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=2, obsnames=NULL, textcolor='black',cexmain=1,cexlab=1) {
+plot_compromise = function(obj, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',cexmain=1,cexlab=1, app=FALSE) UseMethod("plot_compromise", obj)
+plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',cexmain=1,cexlab=1, app=FALSE) {
   #' @param  x An object of class mfa
   #' @param  dim1 dimension for x axis, default 1st component
   #' @param  dim2 dimension for y axis, default 2nd component
@@ -9,6 +9,7 @@ plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=2, obsnames=NULL, textcolo
   #' @param  textcolor color of text labeling points, can be one color or a vector of length num obs colors
   #' @param  cexmain size for main title label, default 1, 2 used for app
   #' @param  cexlab size for axis labels, default 1, 1.7 used for app
+  #' @param  app if true, this is for the shiny app and margins are changed
   #' @export
   #' @title Plot Compromise
   #' @name plot compromise
@@ -24,7 +25,7 @@ plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=2, obsnames=NULL, textcolo
   }
 
   # widen the left margin
-  par(mar=c(5.1,8.1,4.1,2.1))
+  if (app==TRUE) {par(mar=c(5.1,8.1,4.1,2.1))}
 
   # plot the data (white points are not visible, but text is added with text())
   plot(X, Y,

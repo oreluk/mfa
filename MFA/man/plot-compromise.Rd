@@ -5,8 +5,9 @@
 \alias{plot_compromise.mfa}
 \title{Plot Compromise}
 \usage{
-\method{plot_compromise}{mfa}(x, dim1 = 1, dim2 = 2, sz = 2,
-  obsnames = NULL, textcolor = "black", cexmain = 1, cexlab = 1)
+\method{plot_compromise}{mfa}(x, dim1 = 1, dim2 = 2, sz = 1,
+  obsnames = NULL, textcolor = "black", cexmain = 1, cexlab = 1,
+  app = FALSE)
 }
 \arguments{
 \item{x}{An object of class mfa}
@@ -24,6 +25,8 @@
 \item{cexmain}{size for main title label, default 1, 2 used for app}
 
 \item{cexlab}{size for axis labels, default 1, 1.7 used for app}
+
+\item{app}{if true, this is for the shiny app and margins are changed}
 }
 \description{
 plots the compromise, i.e. the common factor scores, for 2 given dimensions of an mfa table
