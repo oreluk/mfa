@@ -29,7 +29,7 @@ $$\{Y_1, \ldots, Y_k\} \in \mathbb{R}^{n \times m_i}\; \text{for}\; i = 1, \ldot
 
 
 * Sets can share or have their own unique variables 
-    - the number of observations (rows) for each set needs to remain be the same
+    - the number of observations (rows) for each set needs to be the same
 
 ## Pre-processing
 
@@ -130,26 +130,30 @@ install_github("oreluk/MFA")
 ```
 
 ## Features
-- Enables a simple way to complete a multiple factor analysis 
+-MFA constructor: mfa.R
 
-- Eigenvalues, factor tables, loadings, R$_v$, and L$_g$ provide insight of the observations and variables 
+-Print method: print-mfa.R
 
-- Provides visualization of the factor analysis by using biplots
+-Six plotting methods: plot_compromise.R, plot_ev.R, plot_loading.R, plot_biplot.R, plot_partial_fac.R, plot_inertia_pie.R
 
-- Contributions of a observation, variable or table to the dimensions
+-Additional descriptive statistics: lg.R, lg_table.R, rv.R, rv_table.R, obs_dim.R, var_dim.R, table_dim.R, bootstrap_factorscores.R
+
+-A toy data set to experiment with: loadWineData.R
+
+-A Shiny App: runExample.R
 
 # Demo
 ## Wine Tasting Dataset
 - A set of wines were evaluated by a group of assessors
 
-- Each assessors was asked to evaluate the wine on a 9-point scale using four variables (cat-pee, passion fruit, green pepper, and mineral)
+- Each assessor was asked to evaluate the wine on a 9-point scale using four variables (cat-pee, passion fruit, green pepper, and mineral)
     + An assessor could also include additional variables if they felt the need 
 
 - Rows in this data set will indicate the the different types of wines that were evaluated, the observations
 
 - Columns will represent the different variables of taste
 
-- Each set (table) will be one assessors evaluation of the wines with their respective tasting variables
+- Each set (table) will be one assessor's evaluation of the wines with their respective tasting variables
 
 ## Loading the data
 
@@ -157,24 +161,22 @@ install_github("oreluk/MFA")
 ```
 data <- loadWineData()
 ```
-- A data.frame or table can be used as input to the MFA package
+- A data.frame or table can be used as input to the MFA constructor function `mfa.R`
 
-- Sets is used to partition the input data into sets (tables) by assessor. In this example we have 10 assessors indexed by their column number. 
+- 'Sets' is used to partition the input data into sets (tables) by assessor. In this example we have 10 assessors indexed by their column number. 
 ```
 sets <- list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
            seq(25,30), seq(31,35), seq(36,39), seq(40,45),
            seq(46,50), seq(51,54) )
 ```
-- Sets can either be a list of variable names or the column index. 
+- 'Sets' can either be a list of variable names or the column index. 
 
 ## Creating an MFA Object 
 
-- To perform multiple factor analysis on the sets of data:
+- To perform multiple factor analysis on the sets of data, run the MFA constructor function:
 ```
 dsWine <- mfa(data, sets)
 ```
-- `dsWine` is a __mfa__ object which has completed the mulitple factor analysis
-
 - The command above is actually executing:
 ```
 dsWine <- mfa(data, sets, ncomps = NULL, center = TRUE, scale = TRUE)
@@ -185,8 +187,11 @@ dsWine <- mfa(data, sets, ncomps = NULL, center = TRUE, scale = TRUE)
     + __center__: centering of each of the sets utilizing the R base function `scale()` 
     + __scale__: scales each of the sets by utilizing the R base function `scale()`
 
+- The output `dsWine` is a __mfa__ object 
 
-## View results 
+
+
+## View results: the eigenvalues (table) 
 
 Looking at the singular values, eigenvalues and their inertia:
 
@@ -202,47 +207,55 @@ cumulative         0.7702551  0.8931806  0.98389110  1.05990645  1.11950714  1.1
 percentInertia    61.2296749  9.7716778  7.21082608  6.04266702  4.73782113  3.11636657  
 cumulativeInertia 61.2296749 71.0013527 78.21217882 84.25484584 88.99266698 92.10903355 
 ```
+## View results: the eigenvalues (figure) 
 
+Looking at the eigenvalues in a bar chart: 
 
-## Factor Scores {.smaller}
+```{r, fig.cap="Eigenvalue magnitudes from mfa on the wine data set", fig.show='hold', fig.width=10, fig.height=4, echo=FALSE}
+library(MFA)
 
-- Factor scores can provide insight on which combination of factors underlie the observed data 
+d <- loadWineData()
+# also get some information on the wine data set such as wine names (obsnames) and variable names
+varlabels <- loadWineInfo()$varkeys
+obslabels <- loadWineInfo()$obskeys
+obscolors <- loadWineInfo()$colors
 
-- Factor scores are a property of the  __mfa__ object. Looking at the first two components:
+s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
+           seq(25,30), seq(31,35), seq(36,39), seq(40,45),
+           seq(46,50), seq(51,54) )
+a = mfa(d, s)
 
+plot_ev(a)
 ```
-dsWine$factorScores[,1:2]
 
-        [,1]   [,2]
- [1,] -0.980  0.163
- [2,] -0.809  0.033
- [3,] -0.761 -0.454
- [4,] -1.115 -0.166
- [5,]  1.373 -0.128
- [6,]  1.264 -0.108
- [7,]  0.808  0.205
- [8,]  0.925  0.408
- [9,] -0.669  0.369
- [10,]  0.073 -0.757
- [11,] -0.476  0.513
- [12,]  0.367 -0.076
+## View results: Factor Scores {.smaller}
+
+- Factor scores provide insight into the underlying structure of the data set 
+
+- Factor scores are a property of the  __mfa__ object. Looking at a plot of the first two components, we can see how the New Zealand and France wines cluster much more than the Canada wines:
+
+```{r, fig.cap="Compromise or common factor scores of the wine data set", fig.show='hold', fig.width=4, fig.height=4, echo=FALSE}
+
+plot_compromise(a, obsnames = obslabels, textcolor = obscolors, 
+                cexmain=0.9, cexaxis=0.6, cexlab=0.8, sz=0.8 )
 ```
 
 
 ## Partial factor scores and loadings 
 
-- Partial factor scores and loading matrices are stored in the __mfa__ object. 
+- Partial factor scores and variable loadings are contained in matrices stored in the __mfa__ object. 
     + There are $N$ number of partial factor score matrices, where N is the number of sets (tables) in the analysis. The following code will return the partial factor score for the first table.
 
 ```
 dsWine$partialFactorScores[1]
 ```
 
-- Matrix loadings are the right singular vectors of the generalized singular value decomposition ($Q$). Loadings can be obtained by:  
+- Variable loadings are the right singular vectors of the generalized singular value decomposition ($Q$). Loadings can be obtained by:  
 
 ```
 dsWine$matrixLoadings
 ```
+-There are plotting methods to visualize these data as well (see shiny app demonstration)
 
 ## Calculating R$_v$ and L$_g$ coeffient 
 
