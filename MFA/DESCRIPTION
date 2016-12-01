@@ -28,7 +28,7 @@ Collate: mfa.R
          runExample.R
          plot_inertia_pie.R
          plot_biplot.R
-         eigTable.R
+         eigenvalueTable.R
 Suggests:
     knitr,
     rmarkdown,
