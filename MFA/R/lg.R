@@ -17,7 +17,7 @@ lg <- function(table1, table2){
   table2 = as.matrix(table2)
 
 
-  # Equation shown in /tutorial/ slide 23
+  # Equation shown in /tutorial/ slide 24
   # Numerator:
   num = sum(diag(tcrossprod(table1) %*% tcrossprod(table2)))
 
