@@ -22,7 +22,7 @@ Multiple Factor Analysis is a statistical method that expands the concept of pri
 
 [The six plotting methods: plot_compromise.R, plot_ev.R, plot_loading.R, plot_biplot.R, plot_partial_fac.R, plot_inertia_pie.R](#id3)
 
-[Additional descriptive statistics: lg.R, lg_table.R, rv.R, rv_table.R, obs_dim.R, var_dim.R, bootstrap_factorscores.R](#id4)
+[Additional descriptive statistics: lg.R, lg_table.R, rv.R, rv_table.R, obs_dim.R, var_dim.R, table_dim.R, bootstrap_factorscores.R](#id4)
 
 [Load a toy data set to experiment with: loadWineData.R](#id5)
 
@@ -320,7 +320,7 @@ knitr::kable(table[,1:4])
 
 ## Toy data set 
 
-We included in our package the toy data set that has been featured in the examples given in this vignette so that for the users can replicate these examples. The function `loadWineData.R` accesses the included dataset. Within `loadWineData.R`, a second function `loadWineInfo` loads more info on the dataset, such as labels for the variables and wines. See the plotting part of vignette for example of loading the data and including the labels in your plots.
+We included in our package the toy data set that has been featured in the examples given in this vignette so that for the users can replicate these examples. The function `loadWineData.R` accesses the included dataset. Within `loadWineData.R`, a second function `loadWineInfo` loads more info on the dataset, such as labels for the variables and wines. See the plotting part of vignette for example of loading the data and including the labels in your plots. Reference 1 provides a detailed example using this same data set, as well as additional metadata for the the data set, which may be of interest to the user. 
 
 <a id="id6"></a> 
 
