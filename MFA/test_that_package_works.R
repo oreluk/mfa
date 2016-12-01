@@ -13,6 +13,7 @@ s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
            seq(46,50), seq(51,54) )
 # use mfa constructor on d,s
 a = mfa(d, s)
+#a
 
 # APP TESTING
 # The app will use whatever mfa object in your workspace that is called
