@@ -23,6 +23,11 @@ library(devtools)
 ```
 install_github("oreluk/MFA")
 ```
+Shiny App Demo
+============
+You can view a demo of the Shiny App on YouTube: 
+
+https://www.youtube.com/watch?v=tZbjV75L6F8
 
 References
 ============
