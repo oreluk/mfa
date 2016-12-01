@@ -76,7 +76,7 @@ mfa <- function(data, sets, ncomps = NULL, center = TRUE, scale = TRUE) {
   }
 
   # Individual Table SVDs to compute table weights
-  aVector = vector()  
+  aVector = vector()
   alpha = vector(mode = "list", length = length(xTables))
 
   for (k in 1:length(xTables)) {
@@ -198,30 +198,3 @@ check_inputs = function(data, sets, ncomps, center, scale) {
     }
   }
 }
-
-
-## Methods
-#' @export
-eigenvalueTable = function(x) UseMethod("eigenvalueTable",x)
-
-#' @method eigenvalueTable mfa
-#' @param  obj An object of class mfa
-#' @title Eigenvalue Table
-#' @name eigenvalue table
-#' @description eigenvalue table from mfa obj
-#' @export
-eigenvalueTable.mfa = function(obj) {
-
-  singularValues = obj$eigenvalues^(1/2)
-  eig = obj$eigenvalues
-
-  cumulative = cumsum(eig)
-  percentInertia = eig/cumulative[length(cumulative)] * 100
-  cumulativeInertia = cumsum(percentInertia)
-
-  # Create Table
-  formatedTable = rbind(singularValues, eig, cumulative, percentInertia, cumulativeInertia)
-  return(formatedTable)
-}
-
-

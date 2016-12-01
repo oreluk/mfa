@@ -279,6 +279,20 @@ knitr::kable(table[,1:4])
 
 ```
 
+`eigenvalueTable()` generates a summary table of the eigenvalues, singular values, and inertia for each of the 12 dimensions. Below, the table shows information only for the first 4 dimensions, which together cover 84% of the variation in the data set as seen in the cumulative inertia values: 
+
+```{r}
+
+table<-eigenvalueTable(a)
+colnames(table) <- c('dim1','dim2','dim3','dim4',
+               'dim5','dim6','dim7','dim8',
+               'dim9','dim10','dim11','dim12')
+
+knitr::kable(table[,1:4])
+
+```
+
+
 We have also included four closely related methods for examining between-table similarity. Two of these methods compute the Rv coefficient (`rv()`) and Lg coefficient (`lg()`), both of which are methods for quantifying the similarity between two data tables. The code snippet below demonstrates the usage of `lg()`. The arguments are two individual tables from the raw toy data set, which have been stored together in the matrix 'd' and re-partitioned into separate data tables prior to running the `lg()` function:   
 
 ```{r}
