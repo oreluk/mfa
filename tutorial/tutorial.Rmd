@@ -66,7 +66,7 @@ $$ \alpha_k = \frac{1}{\gamma_{1,k}^2} = \frac{1}{\lambda_{1,k}}$$
 
 - Each set has a weight, $\alpha_k$ which can be collected into a single vector $a$: 
 $$ a = [\alpha_1 1_{[1]}, \ldots,  \alpha_k 1_{[k]}]$$ 
-$a$ is a numVar-by-1` vector, where numVar is the number of variables in the analysis.  $\mathbb{1}_{[k]}$ is a vector of ones with a length equal to the number of variables of the $k$th table.
+$a$ is a numVar-by-1 vector, where numVar is the number of variables in the analysis.  $\mathbb{1}_{[k]}$ is a vector of ones with a length equal to the number of variables of the $k$th table.
 
 ## Generalized Singular Value Decomposition
 

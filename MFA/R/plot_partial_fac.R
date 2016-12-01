@@ -30,7 +30,7 @@ plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, obsnames=NULL
     obslabels <- 1:length(X)
   }
 
-  # widen left margin to accomodate large axis label font
+  # widen left margin to accommodate large axis label font
   if (app==TRUE) {par(mar=c(5.1,8.1,4.1,2.1))}
 
   # plot the data (white points are not visible, but text is added with text())

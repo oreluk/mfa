@@ -4,10 +4,12 @@
 \alias{bootstrap_factorscores.mfa}
 \title{Bootstrapping Factor Scores}
 \usage{
-\method{bootstrap_factorscores}{mfa}(x)
+\method{bootstrap_factorscores}{mfa}(x, nSamples = 1000)
 }
 \arguments{
 \item{x}{is an mfa object}
+
+\item{nSamples}{is the number of times to sample with replacement for bootstrap estimates}
 }
 \value{
 returns a 3-by-1 list containing the mean bootstrapped factor scores, the variance of the bootstrapped factor scores and the associated T star statistic.
@@ -16,9 +18,13 @@ returns a 3-by-1 list containing the mean bootstrapped factor scores, the varian
 Calculates the bootstrap confidence intervals by sampling with replace of factor scores
 }
 \examples{
-b bootstrap factor score
-from the set of tables. This approach also computes bootstrap ratios for
-each dimension
-
+d <- loadWineData() 
+s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
+        seq(25,30), seq(31,35), seq(36,39), seq(40,45),
+        seq(46,50), seq(51,54) )
+a = mfa(d, s)
+bootEst = boostrap_factorscores(a)   
+This approach will sample 1000 times for estimates. 
+Optional:  bootEst = boostrap_factorscores(a, nSamples = 5000) where nSamples can be specified. 
 }
 

@@ -12,9 +12,11 @@ table_dim.mfa = function(x) {
   ctr_tab = matrix(rep(1, length(x$sets) * length(x$eigenvalues)),
                    nrow = length(x$sets), ncol = length(x$eigenvalues))
 
-  # var_dim returns a n-by-l matrix, where n is the number of variables in the dataset
+  # var_dim returns a n-by-l matrix, where n is the number of variables in 
+  #  the dataset and l is the dimensions
   res = var_dim(x)
 
+  # Loop over dimensions taking sums of each table
   for (i in 1:length(x$sets)){
     idx = x$aVector == x$alpha[[i]]
     ctr_tab[i,] = colSums(res[idx,])
