@@ -1,5 +1,6 @@
+#' @export
 bootstrap_factorscores = function(x) UseMethod("bootstrap_factorscores")
-bootstrap_factorscores = function(x){
+bootstrap_factorscores.mfa = function(x){
   #' @title Bootstrapping Factor Scores
   #' @description Calculates the bootstrap confidence intervals by sampling with replace of factor scores
   #' @param x is an mfa object
