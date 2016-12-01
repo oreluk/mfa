@@ -34,9 +34,9 @@ Multiple Factor Analysis is a statistical method that expands the concept of pri
 
 ## The MFA constructor
 
-The MFA constructor function is the keystone of the package. It relies principally on two instances of R's built-in SVD function, as will be seen in the walk-through of this function below. 
+The MFA constructor function (`mfa.R`) is the keystone of the package. It relies principally on two instances of R's built-in SVD function, as will be seen in the walk-through of this function below. 
 
-MFA is intended for use on multi-table data sets, but for computational convenience, the user hands their raw data tables to mfa.R as a single matrix or data.frame along with a secondary input 'sets' which specifies how to divide the data back into individual tables. The user also defines how many factors to compute in the analysis with 'ncomps', and finally gives logical or numeric inputs to 'center' and 'scale' to define whether or not the function should perform centering and scaling for each active variable. The mfa.R constructor has in place careful checks for each of these types of input to safeguard against user error propagating into the analysis. Below is an example of how the check function ensures that the data inputs are in the right format:   
+MFA is intended for use on multi-table data sets, but for computational convenience, the user hands their raw data tables to `mfa.R` as a single matrix or data.frame along with a secondary input 'sets' which specifies how to divide the data back into individual tables. The user also defines how many factors to compute in the analysis with 'ncomps', and finally gives logical or numeric inputs to 'center' and 'scale' to define whether or not the function should perform centering and scaling for each active variable. The MFA constructor has in place careful checks for each of these types of input to safeguard against user error propagating into the analysis. Below is an example of how the check function ensures that the data inputs are in the right format:   
 
 ```{r, eval=FALSE}
 check_inputs = function(data, sets, ncomps, center, scale) {
@@ -85,7 +85,7 @@ The remainder of the MFA constructor calculates common factor scores, partial fa
 
 Because there is a lot of information contained in the MFA object that a user might like to have easy access to, developing a good print method is a tricky task. If you flood the user with too much data, using the print method is not any better than just displaying the entire object. But giving too little data is also not useful. Therefore, our team developed a middle ground that combines automatic output with some reactive prompts that allow a user to define the amount of information that they are interested in. 
 
-The print method begins by giving the user a lot of information about the structure of their MFA object, and instructions on how to access each individual component of the MFA object in full, followed by a brief summary of key values and factor scores. Below is a sample of output from the print method, showing the parts that print automatically:   
+The print method (`print-mfa.R`) begins by giving the user a lot of information about the structure of their MFA object, and instructions on how to access each individual component of the MFA object in full, followed by a brief summary of key values and factor scores. Below is a sample of output from the print method, showing the parts that print automatically:   
 
 ```{r, eval=FALSE}
 Summary of Multiple Factor Analysis (mfa) object: 
@@ -154,7 +154,7 @@ Loadings for the first two components, showing table 1 of 10:
    V6 : -0.23 : +0.13 
 ```
 
-We chose to only display only the first two components in each case, even when then 'ncomps' input is greater than two, because this ties in effectively with the plotting methods: the values returned represent the coordinates of the corresponding two-dimensional plot. For example, variable loadings along the first two dimensions for table 1 correspond to the coordinates of the 2D variable loadings plot for table 1. The various plotting methods will be discussed futher in the section below. 
+We chose to display only the first two components in each case, even when then 'ncomps' input is greater than two, because this ties in effectively with the plotting methods: the values returned represent the coordinates of the corresponding two-dimensional plot. For example, variable loadings along the first two dimensions for table 1 correspond to the coordinates of the 2D variable loadings plot for table 1. The various plotting methods will be discussed futher in the section below. 
 
 <a id="id3"></a> 
 
@@ -179,7 +179,7 @@ s = list(  seq(2,7), seq(8,13), seq(14,19), seq(20,24),
 a = mfa(d, s)
 ```
 
-plot_compromise.R generates a plot of the common factor scores. An example is shown below for a toy data set relating to wines. This plot shows how the different objects in the data set (in this case wines, four from each of regions, New Zealand (NZ), France (FR), and California (CA)) vary over the first two dimensions (analogous to principal components) computed in the MFA. We can see that wines from each of the 3 regions seem to cluster together in this reduced-dimension space.   
+`plot_compromise.R` generates a plot of the common factor scores. An example is shown below for the sample data set. This plot shows how the different objects in the data set (wines, four from each of three regions, New Zealand (NZ), France (FR), and California (CA)) vary over the first two dimensions (analogous to principal components) computed in the MFA. We can see that wines from each of the 3 regions seem to cluster together in this reduced-dimension space.   
 
 At minimum, you should pass in your mfa object of interest to this method. There are several optional arguments to customize your plot. Here we use obsnames to pass in labels for our variables (in this case wine region + index), and textcolor to color our wines by region. "sz" and "cex"-prefixed arguments control the size of titles and labels. By default the first two components (dimensions) are used as the x and y dimensions, but one can use other dimensions with the arguments dim1 and dim2.
 
@@ -188,7 +188,7 @@ plot_compromise(a, obsnames = obslabels, textcolor = obscolors,
                 cexmain=0.9, cexaxis=0.6, cexlab=0.8, sz=0.8 )
 ```
 
-plot_partial_fac.R generates a plot of the partial factor scores unique to each individual table, or in our case to each wine assessor. Below are plots of the partial factor scores for assessors 2 and 4. We can see that, as in the compromise for all assessors, the wines from each of the 3 regions seem to cluster together for these assessors as well. 
+`plot_partial_fac.R` generates a plot of the partial factor scores unique to each individual table, or in our case to each wine assessor. Below are plots of the partial factor scores for assessors 2 and 4. We can see that, as in the compromise for all assessors, the wines from each of the 3 regions seem to cluster together for these assessors as well. 
 
 ```{r, fig.cap="Partial factor scores for assessors 2 and 4", fig.show='hold', fig.width=7, fig.height=4, echo=TRUE}
 par(mfrow=c(1,2))
@@ -198,8 +198,7 @@ plot_partial_fac(a, table = 4, obsnames = obslabels, textcolor = obscolors,
                  cexmain=0.9, cexaxis=0.6, cexlab=0.8, sz=0.8 )
 ```
 
-
-plot_loading.R generates a plot of the variable loadings unique to each individual table. Below is an example of the variable loadings plots for assessors 2 and 4 from the wine data set. As we passed in labels for the observations before, we now have the option of passing in labels for the variables. In this example the variables correspond to characteristics in the wines' flavor profiles as detected by each assessor. 
+`plot_loading.R` generates a plot of the variable loadings unique to each individual table. Below is an example of the variable loadings plots for assessors 2 and 4 from the wine data set. As we passed in labels for the observations before, we now have the option of passing in labels for the variables. In this example the variables correspond to characteristics in the wines' flavor profiles as detected by each assessor. 
 
 ```{r, fig.cap="Variable loadings for assessors 2 and 4", fig.show='hold',  fig.width=7, fig.height=4, echo=TRUE}
 par(mfrow=c(1,2))
@@ -209,7 +208,7 @@ plot_loading(a, varnames = varlabels, table = 4,
              cexmain=0.9, cexaxis=0.6, cexlab=0.8, sz=0.8 )
 ```
 
-It is useful to view the loadings and partial factor scores on the same plot. For this purpose, we have plot_biplot.R. Below we show this for tables 2 and 4 again.
+It is useful to view the loadings and partial factor scores on the same plot. For this purpose, we have `plot_biplot.R`. Below we show this for tables 2 and 4 again.
 
 ```{r, fig.cap="Variable loadings for assessors 2 and 4", fig.show='hold',  fig.width=7, fig.height=4, echo=TRUE}
 par(mfrow=c(1,2))
@@ -219,15 +218,13 @@ plot_biplot(a, obsnames = obslabels, varnames = varlabels, table=4,
              cexmain=0.8, cexaxis=0.6, cexlab=0.8, sz=0.8 )
 ```
 
-
-plot_ev.R generates a bar graph of the eigenvalues computed in the MFA. We can see that the first eigenvalue is much larger than the others, indicating that most of the variation in this dataset is captured by the first component.
+`plot_ev.R` generates a bar graph of the eigenvalues computed in the MFA. We can see that the first eigenvalue is much larger than the others, indicating that most of the variation in this dataset is captured by the first component.
 
 ```{r, fig.cap="Eigenvalue magnitudes from mfa on the wine data set", fig.show='hold', fig.width=4, fig.height=4, echo=TRUE}
 plot_ev(a)
 ```
 
-And finally, plot_inertia_pie.R generates a pie chart showing the variance explained by each of the components, similar to the bar graph of the eigenvalues, but visualized in a different way. Again we see the relative importance of the first component.
-
+And finally, `plot_inertia_pie.R` generates a pie chart showing the variance explained by each of the components, similar to the bar graph of the eigenvalues, but visualized in a different way. Again we see the relative importance of the first component.
 
 ```{r, fig.cap="Percent inertia contribution of each component in the wine data mfa", fig.show='hold', fig.width=4, fig.height=4, echo=TRUE}
 plot_inertia_pie(a, radius=1, cexlab=0.7)
@@ -242,7 +239,7 @@ There eight different methods included to explore further descriptive statistics
 
 As mentioned in the overview, the 'dimensions' (synonymous with 'components') generated by MFA are compound entities (we avoid saying 'variables' here to prevent confusion with the variables in the data set under consideration). These dimensions are influenced by the individual tables, objects, and variables from the underlying dataset to varying degrees. We have included three functions which allow the user to explore these contributions separately. 
 
-obs_dim.R computes the contribution of each observation to each dimension. Below are the contributions of observations from the toy data set (in this case bottles of wine labeled by region+index) to the first four dimensions computed in the MFA. Each column sums to 1. Observations that are 'more important' to a particular dimension have larger values.         
+`obs_dim.R` computes the contribution of each observation to each dimension. Below are the contributions of observations from the toy data set (in this case bottles of wine labeled by region+index) to the first four dimensions computed in the MFA. Each column sums to 1. Observations that are 'more important' to a particular dimension have larger values.         
 
 ```{r}
 table<-obs_dim(a)
@@ -259,9 +256,9 @@ knitr::kable(table[,1:4])
 
 ```
 
-var_dim.R computes the contribution of each active variable to each dimension. The output of var_dim.R is much larger than that of obs_dim.R, because each wine taster's view of a particular flavor note is considered a separate active variable, yielding 53 active variables in all. Thus, the output of var_dim.R is not demonstrated here, but, like obs_dim.R, each column sums to 1, and variables that are 'more important' to a particular dimension have larger values.
+`var_dim.R` computes the contribution of each active variable to each dimension. The output of `var_dim.R` is much larger than that of `obs_dim.R`, because each wine taster's view of a particular flavor note is considered a separate active variable, yielding 53 active variables in all. Thus, the output of `var_dim.R` is not demonstrated here, but, like `obs_dim.R`, each column sums to 1, and variables that are 'more important' to a particular dimension have larger values.
 
-Because the original data set is comprised of multiple individual data tables, a third type of contribution can be computed, namely the contribution of each individual data table to each dimension (table_dim.R). Below are the contributions of each table from the toy data set (in this case 10 tables, one for each wine assessor) to the first four dimensions computed in the MFA. As before, each column sums to 1 and bigger values imply more importance for a particular dimension.          
+Because the original data set is comprised of multiple individual data tables, a third type of contribution can be computed, namely the contribution of each individual data table to each dimension (`table_dim.R`). Below are the contributions of each table from the toy data set (in this case 10 tables, one for each wine assessor) to the first four dimensions computed in the MFA. As before, each column sums to 1 and bigger values imply more importance for a particular dimension.          
 ```{r}
 table<-table_dim(a)
 
@@ -277,7 +274,7 @@ knitr::kable(table[,1:4])
 
 ```
 
-We have also included four closely related methods for examining between-table similarity. Two of these methods compute the Rv coefficient (rv.R) and Lg coefficient (lg.R), both of which are methods for quantifying the similarity between two data tables. The code snippet below demonstrates the usage of lg.R. The arguments are two individual tables from the raw toy data set, which have been stored together in the matrix d and re-partitioned into separate data tables prior to running the lg.R function:   
+We have also included four closely related methods for examining between-table similarity. Two of these methods compute the Rv coefficient (`rv.R`) and Lg coefficient (`lg.R`), both of which are methods for quantifying the similarity between two data tables. The code snippet below demonstrates the usage of `lg.R`. The arguments are two individual tables from the raw toy data set, which have been stored together in the matrix 'd' and re-partitioned into separate data tables prior to running the `lg.R` function:   
 
 ```{r}
 
@@ -287,7 +284,7 @@ lg(table1,table2)
 
 ```
 
-Both Lg and Rv coefficients range between 0 and 1, with higher values indicating closer relationship between the tables. The related functions lg_table.R and rv_table.R run this calculation for all data table pairs simultaneously, generating a diagonal matrix of results. Below is the output of lg_table.R, showing the relatedness of each table pair:   
+Both Lg and Rv coefficients range between 0 and 1, with higher values indicating closer relationship between the tables. The related functions `lg_table.R` and `rv_table.R` run this calculation for all data table pairs simultaneously, generating a diagonal matrix of results. Below is the output of `lg_table.R`, showing the relatedness of each table pair:   
 
 ```{r}
 table<-lg_table(d,s)
@@ -302,7 +299,7 @@ colnames(table) <- c('Table 1','Table 2','Table 3','Table 4',
 knitr::kable(table)
 ```
 
-And finally, we included a bootstrapping method to assess the representativeness of the computed common factor scores (bootstrap_factorscores.R). bootstrap_factorscores.R takes as input an MFA object and returns the mean of the bootstrap samples (Fmean), the standard deviations of the bootstrap samples (sig), and finally the bootstrap ratios (Tstar). Tstar can serve as a measure of how 'reliably' each observation contributes to a given dimension. In the code snippet below, we see the bootstrap ratios of each observation to the first 4 dimensions. For the first dimension, all but one of the wines contribute reliably (i.e., have a bootstrap ratio larger than +/-3 in magnitude). For dimensions 2 and onward, the patter of contributions appears to be much less reliable.   
+And finally, we included a bootstrapping method to assess the representativeness of the computed common factor scores (`bootstrap_factorscores.R`). `bootstrap_factorscores.R` takes as input an MFA object and returns the mean of the bootstrap samples ('Fmean'), the standard deviations of the bootstrap samples ('Sig'), and finally the bootstrap ratios ('Tstar'). Tstar can serve as a measure of how "reliably" each observation contributes to a given dimension. In the code snippet below, we see the bootstrap ratios of each observation to the first 4 dimensions. For the first dimension, all but one of the wines contribute reliably (i.e., have a bootstrap ratio larger than +/-3 in magnitude). For dimensions 2 and onward, the pattern of contributions appears to be much less reliable, as shown by the small magnitudes of the bootstrap ratios.   
 
 ```{r}
 boot<-bootstrap_factorscores(a)
@@ -323,7 +320,7 @@ knitr::kable(table[,1:4])
 
 ## Toy data set 
 
-We included in our package the toy data set that has been featured in the examples given in this vignette so that for the users can replicate these examples. The function loadWineData.R accesses the included dataset. loadWineInfo loads more info on the dataset, such as labels for the variables and wines. See the plotting part of vignette for example of loading the data and including the labels in your plots.
+We included in our package the toy data set that has been featured in the examples given in this vignette so that for the users can replicate these examples. The function `loadWineData.R` accesses the included dataset. Within `loadWineData.R`, a second function `loadWineInfo` loads more info on the dataset, such as labels for the variables and wines. See the plotting part of vignette for example of loading the data and including the labels in your plots.
 
 <a id="id6"></a> 
 
@@ -333,7 +330,7 @@ We also developed a shiny app to provide users a convenient platform to interact
 
 You can view a demo on YouTube here : https://www.youtube.com/watch?v=xsPIMDiTfro
 
-To run the shiny app using the wine data set, use the block of code below, where a is the object created above in the plotting section of this vignette. Note that the app will use whatever mfa object is stored in the variable mfa_obj. Additionally, the names active_var_names, active_obs_names, and active_col_vec should be used respectively for labeling variables, labeling observations, and specifying colors to use for the observations. If you want to use the default labels (integers) and colors (black), make sure these variables are set to NULL.
+To run the shiny app using the wine data set, use the block of code below, where a is the object created above in the plotting section of this vignette. Note that the app will use whatever mfa object is stored in the variable 'mfa_obj'. Additionally, the names 'active_var_names', 'active_obs_names', and 'active_col_vec' should be used respectively for labeling variables, labeling observations, and specifying colors to use for the observations. If you want to use the default labels (integers) and colors (black), make sure these variables are set to NULL.
 
 ```{r, eval=FALSE}
 mfa_obj <- a #name needed for app
