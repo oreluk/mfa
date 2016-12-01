@@ -8,7 +8,10 @@
 loadWineInfo()
 }
 \value{
-Map between V1 --> cattiness etc.
+obj with components:
+     $varkeys: Map between V1 --> cattiness etc.;
+     $obskeys: List of wine labels;
+     $colors: List of colors to use for wines
 }
 \description{
 loads wine info (maps of variables V1, etc. to descriptions)

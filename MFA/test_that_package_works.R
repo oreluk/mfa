@@ -1,4 +1,4 @@
-# stephanie's testing that the package actually works --
+
 
 path_to_file="/Users/stephanie/classes/STAT243/MFA/MFA_0.1.0.tar.gz"
 install.packages(path_to_file, repos = NULL, type="source")

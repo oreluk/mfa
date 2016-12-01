@@ -1,8 +1,8 @@
 #' @export
-plot_partial_fac = function(obj, table=1, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',
-                            cexmain=1,cexlab=1, cexaxis=0.8, app=FALSE, dotcol='white') UseMethod("plot_partial_fac", obj)
-plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',
-                                 cexmain=1,cexlab=1, cexaxis=0.8, app=FALSE, dotcol='white') {
+plot_partial_fac = function(obj, table = 1, dim1 = 1, dim2 = 2, sz = 1, obsnames = NULL, textcolor = 'black',
+                            cexmain= 1, cexlab = 1, cexaxis = 0.8, app = FALSE, dotcol = 'white') UseMethod("plot_partial_fac", obj)
+plot_partial_fac.mfa <- function(x, table = 1, dim1 = 1, dim2 = 2, sz = 1, obsnames = NULL, textcolor = 'black',
+                                 cexmain= 1, cexlab = 1, cexaxis = 0.8, app = FALSE, dotcol = 'white'){
   #' @param  x An object of class mfa
   #' @param  dim1 dimension for x axis, default 1st component
   #' @param  dim2 dimension for y axis, default 2nd component
@@ -44,7 +44,7 @@ plot_partial_fac.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, obsnames=NULL
        cex=1,
        cex.axis = cexaxis,
        cex.lab = cexlab)
-  text(X,Y,labels=obslabels,col=textcolor,cex=sz)
-  abline(v=0,h=0)
-  title(paste0('Partial Factor Scores for Table ', table ), cex.main=cexmain)
+  text(X, Y, labels = obslabels, col = textcolor, cex = sz)
+  abline(v = 0, h = 0)
+  title(paste0('Partial Factor Scores for Table ', table ), cex.main = cexmain)
 }

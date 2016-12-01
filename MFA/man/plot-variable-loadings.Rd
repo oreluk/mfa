@@ -12,7 +12,7 @@
 \arguments{
 \item{x}{An object of class mfa}
 
-\item{table}{which table to plot (integer 1:K)}
+\item{table}{which table to plot (integer 1:numtables)}
 
 \item{dim1}{dimension for x axis, default 1st component}
 

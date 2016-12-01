@@ -1,8 +1,8 @@
 #' @export
-plot_compromise = function(obj, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',
-                           cexmain=1,cexlab=1, cexaxis=0.8, app=FALSE, dotcol='white') UseMethod("plot_compromise", obj)
-plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolor='black',
-                                cexmain=1,cexlab=1, cexaxis=0.8, app=FALSE, dotcol='white') {
+plot_compromise = function(obj, dim1 = 1, dim2 = 2, sz = 1, obsnames = NULL, textcolor = 'black',
+                           cexmain = 1, cexlab = 1, cexaxis = 0.8, app = FALSE, dotcol = 'white') UseMethod("plot_compromise", obj)
+plot_compromise.mfa <- function(x, dim1 = 1, dim2 = 2, sz = 1, obsnames = NULL, textcolor = 'black',
+                                cexmain = 1, cexlab = 1, cexaxis = 0.8, app = FALSE, dotcol = 'white') {
   #' @param  x An object of class mfa
   #' @param  dim1 dimension for x axis, default 1st component
   #' @param  dim2 dimension for y axis, default 2nd component
@@ -18,6 +18,8 @@ plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolo
   #' @title Plot Compromise
   #' @name plot compromise
   #' @description plots the compromise, i.e. the common factor scores, for 2 given dimensions of an mfa table
+
+  # store factor scores for dim of interest in X (dim1) and Y (dim2)
   X = x$factorScores[,dim1]
   Y = x$factorScores[,dim2]
 
@@ -36,14 +38,12 @@ plot_compromise.mfa <- function(x, dim1=1, dim2=2, sz=1, obsnames=NULL, textcolo
        type = "p", pch=19, col=dotcol,
        xlab = paste0('Dimension ', dim1),
        ylab = paste0('Dimension ', dim2),
-       xlim=c(min(X)-0.4,max(X)+0.4),
-       ylim=c(min(Y)-0.4,max(Y)+0.4),
-       cex=1,
+       xlim = c(min(X)-0.4,max(X)+0.4),
+       ylim = c(min(Y)-0.4,max(Y)+0.4),
+       cex = 1,
        cex.axis = cexaxis,
        cex.lab = cexlab)
-  text(X,Y,labels=obslabels,col=textcolor,cex=sz)
-  abline(v=0,h=0)
-  title('Factor Scores',cex.main=cexmain)
+  text(X, Y, labels = obslabels, col = textcolor, cex = sz)
+  abline(v = 0, h = 0)
+  title('Factor Scores', cex.main = cexmain)
 }
-
-#save for app cex=1,cex.axis=1,cex.lab=1.7, cexmain=2
