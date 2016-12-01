@@ -7,7 +7,7 @@
 \usage{
 \method{plot_loading}{mfa}(x, table = 1, dim1 = 1, dim2 = 2, sz = 1,
   varnames = NULL, cexmain = 1, cexlab = 1, cexaxis = 0.8,
-  app = FALSE)
+  app = FALSE, dotcol = "white")
 }
 \arguments{
 \item{x}{An object of class mfa}
@@ -29,6 +29,8 @@
 \item{cexaxis}{size for axis tick labels, default 0.8}
 
 \item{app}{if TRUE, this is for the shiny app and margins are changed}
+
+\item{dotcol}{choose color for the dots, default white (don't show up)}
 }
 \description{
 plots variable loadings for 2 given dimensions of a given table in an mfa object

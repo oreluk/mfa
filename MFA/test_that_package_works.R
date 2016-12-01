@@ -72,7 +72,7 @@ plot_compromise(a,dim1=3,dim2=1)
 plot_partial_fac(a,table=1)
 plot_partial_fac(a,table=1,dim1=3,dim2=4)
 plot_partial_fac(a,table=1,dim1=1,dim2=2,obsnames=obskeys)
-plot_loading(a,table=1)
+plot_loading(a,table=1, dotcol='grey')
 plot_loading(a,table=1,varnames=varkeys)
 plot_loading(a,table=1,dim1=3,dim2=4,varnames=varkeys)
 #bar graph
@@ -90,6 +90,7 @@ plot_biplot(a, obsnames = obslabels, varnames = varlabels, table=2,
             cexmain=0.9, cexaxis=0.6, cexlab=0.8, sz=0.8 )
 plot_biplot(a, obsnames = obslabels, varnames = varlabels, table=4,
             cexmain=0.9, cexaxis=0.6, cexlab=0.8, sz=0.8 )
+plot_biplot(a, obsnames = obslabels, varnames = varlabels, table=4)
 
 
 # does the documentation exist?

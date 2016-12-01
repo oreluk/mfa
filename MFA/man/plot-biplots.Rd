@@ -7,7 +7,8 @@
 \usage{
 \method{plot_biplot}{mfa}(x, table = 1, dim1 = 1, dim2 = 2, sz = 1,
   varnames = NULL, cexmain = 1, cexlab = 1, cexaxis = 0.8,
-  app = FALSE, textcolor = "black", obsnames = NULL)
+  app = FALSE, textcolor = "black", obsnames = NULL,
+  dotcol_vl = "white", dotcol_pf = "white", cexlegend = 0.8)
 }
 \arguments{
 \item{x}{An object of class mfa}
@@ -33,6 +34,12 @@
 \item{textcolor}{color of text labeling points, either a single color or a vector of colors equal to number of obs in mfa object}
 
 \item{obsnames}{observation labels if available}
+
+\item{dotcol_vl}{choose color for the variable loading dots, default white (don't show up)}
+
+\item{dotcol_pf}{choose color for the dots partial factor dots, default white (don't show up)}
+
+\item{cexlegend}{size for legend}
 }
 \description{
 plots variable loadings and partial factor scores on same plot, for 2 given dimensions of a given table in an mfa object

@@ -211,11 +211,14 @@ plot_loading(a, varnames = varlabels, table = 4,
 It is useful to view the loadings and partial factor scores on the same plot. For this purpose, we have `plot_biplot.R`. Below we show this for tables 2 and 4 again.
 
 ```{r, fig.cap="Variable loadings for assessors 2 and 4", fig.show='hold',  fig.width=7, fig.height=4, echo=TRUE}
+
 par(mfrow=c(1,2))
 plot_biplot(a, obsnames = obslabels, varnames = varlabels, table=2,
-             cexmain=0.8, cexaxis=0.6, cexlab=0.8, sz=0.8 )
+             cexmain=0.8, cexaxis=0.6, cexlab=0.8, sz=0.8,
+             cexlegend = 0.6)
 plot_biplot(a, obsnames = obslabels, varnames = varlabels, table=4,
-             cexmain=0.8, cexaxis=0.6, cexlab=0.8, sz=0.8 )
+             cexmain=0.8, cexaxis=0.6, cexlab=0.8, sz=0.8,
+             cexlegend = 0.6)
 ```
 
 `plot_ev.R` generates a bar graph of the eigenvalues computed in the MFA. We can see that the first eigenvalue is much larger than the others, indicating that most of the variation in this dataset is captured by the first component.
@@ -342,29 +345,34 @@ MFA::runExample()
 
 
 ----
-Upon running MFA::runExample(), the shiny app should pop up with the compromise (i.e. common factor score) plot displayed. You can change which components to use as the x and y axes with the numeric input boxes labeled "X,Y-axis Dimension".
+Upon running MFA::runExample(), the shiny app should pop up with the compromise (i.e. common factor score) plot displayed. Under "Additional plotting options" on the sidebar panel, you can change which components to use as the x and y axes with the numeric input boxes labeled "X,Y-axis Dimension". Additionally, with the widget labeled "Show point markers?" you can choose to display grey circles to mark the precise position of the variables in addition to the text labels. Below is the result after changing the X-axis dimension to 4 and the Y-axis dimension to 6. 
 
-<center>![Visualization of Factor Scores](images/wine-compromise-25-percent.png)</center>
-
-----
-You can click 'Partial Factor Scores' to see the partial factor scores, and you can change the dimensions of the axes as well as the table (assessor) number with the numeric input boxes for dimensions and table.
-
-<center>![Partial factor scores of table 1, dimension 1 and 2](images/wine-partial-25-percent.png)</center>
+<center>![Visualization of Factor Scores, dimensions 4 and 6](images/wine-factor-dims46-25-percent.png)</center>
 
 ----
-You can select 'Variable Loadings' to see where the variables lie for each table, in different dimensions. Below is the loading for table 3, with axes corresponding to the first 2 components.
+Select "Partial Factor Scores"" from the top control widget to see the partial factor scores plot. Now, under "Additional ploting options" you have the same options as the first plot, but you can additionally select which table you'd like to see. Below is the result after selecting table 2 and dimensions 1 and 2 for X,Y. 
 
-<center>![Variable loadings for table 3, dimension 1 and 2](images/wine-loading-tab3-25-percent.png)</center>
+<center>![Partial factor scores of table 2, dimensions 1 and 2](images/wine-partial-tab2-25-percent.png)</center>
 
 ----
-Click 'Eigenvalue Bar Plot' to see this visualization:
+Select "Variable Loadings"" to see where the variables lie for each table, in different dimensions. The plotting options are the same as for partial factor scores. Below is the loading for table 4, with axes corresponding to the first 2 components.
+
+<center>![Variable loadings for table 4, dimensions 1 and 2](images/wine-loadings-tab4-25-percent.png)</center>
+
+----
+Select 'Biplot' to see both loadings and partial factor scores on the same plot. The plotting options are the same as for partial factor scores. Below is the biplot for table 4, with axes corresponding to the first 2 components.
+
+<center>![Variable loadings for table 4, dimensions 1 and 2](images/wine-biplot-tab4-25-percent.png)</center>
+
+----
+Select 'Eigenvalue Bar Plot' to see this visualization. Note that there are additional plotting methods for this one.
 
 <center>![Eigenvalue plot from the analysis](images/wine-bar-25-percent.png)</center>
 
 ----
-Select 'Inertia Pie Chart' to see a visualization of the percent inertia contributed by each component:
+Select 'Inertia Pie Chart' to see a visualization of the percent inertia contributed by each component.
 
-<center>![Percentage of inertia of the eigenvalues](images/wine-pie-25-percent.png)</center>
+<center>![Percentage of inertia of the eigenvalues](images/wine-inertia-25-percent.png)</center>
 
 ----
 

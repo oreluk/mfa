@@ -1,10 +1,14 @@
 #' @export
 plot_biplot = function(obj, table=1, dim1=1, dim2=2, sz=1, varnames=NULL,
                        cexmain=1, cexlab=1, cexaxis=0.8, app=FALSE,
-                       textcolor='black', obsnames=NULL) UseMethod("plot_biplot", obj)
+                       textcolor='black', obsnames=NULL,
+                       dotcol_vl='white', dotcol_pf='white',
+                       cexlegend=0.8) UseMethod("plot_biplot", obj)
 plot_biplot.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, varnames=NULL,
                             cexmain=1, cexlab=1, cexaxis=0.8, app=FALSE,
-                            textcolor='black', obsnames=NULL) {
+                            textcolor='black', obsnames=NULL,
+                            dotcol_vl='white', dotcol_pf='white',
+                            cexlegend=0.8) {
   #' @param  x An object of class mfa
   #' @param  dim1 dimension for x axis, default 1st component
   #' @param  dim2 dimension for y axis, default 2nd component
@@ -15,6 +19,9 @@ plot_biplot.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, varnames=NULL,
   #' @param  cexmain size for main title label, default 1, 2 used for app
   #' @param  cexlab size for axis labels, default 1, 1.7 used for app
   #' @param  cexaxis size for axis tick labels, default 0.8
+  #' @param  cexlegend size for legend
+  #' @param  dotcol_vl choose color for the variable loading dots, default white (don't show up)
+  #' @param  dotcol_pf choose color for the dots partial factor dots, default white (don't show up)
   #' @param  app if TRUE, this is for the shiny app and margins are changed
   #' @param  textcolor color of text labeling points, either a single color or a vector of colors equal to number of obs in mfa object
   #' @export
@@ -44,7 +51,10 @@ plot_biplot.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, varnames=NULL,
   } else {
     varlabels <- names(X)
   }
-  darkcols <- rainbow(length(X), s=0.7)
+  # define a nice color palette for the variables, dark colors
+  darkcols <- c("#1B9E77","#D95F02","#7570B3","#E7298A",
+                "#66A61E","#E6AB02","#A6761D","#666666")
+
   # sometimes (e.g. random data matrix), the names(X) will be null
   # in this case, set varlabels to 1:length(X)
   if (is.null(names(X))){ varlabels <- 1:length(X)}
@@ -69,7 +79,7 @@ plot_biplot.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, varnames=NULL,
 
   # plot the data (white points are not visible, but text is added with text())
   plot(X, Y,
-       type = "p", pch=19, col='white',
+       type = "p", pch=19, col=dotcol_vl,
        xlab = paste0('Dimension ', dim1),
        ylab = paste0('Dimension ', dim2),
        xlim=c(minX-0.4,maxX+0.4),
@@ -78,7 +88,15 @@ plot_biplot.mfa <- function(x, table=1, dim1=1, dim2=2, sz=1, varnames=NULL,
        cex.axis = cexaxis,
        cex.lab = cexlab)
   text(X,  Y,  labels = varlabels, col = darkcols,  cex = sz)
+  points(X2, Y2, col = dotcol_pf)
   text(X2, Y2, labels = obslabels, col = textcolor, cex = sz)
   abline(v = 0, h = 0)
   title(paste0('Variable Loadings and Partial Factor Scores \n for Table ', table ), cex.main = cexmain)
+  legend("topleft",
+         legend=c('variable loadings (colors)','partial factor scores (black)'),
+         lty=c(1,1),
+         lwd=c(2.5,2.5),
+         col=c(darkcols[1],textcolor[1]),
+         cex=cexlegend,
+         bty='n')
 }

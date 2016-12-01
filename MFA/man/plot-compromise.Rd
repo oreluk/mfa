@@ -7,7 +7,7 @@
 \usage{
 \method{plot_compromise}{mfa}(x, dim1 = 1, dim2 = 2, sz = 1,
   obsnames = NULL, textcolor = "black", cexmain = 1, cexlab = 1,
-  cexaxis = 0.8, app = FALSE)
+  cexaxis = 0.8, app = FALSE, dotcol = "white")
 }
 \arguments{
 \item{x}{An object of class mfa}
@@ -29,6 +29,8 @@
 \item{cexaxis}{size for axis tick labels, default 0.8}
 
 \item{app}{if true, this is for the shiny app and margins are changed}
+
+\item{dotcol}{choose color for the dots, default white (don't show up)}
 }
 \description{
 plots the compromise, i.e. the common factor scores, for 2 given dimensions of an mfa table
