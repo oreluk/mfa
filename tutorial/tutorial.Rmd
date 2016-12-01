@@ -130,21 +130,21 @@ install_github("oreluk/MFA")
 ```
 
 ## Features
--MFA constructor: mfa.R
+- __MFA constructor__: mfa.R
 
--Print method: print-mfa.R
+- __Print method__: print-mfa.R
 
--Six plotting methods: plot_compromise.R, plot_ev.R, plot_loading.R, plot_biplot.R, plot_partial_fac.R, plot_inertia_pie.R
+- __Six plotting methods__: plot_compromise.R, plot_ev.R, plot_loading.R, plot_biplot.R, plot_partial_fac.R, plot_inertia_pie.R
 
--Additional descriptive statistics: lg.R, lg_table.R, rv.R, rv_table.R, obs_dim.R, var_dim.R, table_dim.R, bootstrap_factorscores.R
+- __Additional descriptive statistics__: lg.R, lg_table.R, rv.R, rv_table.R, obs_dim.R, var_dim.R, table_dim.R, bootstrap_factorscores.R
 
--A toy data set to experiment with: loadWineData.R
+- __A toy dataset to experiment with__: loadWineData.R
 
--A Shiny App: runExample.R
+- __A Shiny App__: runExample.R
 
 # Demo
 ## Wine Tasting Dataset
-- A set of wines were evaluated by a group of assessors
+- A set of wines were evaluat ed by a group of assessors
 
 - Each assessor was asked to evaluate the wine on a 9-point scale using four variables (cat-pee, passion fruit, green pepper, and mineral)
     + An assessor could also include additional variables if they felt the need 
@@ -157,7 +157,7 @@ install_github("oreluk/MFA")
 
 ## Loading the data
 
-- The function `loadWineData()` is used to load csv file into a data.frame. 
+- The function `loadWineData()` is used to load a csv file into a data.frame. 
 ```
 data <- loadWineData()
 ```
