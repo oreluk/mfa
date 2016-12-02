@@ -58,7 +58,7 @@ for (k in 1:length(xTables)) {
   }
 ```
 
-The resulting 'alpha' object is a list of table weights computed from the first singular values of each table's SVD. These weights are propagated into the next SVD calculation via the object 'aVector', which stores these values in a vector which repeates each alpha value sequentially a number of times that matches the sizes of the individual tables. 'aVector' becomes one of two constraints on the next SVD calculation. The second constraint is a vector 'm' which represents a simple measure of 'observation masses' based on how many objects are included in the analysis, shown in the snippet below: 
+The resulting 'alpha' object is a list of table weights computed from the first singular values of each table's SVD. These weights are propagated into the next SVD calculation via the object 'aVector', which stores these values in a vector which repeats each alpha value sequentially a number of times that matches the sizes of the individual tables. 'aVector' becomes one of two constraints on the next SVD calculation. The second constraint is a vector 'm' which represents a simple measure of 'observation masses' based on how many objects are included in the analysis, shown in the snippet below: 
 
 ```{r, eval=FALSE}
   nObs = nrow(xTables[[1]])
@@ -156,7 +156,7 @@ Loadings for the first two components, showing table 1 of 10:
    V6 : -0.23 : +0.13 
 ```
 
-We chose to display only the first two components in each case, even when then 'ncomps' input is greater than two, because this ties in effectively with the plotting methods: the values returned represent the coordinates of the corresponding two-dimensional plot. For example, variable loadings along the first two dimensions for table 1 correspond to the coordinates of the 2D variable loadings plot for table 1. The various plotting methods will be discussed futher in the section below. 
+We chose to display only the first two components in each case, even when then 'ncomps' input is greater than two, because this ties in effectively with the plotting methods: the values returned represent the coordinates of the corresponding two-dimensional plot. For example, variable loadings along the first two dimensions for table 1 correspond to the coordinates of the 2D variable loadings plot for table 1. The various plotting methods will be discussed further in the section below. 
 
 <a id="id3"></a> 
 
