@@ -43,7 +43,7 @@ shinyUI(fluidPage(
         numericInput("t",
                      label = h4("Table Number:"),
                      value = 1,
-                     min = 1, max = 12)
+                     min = 1, max = 10)
       )),
 
     # Plot
