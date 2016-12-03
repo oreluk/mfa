@@ -31,7 +31,7 @@ https://www.youtube.com/watch?v=tZbjV75L6F8
 
 Or, you can check out the app online here:
 
-https://stephanie-wuerth.shinyapps.io/mea-wine/
+https://stephanie-wuerth.shinyapps.io/MFA-wine/
 
 References
 ============
